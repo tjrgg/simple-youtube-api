@@ -1,1 +1,1 @@
-module.exports = require('./scr/youtube.');
+module.exports = require('./src/youtube.');
