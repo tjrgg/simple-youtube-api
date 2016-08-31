@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"dependencies": {
-    	"request": "^2.74.0",
+		"request": "^2.74.0",
 	},
 	"repository": {
 		"type": "git",
