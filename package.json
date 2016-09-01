@@ -1,19 +1,19 @@
 {
-	"name": "simple-youtube-api",
-	"version": "1.0.1",
-	"description": "A module to simplify the YouTube API.",
-	"main": "index.js",
-	"dependencies": {
-		"request": "^2.74.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Hyper-Coder/simple-youtube-api.git"
-	},
-	"author": "Hyper-Coder",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Hyper-Coder/simple-youtube-api/issues"
-	},
-	"homepage": "https://github.com/Hyper-Coder/simple-youtube-api"
+  "name": "simple-youtube-api",
+  "version": "1.0.2",
+  "description": "A module to simplify the YouTube API.",
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.74.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hyper-Coder/simple-youtube-api.git"
+  },
+  "author": "Hyper-Coder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hyper-Coder/simple-youtube-api/issues"
+  },
+  "homepage": "https://github.com/Hyper-Coder/simple-youtube-api"
 }
