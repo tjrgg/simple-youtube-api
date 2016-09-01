@@ -7,6 +7,7 @@ const Playlist = require('./structures/Playlist');
 class YouTube {
     constructor(key) {
         this.key = key;
+        this.Constants = Constants;
     }
 
     request(endpoint, uriOptions) {
@@ -24,7 +25,7 @@ class YouTube {
             this.request('videos', {'id': videoId, 'key': this.key, 'part': Constants.PARTS.VideoByID})
                 .then(result => {
                     return resolve(result.items.map(item => {
-                        return new Video(item);
+                        return new Video(this, item);
                     }));
                 })
                 .catch(reject);
@@ -36,7 +37,7 @@ class YouTube {
             this.request('playlists', {'id': playlistId, 'key': this.key, 'part': Constants.PARTS.Playlist})
                 .then(result => {
                     return resolve(result.items.map(item => {
-                        return new Playlist(item);
+                        return new Playlist(this, item);
                     }));
                 })
                 .catch(reject);
@@ -49,7 +50,7 @@ class YouTube {
                 .then(result => {
                     const items = result.items;
                     return resolve(result.items.map(item => {
-                        return new Video(item);
+                        return new Video(this, item);
                     }));
                 })
                 .catch(reject);
