@@ -1,7 +1,7 @@
 {
 	"name": "simple-youtube-api",
 	"version": "1.0.1",
-	"description": "",
+	"description": "A module to simplify the YouTube API.",
 	"main": "index.js",
 	"dependencies": {
 		"request": "^2.74.0"
