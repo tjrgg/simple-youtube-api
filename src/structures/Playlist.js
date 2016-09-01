@@ -12,12 +12,11 @@ class Playlist {
             title: data.snippet.channelTitle,
             id: data.snippet.channelId
         };
-        this.videos = this.getVideos();
     }
 
     getVideos() {
         return new Promise((resolve, reject) => {
-            this.youtube.request('playlistsItems', {'playlistId': this.id, 'key': this.key, 'part': this.youtube.Constants.PARTS.Playlist, 'maxResults': 50})
+            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': this.youtube.Constants.PARTS.PlaylistItems, 'maxResults': 50})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Video(this, item);
