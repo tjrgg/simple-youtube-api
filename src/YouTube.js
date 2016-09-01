@@ -1,39 +1,27 @@
 const request = require('request');
 const Constants = require('./Constants');
+const Encode = require('./util/Encode');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
 
-
-
-
-/*
-const request = require('request');
-const constants = require('./constants.js');
-const parts = constants.parts;
-
-// Create Functions
-function encode(object) {
-    return Object.keys(object).map(key => {
-        let param = `${encodeURIComponent(key)}=`;
-        if (Array.isArray(object[key])) return object[key].map(keyVar => {return `${param}${encodeURIComponent(keyVar)}`;}).join('&');
-        return `${param}${encodeURIComponent(object[key])}`;
-    }).join('&');
-}
-function sendRequest(endpoint, options) {
-    return new Promise((resolve, reject) => {
-        request(`https://www.googleapis.com/youtube/v3/${endpoint}?${encode(options)}`, (err, resp, body) => {
-            if (err | resp.statusCode !== 200) return reject({'error': err, 'response': resp});
-            return resolve(JSON.parse(body));
-        });
-    });
-}
-
-// Create YouTube API Class
 class YouTube {
     constructor(key) {
         this.key = key;
     }
 
+    request(endpoint, uriOptions) {
+        return new Promise((resolve, reject) => {
+            request(`https://www.googleapis.com/youtube/v3/${endpoint}?${Encode(uriOptions)}`, (err, resp, body) => {
+                if (err | resp.statusCode !== 200) return reject(`Status Code ${resp.statusCode}\n{$err}`);
+                return resolve(JSON.parse(body));
+            });
+        });
+    }
+}
+
+module.exports = YouTube;
+
+/*
     search(query, results = 5) {
         return new Promise((resolve, reject) => {
             sendRequest('search', {'q': query, 'maxResults': results, 'key': this.key, 'part': parts.search}).then(resolve).catch(reject);
@@ -45,7 +33,4 @@ class YouTube {
             sendRequest('playlistItems', {'playlistId': playlistId, 'key': this.key, 'part': parts.playlistItems}).then(resolve).catch(reject);
         });
     }
-}
-
-module.exports = YouTube;
 */
