@@ -7,7 +7,7 @@ Api.playlistById('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
 
         results[0].getVideos()
             .then(videos => {
-                console.log(`This playlist has ${videos.length} videos.`);
+                console.log(`This playlist has ${videos.length === 50 ? '50+' : videos.length} videos.`);
             })
             .catch(console.log);
     })
