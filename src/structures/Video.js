@@ -1,6 +1,6 @@
 class Video {
     constructor(data) {
-        this.title = data.snipped.title;
+        this.title = data.snippet.title;
         this.id = data.id.videoId;
         this.url = `https://www.youtube.com/watch?v=${this.id}`;
         this.publishedAt = data.snippet.publishedAt;
