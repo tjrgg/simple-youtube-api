@@ -23,9 +23,9 @@ class YouTube {
             this.request('search', {'q': query, 'maxResults': results, 'key': this.key, 'part': Constants.PARTS.Search})
                 .then(result => {
                     const items = result.items;
-                    return result.items.map(item => {
+                    return resolve(result.items.map(item => {
                         return new Video(item);
-                    });
+                    }));
                 })
                 .catch(reject);
         });
