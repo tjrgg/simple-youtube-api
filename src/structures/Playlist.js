@@ -1,3 +1,4 @@
+const Constants = require('../Constants');
 const Video = require('./Video');
 
 class Playlist {
@@ -16,7 +17,7 @@ class Playlist {
 
     getVideos() {
         return new Promise((resolve, reject) => {
-            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': this.youtube.Constants.PARTS.PlaylistItems, 'maxResults': 50})
+            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': 50})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Video(this, item);
