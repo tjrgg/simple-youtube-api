@@ -15,7 +15,7 @@ Api.search('Centuries', 4)
 
         Parameters:
         - Video Name
-    Opt - Number of Results
+        - Number of Results (optional, default is 5)
 
         Returns:
         - Promise <Array, Error>
