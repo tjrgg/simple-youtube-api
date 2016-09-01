@@ -1,4 +1,13 @@
 const request = require('request');
+const Constants = require('./Constants');
+const Video = require('./structures/Video');
+const Playlist = require('./structures/Playlist');
+
+
+
+
+/*
+const request = require('request');
 const constants = require('./constants.js');
 const parts = constants.parts;
 
@@ -39,3 +48,4 @@ class YouTube {
 }
 
 module.exports = YouTube;
+*/
