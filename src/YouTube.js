@@ -17,6 +17,19 @@ class YouTube {
             });
         });
     }
+
+    search(query, results = 5) {
+        return new Promise((resolve, reject) => {
+            this.request('search', {'q': query, 'maxResults': results, 'key': this.key, 'part': Constants.PARTS.Search})
+                .then(result => {
+                    const items = result.items;
+                    return result.items.map(item => {
+                        return new Video(item);
+                    });
+                })
+                .catch(reject);
+        });
+    }
 }
 
 module.exports = YouTube;
