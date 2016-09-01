@@ -12,9 +12,22 @@ class YouTube {
     request(endpoint, uriOptions) {
         return new Promise((resolve, reject) => {
             request(`https://www.googleapis.com/youtube/v3/${endpoint}?${Encode(uriOptions)}`, (err, resp, body) => {
-                if (err | resp.statusCode !== 200) return reject(`Status Code ${resp.statusCode}\n{$err}`);
+                if (err) return reject(`An error occured: ${err}`);
+                if (resp.statusCode !== 200) return reject(`Status Code ${resp.statusCode}\n${body}`);
                 return resolve(JSON.parse(body));
             });
+        });
+    }
+
+    videoById(videoId) {
+        return new Promise((resolve, reject) => {
+            this.request('videos', {'id': videoId, 'key': this.key, 'part': Constants.PARTS.VideoByID})
+                .then(result => {
+                    return resolve(result.items.map(item => {
+                        return new Video(item);
+                    }));
+                })
+                .catch(reject);
         });
     }
 
