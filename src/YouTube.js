@@ -31,6 +31,18 @@ class YouTube {
         });
     }
 
+    playlistById(playlistId) {
+        return new Promise((resolve, reject) => {
+            this.request('playlists', {'id': playlistId, 'key': this.key, 'part': Constants.PARTS.Playlist})
+                .then(result => {
+                    return resolve(result.items.map(item => {
+                        return new Playlist(item);
+                    }));
+                })
+                .catch(reject);
+        });
+    }
+
     search(query, results = 5) {
         return new Promise((resolve, reject) => {
             this.request('search', {'q': query, 'maxResults': results, 'key': this.key, 'part': Constants.PARTS.Search})
