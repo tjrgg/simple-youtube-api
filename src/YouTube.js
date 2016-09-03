@@ -31,7 +31,7 @@ class YouTube {
         return new Promise((resolve, reject) => {
             request(`https://www.googleapis.com/youtube/v3/${endpoint}?${Encode(uriOptions)}`, (err, resp, body) => {
                 if (err) return reject(`An error occured: ${err}`);
-                if (resp.statusCode !== 200) return reject(body);
+                if (resp.statusCode !== 200) return reject(JSON.parse(body));
                 return resolve(JSON.parse(body));
             });
         });
