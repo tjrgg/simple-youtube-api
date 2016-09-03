@@ -95,9 +95,9 @@ class YouTube {
      *  })
      *  .catch(console.log);
      */
-    search(query, results = 5) {
+    search(query, limit = 5) {
         return new Promise((resolve, reject) => {
-            this.request('search', {'q': query, 'maxResults': results, 'key': this.key, 'part': Constants.PARTS.Search})
+            this.request('search', {'q': query, 'maxResults': limit, 'key': this.key, 'part': Constants.PARTS.Search})
                 .then(result => {
                     const items = result.items;
                     return resolve(result.items.map(item => {

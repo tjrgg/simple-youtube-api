@@ -15,9 +15,9 @@ class Playlist {
         };
     }
 
-    getVideos() {
+    getVideos(limit = 50) {
         return new Promise((resolve, reject) => {
-            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': 50})
+            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Video(this, item);
