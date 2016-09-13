@@ -6,10 +6,10 @@ This is designed to simplify some functions of the YouTube API.
 #### Installation
     $ npm install simple-youtube-api
 
-## **All methods return an array.**
+## *All methods return an array.*
 
 #### Search by Video Name
-[https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/search.js](Another example.)
+[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/search.js)
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
