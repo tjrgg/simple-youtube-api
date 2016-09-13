@@ -10,7 +10,7 @@ This is designed to simplify some functions of the YouTube API.
 
 #### Search by Video Name
 [Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/search.js)
-
+```js
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -19,10 +19,11 @@ This is designed to simplify some functions of the YouTube API.
             console.log(`The video's title is ${results[0].title}`);
         })
         .catch(console.log);
+```
 
 #### Get video by ID
 [Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/videoById.js)
-
+```js
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -31,10 +32,11 @@ This is designed to simplify some functions of the YouTube API.
             console.log(`The video's title is ${results[0].title}`);
         })
         .catch(console.log);
+```
 
 #### Get playlist by ID
 [Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js)
-
+```js
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -43,10 +45,11 @@ This is designed to simplify some functions of the YouTube API.
             console.log(`The playlist's title is ${results[0].title}`);
         })
         .catch(console.log);
+```
 
 #### Get videos from a playlist
 [Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js)
-
+```js
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -61,3 +64,4 @@ This is designed to simplify some functions of the YouTube API.
                 .catch(console.log);
         })
         .catch(console.log);
+```
