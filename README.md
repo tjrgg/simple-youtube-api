@@ -6,9 +6,10 @@ This is designed to simplify some functions of the YouTube API.
 #### Installation
     $ npm install simple-youtube-api
 
-### **All methods return an array.**
+**All methods return an array.**
 
 #### Search by Video Name
+[https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/search.js](Another example.)
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -19,6 +20,7 @@ This is designed to simplify some functions of the YouTube API.
         .catch(console.log);
 
 #### Get video by ID
+[https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/videoById.js](Another example.)
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -29,6 +31,7 @@ This is designed to simplify some functions of the YouTube API.
         .catch(console.log);
 
 #### Get playlist by ID
+[https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js](Another example.)
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
@@ -39,6 +42,7 @@ This is designed to simplify some functions of the YouTube API.
         .catch(console.log);
 
 #### Get videos from a playlist
+[https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js](Another example.)
     const YouTube = require('simple-youtube-api');
     const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
