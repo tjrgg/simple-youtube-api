@@ -9,16 +9,14 @@ const Channel = require('./structures/Channel');
 /**
  * The YouTube API module
  */
-
 class YouTube {
     /**
-     * Create the YouTube API caller
-     * @param {String} key your youtube data api v3 key
+     * @param {string} key The YouTube Data API v3 key to use
      */
     constructor(key) {
         /**
          * Your YouTube Data API key
-         * @type {?String}
+         * @type {?string}
          */
         this.key = key;
         Object.defineProperty(this, 'key', { enumerable: false });
@@ -26,8 +24,8 @@ class YouTube {
 
     /**
      * Make a request to the YouTube API
-     * @param {String} endpoint the endpoint of the api
-     * @param {Object} uriOptions the uri options to send to the api
+     * @param {string} endpoint The endpoint of the API
+     * @param {Object} uriOptions The URI options to send to the API
      * @returns {Promise<Object>}
      */
     request(endpoint, uriOptions) {
@@ -41,19 +39,41 @@ class YouTube {
     }
 
     /**
-     * Get a video by id
-     * @param {String} videoId the video id
+     * Get a video by URL or ID
+     * @param {string} url The video URL or ID
      * @returns {Promise<Video[]>}
      * @example
-     * Api.videoById('3odIdmuFfEY')
+     * Api.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
      *  .then(results => {
      *    console.log(`The video's title is ${results[0].title}`);
      *  })
      *  .catch(console.error);
      */
-    videoById(videoId) {
+    getVideo(url) {
+        const parsed = url.parse(url, true);
+        let id = parsed.query.v;
+        if (parsed.hostname === 'youtu.be' || !id) {
+            const s = parsed.pathname.split('/');
+            id = s[s.length - 1];
+        }
+        if (!id) return Promise.reject(new Error(`No video ID found in URL: ${url}`));
+        return this.getVideoByID(id);
+    }
+
+    /**
+     * Get a video by ID
+     * @param {string} id The video ID
+     * @returns {Promise<Video[]>}
+     * @example
+     * Api.getVideoByID('3odIdmuFfEY')
+     *  .then(results => {
+     *    console.log(`The video's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getVideoByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('videos', {id: videoId, key: this.key, part: Constants.PARTS.Video})
+            this.request('videos', {id: id, key: this.key, part: Constants.PARTS.Video})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Video(this, item);
@@ -64,41 +84,41 @@ class YouTube {
     }
 
     /**
-     * Get a video by URL or ID
-     * @param {String} videoUrl the video URL/ID
-     * @returns {Promise<Video[]>}
-     * @example
-     * Api.videoByUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-     *  .then(results => {
-     *    console.log(`The video's title is ${results[0].title}`);
-     *  })
-     *  .catch(console.error);
-     */
-    videoByUrl(videoUrl) {
-        const parsed = url.parse(videoUrl, true);
-        let id = parsed.query.v;
-        if (parsed.hostname === 'youtu.be' || !id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
-        if (!id) return Promise.reject(new Error(`No video ID found in URL: ${videoUrl}`));
-        return this.videoById(id);
-    }
-
-    /**
-     * Get a playlist by id
-     * @param {String} playlistId the playlist id
+     * Get a playlist by URL or ID
+     * @param {string} url The playlist URL or ID
      * @returns {Promise<Playlist[]>}
      * @example
-     * Api.playlistById('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+     * Api.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
      *  .then(results => {
      *    console.log(`The playlist's title is ${results[0].title}`);
      *  })
      *  .catch(console.error);
      */
-    playlistById(playlistId) {
+    getPlaylist(url) {
+        const parsed = url.parse(url, true);
+        let id = parsed.query.list;
+        if (!id) {
+            const s = parsed.pathname.split('/');
+            id = s[s.length - 1];
+        }
+        if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${url}`));
+        return this.getPlaylistByID(id);
+    }
+
+    /**
+     * Get a playlist by ID
+     * @param {string} id The playlist ID
+     * @returns {Promise<Playlist[]>}
+     * @example
+     * Api.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+     *  .then(results => {
+     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPlaylistByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('playlists', {id: playlistId, key: this.key, part: Constants.PARTS.Playlist})
+            this.request('playlists', {id: id, key: this.key, part: Constants.PARTS.Playlist})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Playlist(this, item);
@@ -109,41 +129,38 @@ class YouTube {
     }
 
     /**
-     * Get a playlist by URL or ID
-     * @param {String} playlistUrl the playlist URL/ID
-     * @returns {Promise<Playlist[]>}
-     * @example
-     * Api.playlistByUrl('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
-     *  .then(results => {
-     *    console.log(`The playlist's title is ${results[0].title}`);
-     *  })
-     *  .catch(console.error);
-     */
-    playlistByUrl(playlistUrl) {
-        const parsed = url.parse(playlistUrl, true);
-        let id = parsed.query.list;
-        if (!id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
-        if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${playlistUrl}`));
-        return this.playlistById(id);
-    }
-
-    /**
-     * Get a channel by id
-     * @param {String} channelId the channel id
+     * Get a channel by URL or ID
+     * @param {string} url The channel URL or ID
      * @returns {Promise<Channel[]>}
      * @example
-     * Api.channelById('UC477Kvszl9JivqOxN1dFgPQ')
+     * Api.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
      *  .then(results => {
      *    console.log(`The channel's title is ${results[0].title}`);
      *  })
      *  .catch(console.error);
      */
-    channelById(channelId) {
+    getChannel(url) {
+        const parsed = url.parse(url, true);
+        const s = parsed.pathname.split('/');
+        let id = s[s.length - 1];
+        if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
+        return this.getChannelByID(id);
+    }
+
+    /**
+     * Get a channel by ID
+     * @param {string} id The channel ID
+     * @returns {Promise<Channel[]>}
+     * @example
+     * Api.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
+     *  .then(results => {
+     *    console.log(`The channel's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getChannelByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('channels', {id: channelId, key: this.key, part: Constants.PARTS.Channel})
+            this.request('channels', {id: id, key: this.key, part: Constants.PARTS.Channel})
                 .then(result => {
                     return resolve(result.items.map(item => {
                         return new Channel(this, item);
@@ -154,30 +171,11 @@ class YouTube {
     }
 
     /**
-     * Get a channel by URL or ID
-     * @param {String} channelUrl the channel URL/ID
-     * @returns {Promise<Channel[]>}
-     * @example
-     * Api.channelByUrl('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
-     *  .then(results => {
-     *    console.log(`The channel's title is ${results[0].title}`);
-     *  })
-     *  .catch(console.error);
-     */
-    channelByUrl(channelUrl) {
-        const parsed = url.parse(channelUrl, true);
-        const s = parsed.pathname.split('/');
-        let id = s[s.length - 1];
-        if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${channelUrl}`));
-        return this.channelById(id);
-    }
-
-    /**
      * Search YouTube for videos, playlists, and channels
-     * @param {String} query the query to search
-     * @param {Number} [results = 5] the max amount of results
-     * @param {Object} [options] additional options to pass to the API request
-     * @returns {Promise<Array<Video|Playlist|Channel>>}
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise<Array<Video|Playlist|Channel|Object>>}
      * @example
      * Api.search('Centuries')
      *  .then(results => {
@@ -204,9 +202,9 @@ class YouTube {
 
     /**
      * Search YouTube for videos
-     * @param {String} query the query to search
-     * @param {Number} [results = 5] the max amount of results
-     * @param {Object} [options] additional options to pass to the API request
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Video[]>}
      * @example
      * Api.searchVideos('Centuries')
@@ -222,9 +220,9 @@ class YouTube {
 
     /**
      * Search YouTube for playlists
-     * @param {String} query the query to search
-     * @param {Number} [results = 5] the max amount of results
-     * @param {Object} [options] additional options to pass to the API request
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Playlist[]>}
      * @example
      * Api.searchPlaylists('Centuries')
@@ -239,10 +237,10 @@ class YouTube {
     }
 
     /**
-     * Search YouTube for playlists
-     * @param {String} query the query to search
-     * @param {Number} [results = 5] the max amount of results
-     * @param {Object} [options] additional options to pass to the API request
+     * Search YouTube for channels
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Channel[]>}
      * @example
      * Api.searchChannels('Centuries')
@@ -258,17 +256,3 @@ class YouTube {
 }
 
 module.exports = YouTube;
-
-/*
-    search(query, results = 5) {
-        return new Promise((resolve, reject) => {
-            sendRequest('search', {q: query, maxResults: results, key: this.key, part: parts.search}).then(resolve).catch(reject);
-        });
-    }
-
-    getPlaylistItems(playlistId) {
-        return new Promise((resolve, reject) => {
-            sendRequest('playlistItems', {'playlistId': playlistId, key: this.key, part: parts.playlistItems}).then(resolve).catch(reject);
-        });
-    }
-*/
