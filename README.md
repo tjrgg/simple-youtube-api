@@ -27,7 +27,7 @@ youtube.searchVideos('Centuries', 4)
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-youtube.getVideo('3odIdmuFfEY')
+youtube.getVideo('https://www.youtube.com/watch?v=3odIdmuFfEY')
     .then(results => {
         console.log(`The video's title is ${results[0].title}`);
     })
@@ -40,7 +40,7 @@ youtube.getVideo('3odIdmuFfEY')
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-youtube.getPlaylist('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+youtube.getPlaylist('https://www.youtube.com/playlist?list=PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
     .then(results => {
         console.log(`The playlist's title is ${results[0].title}`);
     })
@@ -53,7 +53,7 @@ youtube.getPlaylist('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-youtube.getPlaylist('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+youtube.getPlaylist('https://www.youtube.com/playlist?list=PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
     .then(results => {
         console.log(`The playlist's title is ${results[0].title}`);
         results[0].getVideos()
