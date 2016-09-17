@@ -1,5 +1,5 @@
 const request = require('request');
-const url = require('url');
+const parseURL = require('url').parse;
 const Constants = require('./Constants');
 const Encode = require('./util/Encode');
 const Video = require('./structures/Video');
@@ -41,7 +41,7 @@ class YouTube {
     /**
      * Get a video by URL or ID
      * @param {string} url The video URL or ID
-     * @returns {Promise<Video[]>}
+     * @returns {Promise<Video>}
      * @example
      * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
      *  .then(results => {
@@ -50,7 +50,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getVideo(url) {
-        const parsed = url.parse(url, true);
+        const parsed = parseURL(url, true);
         let id = parsed.query.v;
         if (parsed.hostname === 'youtu.be' || !id) {
             const s = parsed.pathname.split('/');
@@ -63,7 +63,7 @@ class YouTube {
     /**
      * Get a video by ID
      * @param {string} id The video ID
-     * @returns {Promise<Video[]>}
+     * @returns {Promise<Video>}
      * @example
      * API.getVideoByID('3odIdmuFfEY')
      *  .then(results => {
@@ -75,9 +75,7 @@ class YouTube {
         return new Promise((resolve, reject) => {
             this.request('videos', {id: id, key: this.key, part: Constants.PARTS.Video})
                 .then(result => {
-                    return resolve(result.items.map(item => {
-                        return new Video(this, item);
-                    }));
+                    resolve(new Video(this, result.items[0]));
                 })
                 .catch(reject);
         });
@@ -95,7 +93,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getPlaylist(url) {
-        const parsed = url.parse(url, true);
+        const parsed = parseURL(url, true);
         let id = parsed.query.list;
         if (!id) {
             const s = parsed.pathname.split('/');
@@ -120,9 +118,7 @@ class YouTube {
         return new Promise((resolve, reject) => {
             this.request('playlists', {id: id, key: this.key, part: Constants.PARTS.Playlist})
                 .then(result => {
-                    return resolve(result.items.map(item => {
-                        return new Playlist(this, item);
-                    }));
+                    resolve(new Playlist(this, result.items[0]));
                 })
                 .catch(reject);
         });
@@ -140,7 +136,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getChannel(url) {
-        const parsed = url.parse(url, true);
+        const parsed = parseURL(url, true);
         const s = parsed.pathname.split('/');
         let id = s[s.length - 1];
         if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
@@ -162,9 +158,7 @@ class YouTube {
         return new Promise((resolve, reject) => {
             this.request('channels', {id: id, key: this.key, part: Constants.PARTS.Channel})
                 .then(result => {
-                    return resolve(result.items.map(item => {
-                        return new Channel(this, item);
-                    }));
+                    resolve(new Channel(this, result.items[0]));
                 })
                 .catch(reject);
         });
