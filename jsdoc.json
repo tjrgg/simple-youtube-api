@@ -1,0 +1,12 @@
+{
+    "source": {
+        "include": ["src", "README.md", "package.json"],
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+      "destination": "./docs/",
+      "recurse": true,
+      "template": "node_modules/minami",
+      "verbose": true
+    }
+}
