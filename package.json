@@ -4,7 +4,8 @@
   "description": "A module to simplify the YouTube API.",
   "main": "index.js",
   "dependencies": {
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "iso8601-duration": "^1.0.0"
   },
   "repository": {
     "type": "git",

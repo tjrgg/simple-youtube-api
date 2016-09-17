@@ -1,4 +1,5 @@
 const request = require('request');
+const url = require('url');
 const Constants = require('./Constants');
 const Encode = require('./util/Encode');
 const Video = require('./structures/Video');
@@ -58,6 +59,28 @@ class YouTube {
                 })
                 .catch(reject);
         });
+    }
+
+    /**
+     * Get a video by URL or ID
+     * @param {String} videoUrl the video URL/ID
+     * @returns {Promise<Array<Video>, Error>}
+     * @example
+     * Api.videoByUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+     *  .then(results => {
+     *    console.log(`The videos' title is ${resolts[0].title}`);
+     *  })
+     *  .catch(console.log);
+     */
+    videoByUrl(videoUrl) {
+        const parsed = url.parse(videoUrl, true);
+        let id = parsed.query.v;
+        if (parsed.hostname === 'youtu.be' || !id) {
+            const s = parsed.pathname.split('/');
+            id = s[s.length - 1];
+        }
+        if (!id) throw new Error(`No video ID found in URL: ${videoUrl}`);
+        return this.videoById(id);
     }
 
     /**
