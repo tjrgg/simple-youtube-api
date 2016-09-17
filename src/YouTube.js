@@ -15,7 +15,7 @@ class YouTube {
      */
     constructor(key) {
         /**
-         * Your YouTube Data API key
+         * The YouTube Data API v3 key
          * @type {?string}
          */
         this.key = key;
