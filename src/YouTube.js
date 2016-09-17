@@ -28,7 +28,7 @@ class YouTube {
      * Make a request to the YouTube API
      * @param {String} endpoint the endpoint of the api
      * @param {Object} uriOptions the uri options to send to the api
-     * @returns {Promise<Object, Error>}
+     * @returns {Promise<Object>}
      */
     request(endpoint, uriOptions) {
         return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ class YouTube {
     /**
      * Get a video by id
      * @param {String} videoId the video id
-     * @returns {Promise<Array<Video>, Error>}
+     * @returns {Promise<Video[]>}
      * @example
      * Api.videoById('3odIdmuFfEY')
      *  .then(results => {
@@ -66,7 +66,7 @@ class YouTube {
     /**
      * Get a video by URL or ID
      * @param {String} videoUrl the video URL/ID
-     * @returns {Promise<Array<Video>, Error>}
+     * @returns {Promise<Video[]>}
      * @example
      * Api.videoByUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
      *  .then(results => {
@@ -88,7 +88,7 @@ class YouTube {
     /**
      * Get a playlist by id
      * @param {String} playlistId the playlist id
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Playlist[]>}
      * @example
      * Api.playlistById('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
      *  .then(results => {
@@ -111,7 +111,7 @@ class YouTube {
     /**
      * Get a playlist by URL or ID
      * @param {String} playlistUrl the playlist URL/ID
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Playlist[]>}
      * @example
      * Api.playlistByUrl('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
      *  .then(results => {
@@ -133,7 +133,7 @@ class YouTube {
     /**
      * Get a channel by id
      * @param {String} channelId the channel id
-     * @returns {Promise<Array<Channel>, Error>}
+     * @returns {Promise<Channel[]>}
      * @example
      * Api.channelById('UC477Kvszl9JivqOxN1dFgPQ')
      *  .then(results => {
@@ -156,7 +156,7 @@ class YouTube {
     /**
      * Get a channel by URL or ID
      * @param {String} channelUrl the channel URL/ID
-     * @returns {Promise<Array<Channel>, Error>}
+     * @returns {Promise<Channel[]>}
      * @example
      * Api.channelByUrl('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
      *  .then(results => {
@@ -177,7 +177,7 @@ class YouTube {
      * @param {String} query the query to search
      * @param {Number} [results = 5] the max amount of results
      * @param {Object} [options] additional options to pass to the API request
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Array<Video|Playlist|Channel>>}
      * @example
      * Api.search('Centuries')
      *  .then(results => {
@@ -207,7 +207,7 @@ class YouTube {
      * @param {String} query the query to search
      * @param {Number} [results = 5] the max amount of results
      * @param {Object} [options] additional options to pass to the API request
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Video[]>}
      * @example
      * Api.searchVideos('Centuries')
      *  .then(results => {
@@ -225,7 +225,7 @@ class YouTube {
      * @param {String} query the query to search
      * @param {Number} [results = 5] the max amount of results
      * @param {Object} [options] additional options to pass to the API request
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Playlist[]>}
      * @example
      * Api.searchPlaylists('Centuries')
      *  .then(results => {
@@ -243,7 +243,7 @@ class YouTube {
      * @param {String} query the query to search
      * @param {Number} [results = 5] the max amount of results
      * @param {Object} [options] additional options to pass to the API request
-     * @returns {Promise<Array<Playlist>, Error>}
+     * @returns {Promise<Channel[]>}
      * @example
      * Api.searchChannels('Centuries')
      *  .then(results => {

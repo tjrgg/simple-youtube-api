@@ -16,6 +16,11 @@ class Playlist {
         return `https://www.youtube.com/playlist?list=${this.id}`;
     }
 
+    /**
+     * Gets videos in the playlist
+     * @param {Number} [limit=50] Maximum number of videos to obtain
+     * @returns {Promise<Video[]>}
+     */
     getVideos(limit = 50) {
         return new Promise((resolve, reject) => {
             this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
