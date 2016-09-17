@@ -1,6 +1,7 @@
 exports.PARTS = {
     Search: 'snippet',
-    VideoByID: 'snippet,contentDetails',
+    Video: 'snippet,contentDetails',
     Playlist: 'snippet',
-    PlaylistItems: 'snippet,contentDetails'
+    PlaylistItems: 'snippet,contentDetails',
+    Channel: 'snippet'
 };

@@ -1,18 +1,19 @@
 const Constants = require('../Constants');
 const Video = require('./Video');
+const Channel = require('./Channel');
 
 class Playlist {
     constructor(youtube, data) {
         this.youtube = youtube;
         this.title = data.snippet.title;
-        this.id = data.id;
+        this.id = data.snippet.playlistId || data.id.playlistId || data.id;
         this.description = data.snippet.description;
-        this.url = `https://www.youtube.com/playlist?list=${this.id}`;
         this.publishedAt = data.snippet.publishedAt;
-        this.channel = {
-            title: data.snippet.channelTitle,
-            id: data.snippet.channelId
-        };
+        this.channel = new Channel(youtube, data);
+    }
+
+    get url() {
+        return `https://www.youtube.com/playlist?list=${this.id}`;
     }
 
     getVideos(limit = 50) {
@@ -20,7 +21,7 @@ class Playlist {
             this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
                 .then(result => {
                     return resolve(result.items.map(item => {
-                        return new Video(this, item);
+                        return new Video(this.youtube, item);
                     }));
                 })
                 .catch(reject);
