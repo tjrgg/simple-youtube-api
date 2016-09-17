@@ -6,7 +6,6 @@ class Video {
         this.title = data.snippet.title;
         this.id = data.id.videoId ? data.id.videoId : data.id;
         this.description = data.snippet.description;
-        this.url = `https://www.youtube.com/watch?v=${this.id}`;
         this.publishedAt = data.snippet.publishedAt;
         this.channel = {
             title: data.snippet.channelTitle,
@@ -18,6 +17,8 @@ class Video {
             this.duration = data.contentDetails.duration ? duration.parse(data.contentDetails.duration) : null;
             this.duration_seconds = this.duration ? duration.toSeconds(this.duration) : -1;
         }
+
+        this.url = `https://www.youtube.com/watch?v=${this.id}`;
     }
 }
 
