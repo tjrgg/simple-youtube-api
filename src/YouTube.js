@@ -43,7 +43,7 @@ class YouTube {
      * @param {string} url The video URL or ID
      * @returns {Promise<Video[]>}
      * @example
-     * Api.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+     * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
      *  .then(results => {
      *    console.log(`The video's title is ${results[0].title}`);
      *  })
@@ -65,7 +65,7 @@ class YouTube {
      * @param {string} id The video ID
      * @returns {Promise<Video[]>}
      * @example
-     * Api.getVideoByID('3odIdmuFfEY')
+     * API.getVideoByID('3odIdmuFfEY')
      *  .then(results => {
      *    console.log(`The video's title is ${results[0].title}`);
      *  })
@@ -88,7 +88,7 @@ class YouTube {
      * @param {string} url The playlist URL or ID
      * @returns {Promise<Playlist[]>}
      * @example
-     * Api.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
+     * API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
      *  .then(results => {
      *    console.log(`The playlist's title is ${results[0].title}`);
      *  })
@@ -110,7 +110,7 @@ class YouTube {
      * @param {string} id The playlist ID
      * @returns {Promise<Playlist[]>}
      * @example
-     * Api.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+     * API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
      *  .then(results => {
      *    console.log(`The playlist's title is ${results[0].title}`);
      *  })
@@ -133,7 +133,7 @@ class YouTube {
      * @param {string} url The channel URL or ID
      * @returns {Promise<Channel[]>}
      * @example
-     * Api.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
+     * API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
      *  .then(results => {
      *    console.log(`The channel's title is ${results[0].title}`);
      *  })
@@ -152,7 +152,7 @@ class YouTube {
      * @param {string} id The channel ID
      * @returns {Promise<Channel[]>}
      * @example
-     * Api.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
+     * API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
      *  .then(results => {
      *    console.log(`The channel's title is ${results[0].title}`);
      *  })
@@ -177,7 +177,7 @@ class YouTube {
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Array<Video|Playlist|Channel|Object>>}
      * @example
-     * Api.search('Centuries')
+     * API.search('Centuries')
      *  .then(results => {
      *    console.log(`I got ${results.length} results`);
      *  })
@@ -207,7 +207,7 @@ class YouTube {
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Video[]>}
      * @example
-     * Api.searchVideos('Centuries')
+     * API.searchVideos('Centuries')
      *  .then(results => {
      *    console.log(`I got ${results.length} videos`);
      *  })
@@ -225,7 +225,7 @@ class YouTube {
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Playlist[]>}
      * @example
-     * Api.searchPlaylists('Centuries')
+     * API.searchPlaylists('Centuries')
      *  .then(results => {
      *    console.log(`I got ${results.length} playlists`);
      *  })
@@ -243,7 +243,7 @@ class YouTube {
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Channel[]>}
      * @example
-     * Api.searchChannels('Centuries')
+     * API.searchChannels('Centuries')
      *  .then(results => {
      *    console.log(`I got ${results.length} channels`);
      *  })

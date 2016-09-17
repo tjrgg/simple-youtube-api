@@ -8,60 +8,59 @@ This is designed to simplify some functions of the YouTube API.
 
 ## *All methods return an array.*
 
-#### Search by Video Name
+#### Search by video name
 [Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/search.js)
 ```js
 const YouTube = require('simple-youtube-api');
-const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
+const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-    Api.search('Centuries', 4)
+youtube.searchVideos('Centuries', 4)
     .then(results => {
         console.log(`The video's title is ${results[0].title}`);
     })
-    .catch(console.log);
+    .catch(console.error);
 ```
 
-#### Get video by ID
-[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/videoById.js)
+#### Get video
+[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/video.js)
 ```js
 const YouTube = require('simple-youtube-api');
-const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
+const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-Api.videoById('3odIdmuFfEY')
+youtube.getVideo('3odIdmuFfEY')
     .then(results => {
         console.log(`The video's title is ${results[0].title}`);
     })
-    .catch(console.log);
+    .catch(console.error);
 ```
 
-#### Get playlist by ID
-[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js)
+#### Get playlist
+[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlist.js)
 ```js
 const YouTube = require('simple-youtube-api');
-const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
+const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-Api.playlistById('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+youtube.getPlaylist('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
     .then(results => {
         console.log(`The playlist's title is ${results[0].title}`);
     })
-    .catch(console.log);
+    .catch(console.error);
 ```
 
 #### Get videos from a playlist
-[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlistById.js)
+[Another Example](https://github.com/Hyper-Coder/simple-youtube-api/blob/master/examples/playlist.js)
 ```js
 const YouTube = require('simple-youtube-api');
-const Api = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
+const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
 
-Api.playlistById('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+youtube.getPlaylist('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
     .then(results => {
         console.log(`The playlist's title is ${results[0].title}`);
-
-            results[0].getVideos()
+        results[0].getVideos()
             .then(videos => {
                 console.log(`This playlist has ${videos.length === 50 ? '50+' : videos.length} videos.`);
             })
-            .catch(console.log);
+            .catch(console.error);
     })
-    .catch(console.log);
+    .catch(console.error);
 ```
