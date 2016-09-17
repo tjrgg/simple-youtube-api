@@ -79,7 +79,7 @@ class YouTube {
             const s = parsed.pathname.split('/');
             id = s[s.length - 1];
         }
-        if (!id) throw new Error(`No video ID found in URL: ${videoUrl}`);
+        if (!id) return Promise.reject(new Error(`No video ID found in URL: ${videoUrl}`));
         return this.videoById(id);
     }
 
