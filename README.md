@@ -2,7 +2,6 @@
 This library is designed to greatly simplify interacting with the basic functions of the YouTube API.
 It deals with viewing/searching videos, playlists, and channels.
 
-## Usage
 ## Installation
     $ npm install simple-youtube-api
 
