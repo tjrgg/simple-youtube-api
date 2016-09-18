@@ -1,3 +1,4 @@
+const parseURL = require('url').parse;
 const duration = require('iso8601-duration');
 const Channel = require('./Channel');
 
@@ -87,6 +88,21 @@ class Video {
      */
     get durationSeconds() {
         return this.duration ? duration.toSeconds(this.duration) : -1;
+    }
+
+    /**
+     * Get a video ID from a string (URL or ID)
+     * @param {string} url The string to get the ID from
+     * @returns {?string}
+     */
+    static extractID(url) {
+        const parsed = parseURL(url, true);
+        let id = parsed.query.v;
+        if (parsed.hostname === 'youtu.be' || !id) {
+            const s = parsed.pathname.split('/');
+            id = s[s.length - 1];
+        }
+        return id || null;
     }
 }
 

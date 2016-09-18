@@ -1,3 +1,5 @@
+const parseURL = require('url').parse;
+
 /** Represents a YouTube channel */
 class Channel {
     /**
@@ -31,6 +33,18 @@ class Channel {
      */
     get url() {
         return `https://www.youtube.com/channel/${this.id}`;
+    }
+
+    /**
+     * Get a channel ID from a string (URL or ID)
+     * @param {string} url The string to get the ID from
+     * @returns {?string}
+     */
+    static extractID(url) {
+        const parsed = parseURL(url, true);
+        const s = parsed.pathname.split('/');
+        const id = s[s.length - 1];
+        return id || null;
     }
 }
 

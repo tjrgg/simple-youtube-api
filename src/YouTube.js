@@ -1,5 +1,4 @@
 const request = require('request');
-const parseURL = require('url').parse;
 const Constants = require('./Constants');
 const Encode = require('./util/Encode');
 const Video = require('./structures/Video');
@@ -50,12 +49,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getVideo(url) {
-        const parsed = parseURL(url, true);
-        let id = parsed.query.v;
-        if (parsed.hostname === 'youtu.be' || !id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
+        const id = Video.extractID(url);
         if (!id) return Promise.reject(new Error(`No video ID found in URL: ${url}`));
         return this.getVideoByID(id);
     }
@@ -93,12 +87,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getPlaylist(url) {
-        const parsed = parseURL(url, true);
-        let id = parsed.query.list;
-        if (!id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
+        const id = Playlist.extractID(url);
         if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${url}`));
         return this.getPlaylistByID(id);
     }
@@ -136,9 +125,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getChannel(url) {
-        const parsed = parseURL(url, true);
-        const s = parsed.pathname.split('/');
-        let id = s[s.length - 1];
+        const id = Channel.extractID(url);
         if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
         return this.getChannelByID(id);
     }

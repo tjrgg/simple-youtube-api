@@ -1,3 +1,4 @@
+const parseURL = require('url').parse;
 const Constants = require('../Constants');
 const Video = require('./Video');
 const Channel = require('./Channel');
@@ -70,6 +71,21 @@ class Playlist {
                 })
                 .catch(reject);
         });
+    }
+
+    /**
+     * Get a playlist ID from a string (URL or ID)
+     * @param {string} url The string to get the ID from
+     * @returns {?string}
+     */
+    static extractID(url) {
+        const parsed = parseURL(url, true);
+        let id = parsed.query.list;
+        if (!id) {
+            const s = parsed.pathname.split('/');
+            id = s[s.length - 1];
+        }
+        return id || null;
     }
 }
 
