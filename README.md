@@ -6,5 +6,5 @@ It deals with viewing/searching videos, playlists, and channels.
     $ npm install simple-youtube-api
 
 ## Usage
-- [Documentation](https://Hyper-Coder.github.io/simple-youtube-api/2.0.0/)
+- [Documentation](https://Hyper-Coder.github.io/simple-youtube-api/2.1.0/)
 - [Examples](https://github.com/Hyper-Coder/simple-youtube-api/tree/master/examples)
