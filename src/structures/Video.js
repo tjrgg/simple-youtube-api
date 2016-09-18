@@ -70,6 +70,14 @@ class Video {
      * @type {string}
      */
     get url() {
+        return `https://www.youtube.com/watch?v=${this.id}`;
+    }
+
+    /**
+     * The short URL to this video
+     * @type {string}
+     */
+    get shortURL() {
         return `https://youtu.be/${this.id}`;
     }
 
