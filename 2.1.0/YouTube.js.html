@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>YouTube.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Channel.html">Channel</a><ul class='methods'><li data-type='method'><a href="Channel.html#.extractID">extractID</a></li></ul></li><li><a href="Playlist.html">Playlist</a><ul class='methods'><li data-type='method'><a href="Playlist.html#.extractID">extractID</a></li><li data-type='method'><a href="Playlist.html#getVideos">getVideos</a></li></ul></li><li><a href="Video.html">Video</a><ul class='methods'><li data-type='method'><a href="Video.html#.extractID">extractID</a></li></ul></li><li><a href="YouTube.html">YouTube</a><ul class='methods'><li data-type='method'><a href="YouTube.html#getChannel">getChannel</a></li><li data-type='method'><a href="YouTube.html#getChannelByID">getChannelByID</a></li><li data-type='method'><a href="YouTube.html#getPlaylist">getPlaylist</a></li><li data-type='method'><a href="YouTube.html#getPlaylistByID">getPlaylistByID</a></li><li data-type='method'><a href="YouTube.html#getVideo">getVideo</a></li><li data-type='method'><a href="YouTube.html#getVideoByID">getVideoByID</a></li><li data-type='method'><a href="YouTube.html#request">request</a></li><li data-type='method'><a href="YouTube.html#search">search</a></li><li data-type='method'><a href="YouTube.html#searchChannels">searchChannels</a></li><li data-type='method'><a href="YouTube.html#searchPlaylists">searchPlaylists</a></li><li data-type='method'><a href="YouTube.html#searchVideos">searchVideos</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">YouTube.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const request = require('request');
+const Constants = require('./Constants');
+const Encode = require('./util/Encode');
+const Video = require('./structures/Video');
+const Playlist = require('./structures/Playlist');
+const Channel = require('./structures/Channel');
+
+/**
+ * The YouTube API module
+ */
+class YouTube {
+    /**
+     * @param {string} key The YouTube Data API v3 key to use
+     */
+    constructor(key) {
+        /**
+         * The YouTube Data API v3 key
+         * @type {?string}
+         */
+        this.key = key;
+        Object.defineProperty(this, 'key', { enumerable: false });
+    }
+
+    /**
+     * Make a request to the YouTube API
+     * @param {string} endpoint The endpoint of the API
+     * @param {Object} uriOptions The URI options to send to the API
+     * @returns {Promise&lt;Object>}
+     */
+    request(endpoint, uriOptions) {
+        return new Promise((resolve, reject) => {
+            request(`https://www.googleapis.com/youtube/v3/${endpoint}?${Encode(uriOptions)}`, (err, resp, body) => {
+                if (err) return reject(err);
+                if (resp.statusCode !== 200) return reject(JSON.parse(body));
+                return resolve(JSON.parse(body));
+            });
+        });
+    }
+
+    /**
+     * Get a video by URL or ID
+     * @param {string} url The video URL or ID
+     * @returns {Promise&lt;Video>}
+     * @example
+     * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+     *  .then(results => {
+     *    console.log(`The video's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getVideo(url) {
+        const id = Video.extractID(url);
+        if (!id) return Promise.reject(new Error(`No video ID found in URL: ${url}`));
+        return this.getVideoByID(id);
+    }
+
+    /**
+     * Get a video by ID
+     * @param {string} id The video ID
+     * @returns {Promise&lt;Video>}
+     * @example
+     * API.getVideoByID('3odIdmuFfEY')
+     *  .then(results => {
+     *    console.log(`The video's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getVideoByID(id) {
+        return new Promise((resolve, reject) => {
+            this.request('videos', {id: id, key: this.key, part: Constants.PARTS.Video})
+                .then(result => {
+                    resolve(new Video(this, result.items[0]));
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Get a playlist by URL or ID
+     * @param {string} url The playlist URL or ID
+     * @returns {Promise&lt;Playlist[]>}
+     * @example
+     * API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
+     *  .then(results => {
+     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPlaylist(url) {
+        const id = Playlist.extractID(url);
+        if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${url}`));
+        return this.getPlaylistByID(id);
+    }
+
+    /**
+     * Get a playlist by ID
+     * @param {string} id The playlist ID
+     * @returns {Promise&lt;Playlist[]>}
+     * @example
+     * API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+     *  .then(results => {
+     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPlaylistByID(id) {
+        return new Promise((resolve, reject) => {
+            this.request('playlists', {id: id, key: this.key, part: Constants.PARTS.Playlist})
+                .then(result => {
+                    resolve(new Playlist(this, result.items[0]));
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Get a channel by URL or ID
+     * @param {string} url The channel URL or ID
+     * @returns {Promise&lt;Channel[]>}
+     * @example
+     * API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
+     *  .then(results => {
+     *    console.log(`The channel's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getChannel(url) {
+        const id = Channel.extractID(url);
+        if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
+        return this.getChannelByID(id);
+    }
+
+    /**
+     * Get a channel by ID
+     * @param {string} id The channel ID
+     * @returns {Promise&lt;Channel[]>}
+     * @example
+     * API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
+     *  .then(results => {
+     *    console.log(`The channel's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getChannelByID(id) {
+        return new Promise((resolve, reject) => {
+            this.request('channels', {id: id, key: this.key, part: Constants.PARTS.Channel})
+                .then(result => {
+                    resolve(new Channel(this, result.items[0]));
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Search YouTube for videos, playlists, and channels
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Array&lt;Video|Playlist|Channel|Object>>}
+     * @example
+     * API.search('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} results`);
+     *  })
+     *  .catch(console.error);
+     */
+    search(query, limit = 5, options = {}) {
+        Object.assign(options, {q: query, maxResults: limit, key: this.key, part: Constants.PARTS.Search});
+        return new Promise((resolve, reject) => {
+            this.request('search', options)
+                .then(result => {
+                    const items = result.items;
+                    return resolve(result.items.map(item => {
+                        if (item.id.videoId) return new Video(this, item);
+                        if (item.id.playlistId) return new Playlist(this, item);
+                        if (item.id.channelId) return new Channel(this, item);
+                        return item;
+                    }));
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Search YouTube for videos
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Video[]>}
+     * @example
+     * API.searchVideos('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} videos`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchVideos(query, limit = 5, options = {}) {
+        Object.assign(options, {type: 'video'});
+        return this.search(query, limit, options);
+    }
+
+    /**
+     * Search YouTube for playlists
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Playlist[]>}
+     * @example
+     * API.searchPlaylists('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} playlists`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchPlaylists(query, limit = 5, options = {}) {
+        Object.assign(options, {type: 'video'});
+        return this.search(query, limit, options);
+    }
+
+    /**
+     * Search YouTube for channels
+     * @param {string} query The string to search for
+     * @param {number} [results = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Channel[]>}
+     * @example
+     * API.searchChannels('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} channels`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchChannels(query, limit = 5, options = {}) {
+        Object.assign(options, {type: 'channel'});
+        return this.search(query, limit, options);
+    }
+}
+
+YouTube.Video = Video;
+YouTube.Playlist = Playlist;
+YouTube.Channel = Channel;
+
+module.exports = YouTube;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Sat Sep 17 2016 20:37:47 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
