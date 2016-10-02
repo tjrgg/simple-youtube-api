@@ -7,7 +7,8 @@
     "docs": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
-    "request": "^2.74.0",
+    "request": "^2.75.0",
+    "request-promise-native": "^1.0.0",
     "iso8601-duration": "^1.0.0"
   },
   "devDependencies": {

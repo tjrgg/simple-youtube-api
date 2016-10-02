@@ -1,6 +1,5 @@
-const request = require('request');
+const request = require('request-promise-native');
 const Constants = require('./Constants');
-const Encode = require('./util/Encode');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
 const Channel = require('./structures/Channel');
@@ -24,16 +23,15 @@ class YouTube {
     /**
      * Make a request to the YouTube API
      * @param {string} endpoint The endpoint of the API
-     * @param {Object} uriOptions The URI options to send to the API
+     * @param {Object} qs The query string options
      * @returns {Promise<Object>}
      */
-    request(endpoint, uriOptions) {
-        return new Promise((resolve, reject) => {
-            request(`https://www.googleapis.com/youtube/v3/${endpoint}?${Encode(uriOptions)}`, (err, resp, body) => {
-                if (err) return reject(err);
-                if (resp.statusCode !== 200) return reject(JSON.parse(body));
-                return resolve(JSON.parse(body));
-            });
+    request(endpoint, qs = {}) {
+        if (!qs.key) qs.key = this.key;
+        return request({
+            uri: `https://www.googleapis.com/youtube/v3/${endpoint}`,
+            qs: qs,
+            json: true
         });
     }
 
@@ -67,7 +65,7 @@ class YouTube {
      */
     getVideoByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('videos', {id: id, key: this.key, part: Constants.PARTS.Video})
+            this.request('videos', {id: id, part: Constants.PARTS.Video})
                 .then(result => {
                     resolve(new Video(this, result.items[0]));
                 })
@@ -105,7 +103,7 @@ class YouTube {
      */
     getPlaylistByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('playlists', {id: id, key: this.key, part: Constants.PARTS.Playlist})
+            this.request('playlists', {id: id, part: Constants.PARTS.Playlist})
                 .then(result => {
                     resolve(new Playlist(this, result.items[0]));
                 })
@@ -143,7 +141,7 @@ class YouTube {
      */
     getChannelByID(id) {
         return new Promise((resolve, reject) => {
-            this.request('channels', {id: id, key: this.key, part: Constants.PARTS.Channel})
+            this.request('channels', {id: id, part: Constants.PARTS.Channel})
                 .then(result => {
                     resolve(new Channel(this, result.items[0]));
                 })
@@ -165,7 +163,7 @@ class YouTube {
      *  .catch(console.error);
      */
     search(query, limit = 5, options = {}) {
-        Object.assign(options, {q: query, maxResults: limit, key: this.key, part: Constants.PARTS.Search});
+        Object.assign(options, {q: query, maxResults: limit, part: Constants.PARTS.Search});
         return new Promise((resolve, reject) => {
             this.request('search', options)
                 .then(result => {
