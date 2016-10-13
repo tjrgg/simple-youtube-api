@@ -15,6 +15,12 @@ class Channel {
         Object.defineProperty(this, 'youtube', { enumerable: false });
 
         /**
+         * The type to filter search results
+         * @type {string}
+         */
+        this.type = 'channel';
+
+        /**
          * This channel's ID
          * @type {string}
          */

@@ -18,6 +18,12 @@ class Playlist {
         Object.defineProperty(this, 'youtube', { enumerable: false });
 
         /**
+         * The type to filter search results
+         * @type {string}
+         */
+        this.type = 'playlist';
+
+        /**
          * This playlist's ID
          * @type {string}
          */
