@@ -65,12 +65,25 @@ class Playlist {
 
     /**
      * Gets videos in the playlist
-     * @param {Number} [limit=50] Maximum number of videos to obtain
+     * @param {Number} [limit] Maximum number of videos to obtain.  Fetches all if not provided.
      * @returns {Promise<Video[]>}
      */
-    getVideos(limit = 50) {
-        return this.youtube.request(Constants.ENDPOINTS.PlaylistItems, {'playlistId': this.id, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
+    getVideos(limit) {
+        return this._getVideos(limit);
+    }
+
+    /**
+     * Recursively retrieve videos.
+     * @param {Number} count Number of videos left to retrieve.
+     * @param {?string} pageToken Page token of videos to retrieve.
+     * @return {Promise.<Video[]>}
+     * @private
+     */
+    _getVideos(count = Infinity, pageToken = null)    {
+        const limit = count > 50 ? 50 : count;
+        return this.youtube.request(Constants.ENDPOINTS.PlaylistItems, {'playlistId': this.id, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit, 'pageToken': pageToken})
             .then(result => {
+                if(result.nextPageToken && limit !== count) return this._getVideos(count - limit, pageToken);
                 return result.items.map(item => new Video(this.youtube, item));
             });
     }
