@@ -75,16 +75,20 @@ class Playlist {
     /**
      * Recursively retrieve videos.
      * @param {Number} count Number of videos left to retrieve.
+     * @param {Array} fetched Previously fetched PlaylistItem results.
      * @param {?string} pageToken Page token of videos to retrieve.
      * @return {Promise.<Video[]>}
      * @private
      */
-    _getVideos(count = Infinity, pageToken = null)    {
+    _getVideos(count = Infinity, fetched = [], pageToken = null)    {
+        if(count < 1) return Promise.reject('Cannot fetch less than 1 video.');
+
         const limit = count > 50 ? 50 : count;
         return this.youtube.request(Constants.ENDPOINTS.PlaylistItems, {'playlistId': this.id, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit, 'pageToken': pageToken})
             .then(result => {
-                if(result.nextPageToken && limit !== count) return this._getVideos(count - limit, pageToken);
-                return result.items.map(item => new Video(this.youtube, item));
+                const results = fetched.concat(result.items);
+                if(result.nextPageToken && limit !== count) return this._getVideos(count - limit, results, result.nextPageToken);
+                return results.map(item => new Video(this.youtube, item));
             });
     }
 
