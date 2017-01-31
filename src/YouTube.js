@@ -152,7 +152,7 @@ class YouTube {
     /**
      * Search YouTube for videos, playlists, and channels
      * @param {string} query The string to search for
-     * @param {number} [results = 5] Maximum results to obtain
+     * @param {number} [limit = 5] Maximum results to obtain
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Array<Video|Playlist|Channel|Object>>}
      * @example
@@ -182,7 +182,7 @@ class YouTube {
     /**
      * Search YouTube for videos
      * @param {string} query The string to search for
-     * @param {number} [results = 5] Maximum results to obtain
+     * @param {number} [limit = 5] Maximum results to obtain
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Video[]>}
      * @example
@@ -200,7 +200,7 @@ class YouTube {
     /**
      * Search YouTube for playlists
      * @param {string} query The string to search for
-     * @param {number} [results = 5] Maximum results to obtain
+     * @param {number} [limit = 5] Maximum results to obtain
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Playlist[]>}
      * @example
@@ -218,7 +218,7 @@ class YouTube {
     /**
      * Search YouTube for channels
      * @param {string} query The string to search for
-     * @param {number} [results = 5] Maximum results to obtain
+     * @param {number} [limit = 5] Maximum results to obtain
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Channel[]>}
      * @example
