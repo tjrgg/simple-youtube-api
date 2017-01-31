@@ -53,6 +53,12 @@ class Video {
          */
         this.channel = new Channel(youtube, data);
 
+        /**
+         * The thumbnails of this video.
+         * @type {Array.<Object.<'default', 'medium', 'high', 'standard', 'maxres'>>}
+         */
+        this.thumbnails = data.snippet.thumbnails;
+
         if(data.contentDetails) {
             this.id = data.contentDetails.videoId || this.id;
 
