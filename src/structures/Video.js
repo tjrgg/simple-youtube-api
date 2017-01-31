@@ -55,7 +55,7 @@ class Video {
 
         /**
          * The thumbnails of this video.
-         * @type {Array.<Object.<'default', 'medium', 'high', 'standard', 'maxres'>>}
+         * @type {Object.<'default', 'medium', 'high', 'standard', 'maxres'>}
          */
         this.thumbnails = data.snippet.thumbnails;
 
