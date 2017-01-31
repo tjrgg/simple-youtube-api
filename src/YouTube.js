@@ -1,4 +1,5 @@
 const request = require('request-promise-native');
+const {parse} = require('url');
 const Constants = require('./Constants');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
@@ -64,13 +65,8 @@ class YouTube {
      *  .catch(console.error);
      */
     getVideoByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('videos', {id: id, part: Constants.PARTS.Video})
-                .then(result => {
-                    resolve(new Video(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+        return this.request(Constants.ENDPOINTS.Videos, {id: id, part: Constants.PARTS.Videos})
+            .then(result => new Video(this, result.items[0]));
     }
 
     /**
@@ -102,13 +98,8 @@ class YouTube {
      *  .catch(console.error);
      */
     getPlaylistByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('playlists', {id: id, part: Constants.PARTS.Playlist})
-                .then(result => {
-                    resolve(new Playlist(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+        return this.request(Constants.ENDPOINTS.Playlists, {id: id, part: Constants.PARTS.Playlists})
+            .then(result => new Playlist(this, result.items[0]));
     }
 
     /**
@@ -140,13 +131,8 @@ class YouTube {
      *  .catch(console.error);
      */
     getChannelByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('channels', {id: id, part: Constants.PARTS.Channel})
-                .then(result => {
-                    resolve(new Channel(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+        return this.request(Constants.ENDPOINTS.Channels, {id: id, part: Constants.PARTS.Channels})
+            .then(result => new Channel(this, result.items[0]));
     }
 
     /**
@@ -164,19 +150,15 @@ class YouTube {
      */
     search(query, limit = 5, options = {}) {
         Object.assign(options, {q: query, maxResults: limit, part: Constants.PARTS.Search});
-        return new Promise((resolve, reject) => {
-            this.request('search', options)
-                .then(result => {
-                    const items = result.items;
-                    return resolve(result.items.map(item => {
-                        if (item.id.videoId) return new Video(this, item);
-                        if (item.id.playlistId) return new Playlist(this, item);
-                        if (item.id.channelId) return new Channel(this, item);
-                        return item;
-                    }));
-                })
-                .catch(reject);
-        });
+        return this.request(Constants.ENDPOINTS.Search, options)
+            .then(result => {
+                return result.items.map(item => {
+                    if (item.id.videoId) return new Video(this, item);
+                    if (item.id.playlistId) return new Playlist(this, item);
+                    if (item.id.channelId) return new Channel(this, item);
+                    return item;
+                });
+            });
     }
 
     /**
@@ -231,6 +213,17 @@ class YouTube {
     searchChannels(query, limit = 5, options = {}) {
         Object.assign(options, {type: 'channel'});
         return this.search(query, limit, options);
+    }
+
+    /**
+     * Check whether a given string is a basic YouTube URL.
+     * @param {string} url The potential YouTube URL
+     * @returns {boolean}
+     */
+    static checkBaseURL(url)    {
+        const parsed = parse(url, true);
+        if(parsed.hostname !== 'youtube.com' && parsed.hostname !== 'youtu.be') return false;
+        return /^\/[a-z]/.test(parsed.pathname);
     }
 }
 

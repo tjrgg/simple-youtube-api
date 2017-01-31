@@ -1,4 +1,5 @@
 const parseURL = require('url').parse;
+const YouTube = require('../YouTube');
 const Constants = require('../Constants');
 const Video = require('./Video');
 const Channel = require('./Channel');
@@ -68,15 +69,10 @@ class Playlist {
      * @returns {Promise<Video[]>}
      */
     getVideos(limit = 50) {
-        return new Promise((resolve, reject) => {
-            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
-                .then(result => {
-                    return resolve(result.items.map(item => {
-                        return new Video(this.youtube, item);
-                    }));
-                })
-                .catch(reject);
-        });
+        return this.youtube.request(Constants.ENDPOINTS.PlaylistItems, {'playlistId': this.id, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
+            .then(result => {
+                return result.items.map(item => new Video(this.youtube, item));
+            });
     }
 
     /**
@@ -85,6 +81,8 @@ class Playlist {
      * @returns {?string}
      */
     static extractID(url) {
+        if(!YouTube.checkBaseURL(url)) return null;
+
         const parsed = parseURL(url, true);
         let id = parsed.query.list;
         if (!id) {
