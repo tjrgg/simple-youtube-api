@@ -222,7 +222,7 @@ class YouTube {
      */
     static checkBaseURL(url)    {
         const parsed = parse(url, true);
-        if(parsed.hostname !== 'youtube.com' && parsed.hostname !== 'youtu.be') return false;
+        if(parsed.hostname !== 'youtube.com' && parsed.hostname !== 'youtu.be' && parsed.hostname !== 'www.youtube.com' && parsed.hostname !== 'www.youtu.be') return false;
         return /^\/[a-z]/.test(parsed.pathname);
     }
 }
