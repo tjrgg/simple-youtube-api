@@ -143,7 +143,7 @@ class YouTube {
     /**
      * @typedef {?{video: {}, playlist: {}, channel: {}}|?Object} DeepSearch If provided, will load
      * each result with the given options.  If result is a playlist, will load all playlist videos with given
-     * video options.
+     * video options.  Provide an empty object to deep search with default parts.
      */
 
     /**
