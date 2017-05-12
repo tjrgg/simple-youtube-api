@@ -43,7 +43,7 @@ describe('Video', function() {
         });
     });
 
-    describe('fetching', function() {
+    describe('fetch', function() {
         it('gets by URL', function() {
             return yt.getVideo('https://www.youtube.com/watch?v=zBBOfCRhEz4').then(r => util.checkVideo(r, 'zBBOfCRhEz4'));
         });
@@ -66,13 +66,47 @@ describe('Playlist', function() {
         });
     });
 
-    describe('fetching', function() {
+    describe('fetch', function() {
         it('gets by URL', function() {
             return yt.getPlaylist('https://www.youtube.com/playlist?list=PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
         });
 
         it('gets by ID', function() {
             return yt.getPlaylistByID('PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
+        });
+    });
+});
+
+describe('Channel', function() {
+    describe('search', function() {
+        it('works with default parameters', function() {
+            return yt.searchChannels('monstercat').then(util.checkChannels);
+        });
+
+        it('works with extra options', function() {
+            return yt.searchChannels('monstercat', 10, {});
+        });
+    });
+
+    describe('fetch', function() {
+        it('gets by URL', function() {
+            return yt.getChannel('https://www.youtube.com/channel/UCJ6td3C9QlPO9O_J5dF4ZzA').then(r => util.checkChannel(r, 'UCJ6td3C9QlPO9O_J5dF4ZzA'));
+        });
+
+        it('gets by ID', function() {
+            return yt.getChannelByID('UCJ6td3C9QlPO9O_J5dF4ZzA').then(r => util.checkChannel(r, 'UCJ6td3C9QlPO9O_J5dF4ZzA'));
+        });
+    });
+});
+
+describe('general', function() {
+    describe('search', function() {
+        it('works with default parameters', function() {
+            return yt.search('monstercat').then(results => results.forEach(util.checkUnknown));
+        });
+
+        it('works with extra options', function() {
+            return yt.search('monstercat', 10, {}).then(results => results.forEach(util.checkUnknown));
         });
     });
 });
