@@ -163,15 +163,15 @@ class YouTube {
      *  .catch(console.error);
      */
     search(query, limit = 5, deep = null, options = {}) {
-        options = Object.assign(options, { part: Constants.PARTS.Search }, { q: query, maxResults: limit });
-        return this.request(Constants.ENDPOINTS.Search, options)
+        options = Object.assign(options, { part: Constants.PARTS.Search, q: query, maxResults: limit });
+        return this.fetchPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { q: query, part: Constants.PARTS.Search }))
             .then(result => {
                 if(typeof deep === 'object' && deep !== null) {
                     const vidOpt = Object.assign({}, deep.video || deep);
                     const plOpt = Object.assign({}, deep.playlist || deep);
                     const chOpt = Object.assign({}, deep.channel || deep);
 
-                    return Promise.all(result.items.map(item => {
+                    return Promise.all(result.map(item => {
                         if (item.id.videoId) return this.getVideoByID(item.id.videoId, vidOpt);
                         if (item.id.playlistId) {
                             const pl = this.getPlaylistByID(item.id.playlistId, plOpt);
@@ -182,7 +182,7 @@ class YouTube {
                     }));
                 }
 
-                return result.items.map(item => {
+                return result.map(item => {
                     if (item.id.videoId) return new Video(this, item);
                     if (item.id.playlistId) return new Playlist(this, item);
                     if (item.id.channelId) return new Channel(this, item);
@@ -243,6 +243,26 @@ class YouTube {
      */
     searchChannels(query, limit = 5, deep, options = {}) {
         return this.search(query, limit, deep, Object.assign(options, { type: 'channel' }));
+    }
+
+    /**
+     * Fetch a paginated resource.
+     * @param {string} endpoint The endpoint to query.
+     * @param {number} [count=Infinity] How many results to retrieve.
+     * @param {Object} [options={}] Additional options to send.
+     * @param {Array} [fetched=[]] Previously fetched resources.
+     * @param {?string} [pageToken] The page token to retrieve.
+     * @protected
+     */
+    fetchPaginated(endpoint, count = Infinity, options = {}, fetched = [], pageToken = null) {
+        if(count < 1) return Promise.reject('Cannot fetch less than 1.');
+
+        const limit = count > 50 ? 50 : count;
+        return this.request(endpoint, Object.assign(options, { pageToken, maxResults: limit })).then(result => {
+            const results = fetched.concat(result.items);
+            if(result.nextPageToken && limit !== count) return this.fetchPaginated(endpoint, count - limit, options, results, result.nextPageToken);
+            return results;
+        });
     }
 }
 

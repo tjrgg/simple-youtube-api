@@ -53,3 +53,16 @@ describe('Video', function() {
         });
     });
 });
+
+describe('Playlist', function() {
+    describe('search', function() {
+        it('works with default parameters', function() {
+            return yt.searchPlaylists('monstercat').then(util.checkPlaylists);
+        });
+
+        it('works with extra options', function() {
+            this.timeout(7000);
+            return yt.searchPlaylists('monstercat', 10, {}).then(r => util.checkPlaylists(r, 10));
+        });
+    });
+});

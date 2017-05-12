@@ -76,7 +76,9 @@ class Playlist {
      * @returns {Promise<Video[]>}
      */
     getVideos(limit, options) {
-        return this.videos = this._getVideos(limit, options);
+        return this.videos = this.youtube.fetchPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(
+            { 'playlistId': this.id, part: Constants.PARTS.Videos }, options
+        ));
     }
 
     /**
@@ -98,7 +100,7 @@ class Playlist {
             const results = fetched.concat(result.items);
             if(result.nextPageToken && limit !== count) return this._getVideos(count - limit, options, results, result.nextPageToken);
             return results.map(item => new Video(this.youtube, item));
-        }).catch(console.error);
+        });
     }
 
     /**
