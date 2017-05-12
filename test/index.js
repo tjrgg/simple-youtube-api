@@ -65,4 +65,14 @@ describe('Playlist', function() {
             return yt.searchPlaylists('monstercat', 10, {}).then(r => util.checkPlaylists(r, 10));
         });
     });
+
+    describe('fetching', function() {
+        it('gets by URL', function() {
+            return yt.getPlaylist('https://www.youtube.com/playlist?list=PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
+        });
+
+        it('gets by ID', function() {
+            return yt.getPlaylistByID('PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
+        });
+    });
 });
