@@ -205,8 +205,7 @@ class YouTube {
      *  .catch(console.error);
      */
     searchVideos(query, limit = 5, deep = null, options = {}) {
-        Object.assign(options, { type: 'video' });
-        return this.search(query, limit, deep, options);
+        return this.search(query, limit, deep, Object.assign(options, { type: 'video' }));
     }
 
     /**
@@ -242,8 +241,7 @@ class YouTube {
      *  .catch(console.error);
      */
     searchChannels(query, limit = 5, deep, options = {}) {
-        Object.assign(options, { type: 'channel' });
-        return this.search(query, limit, deep, options);
+        return this.search(query, limit, deep, Object.assign(options, { type: 'channel' }));
     }
 }
 
