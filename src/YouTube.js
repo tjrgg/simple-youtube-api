@@ -1,5 +1,5 @@
 const request = require('request-promise-native');
-const {parse} = require('url');
+const { parse } = require('url');
 const Constants = require('./Constants');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
@@ -13,6 +13,7 @@ class YouTube {
      * @param {string} key The YouTube Data API v3 key to use
      */
     constructor(key) {
+        if (typeof key !== 'string') throw new Error('The YouTube API key you provided was not a string.');
         /**
          * The YouTube Data API v3 key
          * @type {?string}
@@ -164,7 +165,7 @@ class YouTube {
         options = Object.assign(options, { part: Constants.PARTS.Search }, { q: query, maxResults: limit });
         return this.request(Constants.ENDPOINTS.Search, options)
             .then(result => {
-                if(typeof deep === 'object') {
+                if(typeof deep === 'object' && deep !== null) {
                     const vidOpt = Object.assign({}, deep.video || deep);
                     const plOpt = Object.assign({}, deep.playlist || deep);
                     const chOpt = Object.assign({}, deep.channel || deep);
@@ -204,7 +205,7 @@ class YouTube {
      *  .catch(console.error);
      */
     searchVideos(query, limit = 5, deep = null, options = {}) {
-        Object.assign(options, {type: 'video'});
+        Object.assign(options, { type: 'video' });
         return this.search(query, limit, deep, options);
     }
 
@@ -223,7 +224,7 @@ class YouTube {
      *  .catch(console.error);
      */
     searchPlaylists(query, limit = 5, deep = null, options = {}) {
-        return this.search(query, limit, deep, Object.assign(options, {type: 'playlist'}));
+        return this.search(query, limit, deep, Object.assign(options, { type: 'playlist' }));
     }
 
     /**
@@ -241,7 +242,7 @@ class YouTube {
      *  .catch(console.error);
      */
     searchChannels(query, limit = 5, deep, options = {}) {
-        Object.assign(options, {type: 'channel'});
+        Object.assign(options, { type: 'channel' });
         return this.search(query, limit, deep, options);
     }
 }

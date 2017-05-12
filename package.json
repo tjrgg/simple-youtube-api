@@ -4,7 +4,8 @@
   "description": "A module to simplify the YouTube API.",
   "main": "index.js",
   "scripts": {
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "test": "mocha"
   },
   "dependencies": {
     "request": "^2.75.0",
@@ -12,8 +13,10 @@
     "iso8601-duration": "^1.0.0"
   },
   "devDependencies": {
+    "dotenv": "^4.0.0",
     "jsdoc": "^3.4.0",
-    "minami": "^1.1.0"
+    "minami": "^1.1.0",
+    "mocha": "^3.3.0"
   },
   "repository": {
     "type": "git",

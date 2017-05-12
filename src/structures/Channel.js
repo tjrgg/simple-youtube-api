@@ -1,5 +1,5 @@
 const parseURL = require('url').parse;
-const YouTube = require('../YouTube');
+const { checkBaseURL } = require('../util');
 
 /** Represents a YouTube channel */
 class Channel {
@@ -48,7 +48,7 @@ class Channel {
      * @returns {?string}
      */
     static extractID(url) {
-        if(!YouTube.checkBaseURL(url)) return null;
+        if(!checkBaseURL(url)) return null;
 
         const parsed = parseURL(url, true);
         const s = parsed.pathname.split('/');
