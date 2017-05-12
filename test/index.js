@@ -1,6 +1,7 @@
 /* globals describe, it */
 require('dotenv').config({ path: './test/.env' });
 const assert = require('assert');
+const util = require('./util');
 const YouTube = require('../index');
 
 const yt = new YouTube(process.env.YOUTUBE_API_KEY);
@@ -34,30 +35,21 @@ describe('util', function() {
 describe('Video', function() {
     describe('search', function() {
         it('works with default parameters', function() {
-            return yt.searchVideos('monstercat').then(r => {
-                assert(Array.isArray(r), 'results are not an array');
-                assert.equal(r.length, 5);
-                for(const v of r) assert(v instanceof YouTube.Video, 'result is not an instance of Video');
-            });
+            return yt.searchVideos('monstercat').then(util.checkVideos);
         });
 
         it('works with extra options', function() {
-            return yt.searchVideos('monstercat', 10, {}).then(r => {
-                assert(Array.isArray(r), 'results are not an array');
-                assert.equal(r.length, 10);
-                for(const v of r) assert(v instanceof YouTube.Video, 'result is not an instance of Video');
-            });
+            return yt.searchVideos('monstercat', 10, {}).then(r => util.checkVideos(r, 10));
         });
     });
 
     describe('fetching', function() {
         it('gets by URL', function() {
-            return yt.getVideo('https://www.youtube.com/watch?v=zBBOfCRhEz4').then(r => {
-                assert(r instanceof YouTube.Video, 'result is not an instance of Video');
-                assert(r.id, 'zBBOfCRhEz4');
-                assert(r.url, 'https://www.youtube.com/watch?v=zBBOfCRhEz4');
-                assert(r.shortURL, 'https://youtu.be/zBBOfCRhEz4');
-            });
+            return yt.getVideo('https://www.youtube.com/watch?v=zBBOfCRhEz4').then(r => util.checkVideo(r, 'zBBOfCRhEz4'));
+        });
+
+        it('gets by ID', function() {
+            return yt.getVideoByID('zBBOfCRhEz4').then(r => util.checkVideo(r, 'zBBOfCRhEz4'));
         });
     });
 });
