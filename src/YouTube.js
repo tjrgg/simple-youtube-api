@@ -4,6 +4,7 @@ const Constants = require('./Constants');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
 const Channel = require('./structures/Channel');
+const util = require('./util');
 
 /**
  * The YouTube API module
@@ -248,5 +249,6 @@ class YouTube {
 YouTube.Video = Video;
 YouTube.Playlist = Playlist;
 YouTube.Channel = Channel;
+YouTube.util = util;
 
 module.exports = YouTube;

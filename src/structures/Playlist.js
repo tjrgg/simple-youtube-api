@@ -1,5 +1,4 @@
-const parseURL = require('url').parse;
-const { checkBaseURL } = require('../util');
+const { parseURL } = require('../util');
 const Constants = require('../Constants');
 const Video = require('./Video');
 const Channel = require('./Channel');
@@ -108,15 +107,9 @@ class Playlist {
      * @returns {?string}
      */
     static extractID(url) {
-        if(!checkBaseURL(url)) return null;
-
-        const parsed = parseURL(url, true);
-        let id = parsed.query.list;
-        if (!id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
-        return id || null;
+        const parsed = parseURL(url);
+        if (!parsed || parsed.type !== 'playlist') return null;
+        return parsed.id;
     }
 }
 

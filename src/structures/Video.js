@@ -1,6 +1,5 @@
-const { parse: parseURL } = require('url');
 const duration = require('iso8601-duration');
-const { checkBaseURL } = require('../util');
+const { parseURL } = require('../util');
 const Channel = require('./Channel');
 
 /** Represents a YouTube video */
@@ -109,15 +108,9 @@ class Video {
      * @returns {?string}
      */
     static extractID(url) {
-        if(!checkBaseURL(url)) return null;
-
-        const parsed = parseURL(url, true);
-        let id = parsed.query.v;
-        if (parsed.hostname === 'youtu.be' || !id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
-        return id || null;
+        const parsed = parseURL(url);
+        if (!parsed || parsed.type !== 'video') return null;
+        return parsed.id;
     }
 }
 
