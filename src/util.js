@@ -1,7 +1,12 @@
-const { parse: parseURL } = require('url');
+const { parse } = require('url');
 
+/**
+ * Parse a string as a potential YouTube resource URL.
+ * @param {string} url
+ * @returns {?{type: string, id: string}}
+ */
 exports.parseURL = (url) => {
-    const parsed = parseURL(url, true);
+    const parsed = parse(url, true);
     switch (parsed.hostname) {
         case 'www.youtube.com':
         case 'youtube.com':
