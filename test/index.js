@@ -1,4 +1,4 @@
-/* globals describe, it */
+/* globals describe, it, before */
 require('dotenv').config({ path: './test/.env' });
 const assert = require('assert');
 const util = require('./util');
@@ -73,6 +73,28 @@ describe('Playlist', function() {
 
         it('gets by ID', function() {
             return yt.getPlaylistByID('PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
+        });
+    });
+
+    describe('videos', function() {
+        let playlist;
+        before('loads the playlist', function() {
+            return yt.getPlaylistByID('PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => {
+                util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N');
+                playlist = r;
+            });
+        });
+
+        let length;
+        it('loads videos', function() {
+            return playlist.getVideos().then(videos => {
+                length = videos.length;
+                videos.map(util.checkUnknownVideo);
+            });
+        });
+
+        it('caches videos', function() {
+            util.checkVideos(playlist.videos, length);
         });
     });
 });

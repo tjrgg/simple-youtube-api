@@ -76,31 +76,9 @@ class Playlist {
      * @returns {Promise<Video[]>}
      */
     getVideos(limit, options) {
-        return this.videos = this.youtube.fetchPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(
+        return this.youtube.fetchPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(
             { 'playlistId': this.id, part: Constants.PARTS.Videos }, options
-        ));
-    }
-
-    /**
-     * Recursively retrieve videos.
-     * @param {Number} [count] Number of videos left to retrieve.
-     * @param {Object} [options] Options of each video to retrieve.
-     * @param {Array} [fetched] Previously fetched PlaylistItem results.
-     * @param {?string} [pageToken] Page token of videos to retrieve.
-     * @return {Promise.<Video[]>}
-     * @private
-     */
-    _getVideos(count = Infinity, options, fetched = [], pageToken = null)    {
-        if(count < 1) return Promise.reject('Cannot fetch less than 1 video.');
-
-        const limit = count > 50 ? 50 : count;
-        return this.youtube.request(Constants.ENDPOINTS.PlaylistItems, Object.assign(
-            { 'playlistId': this.id, 'maxResults': limit, 'pageToken': pageToken, part: Constants.PARTS.Videos }, options
-        )).then(result => {
-            const results = fetched.concat(result.items);
-            if(result.nextPageToken && limit !== count) return this._getVideos(count - limit, options, results, result.nextPageToken);
-            return results.map(item => new Video(this.youtube, item));
-        });
+        )).then(items => this.videos = items.map(i => new Video(this.youtube, i)));
     }
 
     /**
