@@ -1,19 +1,19 @@
 declare module "simple-youtube-api" {
     
     export class Channel {
-        public constructor(youtube: Youtube, data: Object);
+        public constructor(youtube: YouTube, data: Object);
 
         public readonly id: string;
         public readonly title: string;
         public readonly type: string;
         public readonly url: string;
-        public readonly youtube: Youtube;
+        public readonly youtube: YouTube;
 
         public static extractID(url: string): string | null;
     }
 
     export class Playlist {
-        public constructor(youtube: Youtube, data: Object);
+        public constructor(youtube: YouTube, data: Object);
 
         public readonly channel: Channel;
         public readonly description: string;
@@ -22,7 +22,7 @@ declare module "simple-youtube-api" {
         public readonly title: string;
         public readonly type: string;
         public readonly url: string;
-        public readonly youtube: Youtube;
+        public readonly youtube: YouTube;
 
         public getVideos(limit?: number): Promise<Video[]>;
 
@@ -30,7 +30,7 @@ declare module "simple-youtube-api" {
     }
     
     export class Video {
-        public constructor(youtube: Youtube, data: Object);
+        public constructor(youtube: YouTube, data: Object);
 
         public readonly channel: Channel;
         public readonly description: string;
@@ -42,12 +42,12 @@ declare module "simple-youtube-api" {
         public readonly title: string;
         public readonly type: string;
         public readonly url: string;
-        public readonly youtube: Youtube;
+        public readonly youtube: YouTube;
 
         public static extractID(url: string): string | null;
     }
     
-    export class Youtube {
+    export class YouTube {
         public constructor(key: string);
 
         public readonly key: string;
