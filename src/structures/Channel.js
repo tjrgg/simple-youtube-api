@@ -1,4 +1,4 @@
-const parseURL = require('url').parse;
+const { parseURL } = require('../util');
 
 /** Represents a YouTube channel */
 class Channel {
@@ -47,10 +47,9 @@ class Channel {
      * @returns {?string}
      */
     static extractID(url) {
-        const parsed = parseURL(url, true);
-        const s = parsed.pathname.split('/');
-        const id = s[s.length - 1];
-        return id || null;
+        const parsed = parseURL(url);
+        if (!parsed || parsed.type !== 'channel') return null;
+        return parsed.id;
     }
 }
 

@@ -1,4 +1,4 @@
-const parseURL = require('url').parse;
+const { parseURL } = require('../util');
 const Constants = require('../Constants');
 const Video = require('./Video');
 const Channel = require('./Channel');
@@ -52,6 +52,13 @@ class Playlist {
          * @type {Channel}
          */
         this.channel = new Channel(youtube, data);
+
+        /**
+         * Videos in this playlist.  Available after calling `getVideos`.
+         * @see Playlist#getVideos
+         * @type {Array<Video>}
+         */
+        this.videos = [];
     }
 
     /**
@@ -64,19 +71,14 @@ class Playlist {
 
     /**
      * Gets videos in the playlist
-     * @param {Number} [limit=50] Maximum number of videos to obtain
+     * @param {Number} [limit] Maximum number of videos to obtain.  Fetches all if not provided.
+     * @param {Object} [options] Options to retrieve for each video.
      * @returns {Promise<Video[]>}
      */
-    getVideos(limit = 50) {
-        return new Promise((resolve, reject) => {
-            this.youtube.request('playlistItems', {'playlistId': this.id, 'key': this.youtube.key, 'part': Constants.PARTS.PlaylistItems, 'maxResults': limit})
-                .then(result => {
-                    return resolve(result.items.map(item => {
-                        return new Video(this.youtube, item);
-                    }));
-                })
-                .catch(reject);
-        });
+    getVideos(limit, options) {
+        return this.youtube.fetchPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(
+            { 'playlistId': this.id, part: Constants.PARTS.Videos }, options
+        )).then(items => this.videos = items.map(i => new Video(this.youtube, i)));
     }
 
     /**
@@ -85,13 +87,9 @@ class Playlist {
      * @returns {?string}
      */
     static extractID(url) {
-        const parsed = parseURL(url, true);
-        let id = parsed.query.list;
-        if (!id) {
-            const s = parsed.pathname.split('/');
-            id = s[s.length - 1];
-        }
-        return id || null;
+        const parsed = parseURL(url);
+        if (!parsed || parsed.type !== 'playlist') return null;
+        return parsed.id;
     }
 }
 

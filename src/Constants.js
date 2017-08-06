@@ -1,7 +1,15 @@
 exports.PARTS = {
     Search: 'snippet',
-    Video: 'snippet,contentDetails',
-    Playlist: 'snippet',
+    Videos: 'snippet,contentDetails',
+    Playlists: 'snippet',
     PlaylistItems: 'snippet,contentDetails',
-    Channel: 'snippet'
+    Channels: 'snippet'
+};
+
+exports.ENDPOINTS = {
+    PlaylistItems: 'playlistItems',
+    Channels: 'channels',
+    Videos: 'videos',
+    Playlists: 'playlists',
+    Search: 'search'
 };
