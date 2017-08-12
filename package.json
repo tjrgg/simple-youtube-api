@@ -1,6 +1,6 @@
 {
   "name": "simple-youtube-api",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A module to simplify the YouTube API.",
   "main": "index.js",
   "scripts": {
