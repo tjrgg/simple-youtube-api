@@ -1,8 +1,10 @@
 const request = require('request-promise-native');
+const { parse } = require('url');
 const Constants = require('./Constants');
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
 const Channel = require('./structures/Channel');
+const util = require('./util');
 
 /**
  * The YouTube API module
@@ -12,6 +14,7 @@ class YouTube {
      * @param {string} key The YouTube Data API v3 key to use
      */
     constructor(key) {
+        if (typeof key !== 'string') throw new Error('The YouTube API key you provided was not a string.');
         /**
          * The YouTube Data API v3 key
          * @type {?string}
@@ -26,11 +29,10 @@ class YouTube {
      * @param {Object} qs The query string options
      * @returns {Promise<Object>}
      */
-    request(endpoint, qs = {}) {
-        if (!qs.key) qs.key = this.key;
+    request(endpoint, qs) {
         return request({
             uri: `https://www.googleapis.com/youtube/v3/${endpoint}`,
-            qs: qs,
+            qs: Object.assign({ key: this.key }, qs),
             json: true
         });
     }
@@ -38,6 +40,7 @@ class YouTube {
     /**
      * Get a video by URL or ID
      * @param {string} url The video URL or ID
+     * @param {Object} [options = {}] Options to request with the video.
      * @returns {Promise<Video>}
      * @example
      * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
@@ -46,15 +49,16 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getVideo(url) {
+    getVideo(url, options = {}) {
         const id = Video.extractID(url);
         if (!id) return Promise.reject(new Error(`No video ID found in URL: ${url}`));
-        return this.getVideoByID(id);
+        return this.getVideoByID(id, options);
     }
 
     /**
      * Get a video by ID
      * @param {string} id The video ID
+     * @param {Object} [options = {}] Options to request with the video.
      * @returns {Promise<Video>}
      * @example
      * API.getVideoByID('3odIdmuFfEY')
@@ -63,19 +67,15 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getVideoByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('videos', {id: id, part: Constants.PARTS.Video})
-                .then(result => {
-                    resolve(new Video(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+    getVideoByID(id, options = {}) {
+        return this.request(Constants.ENDPOINTS.Videos, Object.assign(options, { id, part: Constants.PARTS.Videos }))
+            .then(result => new Video(this, result.items[0]));
     }
 
     /**
      * Get a playlist by URL or ID
      * @param {string} url The playlist URL or ID
+     * @param {Object} [options = {}] Options to request with the playlist.
      * @returns {Promise<Playlist[]>}
      * @example
      * API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
@@ -84,15 +84,16 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getPlaylist(url) {
+    getPlaylist(url, options = {}) {
         const id = Playlist.extractID(url);
         if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${url}`));
-        return this.getPlaylistByID(id);
+        return this.getPlaylistByID(id, options);
     }
 
     /**
      * Get a playlist by ID
      * @param {string} id The playlist ID
+     * @param {Object} [options = {}] Options to request with the playlist.
      * @returns {Promise<Playlist[]>}
      * @example
      * API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
@@ -101,19 +102,15 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getPlaylistByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('playlists', {id: id, part: Constants.PARTS.Playlist})
-                .then(result => {
-                    resolve(new Playlist(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+    getPlaylistByID(id, options = {}) {
+        return this.request(Constants.ENDPOINTS.Playlists, Object.assign(options, { id, part: Constants.PARTS.Playlists }))
+            .then(result => new Playlist(this, result.items[0]));
     }
 
     /**
      * Get a channel by URL or ID
      * @param {string} url The channel URL or ID
+     * @param {Object} [options = {}] Options to request with the channel.
      * @returns {Promise<Channel[]>}
      * @example
      * API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
@@ -122,15 +119,16 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getChannel(url) {
+    getChannel(url, options = {}) {
         const id = Channel.extractID(url);
         if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
-        return this.getChannelByID(id);
+        return this.getChannelByID(id, options);
     }
 
     /**
      * Get a channel by ID
      * @param {string} id The channel ID
+     * @param {Object} [options = {}] Options to request with the channel.
      * @returns {Promise<Channel[]>}
      * @example
      * API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
@@ -139,20 +137,22 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    getChannelByID(id) {
-        return new Promise((resolve, reject) => {
-            this.request('channels', {id: id, part: Constants.PARTS.Channel})
-                .then(result => {
-                    resolve(new Channel(this, result.items[0]));
-                })
-                .catch(reject);
-        });
+    getChannelByID(id, options = {}) {
+        return this.request(Constants.ENDPOINTS.Channels, Object.assign(options, { id, part: Constants.PARTS.Channels }))
+            .then(result => new Channel(this, result.items[0]));
     }
+
+    /**
+     * @typedef {?{video: {}, playlist: {}, channel: {}}|?Object} DeepSearch If provided, will load
+     * each result with the given options.  If result is a playlist, will load all playlist videos with given
+     * video options.  Provide an empty object to deep search with default parts.
+     */
 
     /**
      * Search YouTube for videos, playlists, and channels
      * @param {string} query The string to search for
      * @param {number} [limit = 5] Maximum results to obtain
+     * @param {DeepSearch} [deep = null]
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Array<Video|Playlist|Channel|Object>>}
      * @example
@@ -162,27 +162,40 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    search(query, limit = 5, options = {}) {
-        Object.assign(options, {q: query, maxResults: limit, part: Constants.PARTS.Search});
-        return new Promise((resolve, reject) => {
-            this.request('search', options)
-                .then(result => {
-                    const items = result.items;
-                    return resolve(result.items.map(item => {
-                        if (item.id.videoId) return new Video(this, item);
-                        if (item.id.playlistId) return new Playlist(this, item);
-                        if (item.id.channelId) return new Channel(this, item);
+    search(query, limit = 5, deep = null, options = {}) {
+        options = Object.assign(options, { part: Constants.PARTS.Search, q: query, maxResults: limit });
+        return this.fetchPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { q: query, part: Constants.PARTS.Search }))
+            .then(result => {
+                if(typeof deep === 'object' && deep !== null) {
+                    const vidOpt = Object.assign({}, deep.video || deep);
+                    const plOpt = Object.assign({}, deep.playlist || deep);
+                    const chOpt = Object.assign({}, deep.channel || deep);
+
+                    return Promise.all(result.map(item => {
+                        if (item.id.videoId) return this.getVideoByID(item.id.videoId, vidOpt);
+                        if (item.id.playlistId) {
+                            const pl = this.getPlaylistByID(item.id.playlistId, plOpt);
+                            return pl.then(l => l.getVideos(Infinity, vidOpt)).then(() => pl);
+                        }
+                        if (item.id.channelId) return this.getChannelByID(item.id.channelId, chOpt);
                         return item;
                     }));
-                })
-                .catch(reject);
-        });
+                }
+
+                return result.map(item => {
+                    if (item.id.videoId) return new Video(this, item);
+                    if (item.id.playlistId) return new Playlist(this, item);
+                    if (item.id.channelId) return new Channel(this, item);
+                    return item;
+                });
+            });
     }
 
     /**
      * Search YouTube for videos
      * @param {string} query The string to search for
      * @param {number} [limit = 5] Maximum results to obtain
+     * @param {DeepSearch} [deep = null]
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Video[]>}
      * @example
@@ -192,15 +205,15 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    searchVideos(query, limit = 5, options = {}) {
-        Object.assign(options, {type: 'video'});
-        return this.search(query, limit, options);
+    searchVideos(query, limit = 5, deep = null, options = {}) {
+        return this.search(query, limit, deep, Object.assign(options, { type: 'video' }));
     }
 
     /**
      * Search YouTube for playlists
      * @param {string} query The string to search for
      * @param {number} [limit = 5] Maximum results to obtain
+     * @param {DeepSearch} [deep = null]
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Playlist[]>}
      * @example
@@ -210,15 +223,15 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    searchPlaylists(query, limit = 5, options = {}) {
-        Object.assign(options, {type: 'video'});
-        return this.search(query, limit, options);
+    searchPlaylists(query, limit = 5, deep = null, options = {}) {
+        return this.search(query, limit, deep, Object.assign(options, { type: 'playlist' }));
     }
 
     /**
      * Search YouTube for channels
      * @param {string} query The string to search for
      * @param {number} [limit = 5] Maximum results to obtain
+     * @param {DeepSearch} [deep = null]
      * @param {Object} [options] Additional options to pass to the API request
      * @returns {Promise<Channel[]>}
      * @example
@@ -228,14 +241,34 @@ class YouTube {
      *  })
      *  .catch(console.error);
      */
-    searchChannels(query, limit = 5, options = {}) {
-        Object.assign(options, {type: 'channel'});
-        return this.search(query, limit, options);
+    searchChannels(query, limit = 5, deep, options = {}) {
+        return this.search(query, limit, deep, Object.assign(options, { type: 'channel' }));
+    }
+
+    /**
+     * Fetch a paginated resource.
+     * @param {string} endpoint The endpoint to query.
+     * @param {number} [count=Infinity] How many results to retrieve.
+     * @param {Object} [options={}] Additional options to send.
+     * @param {Array} [fetched=[]] Previously fetched resources.
+     * @param {?string} [pageToken] The page token to retrieve.
+     * @protected
+     */
+    fetchPaginated(endpoint, count = Infinity, options = {}, fetched = [], pageToken = null) {
+        if(count < 1) return Promise.reject('Cannot fetch less than 1.');
+
+        const limit = count > 50 ? 50 : count;
+        return this.request(endpoint, Object.assign(options, { pageToken, maxResults: limit })).then(result => {
+            const results = fetched.concat(result.items);
+            if(result.nextPageToken && limit !== count) return this.fetchPaginated(endpoint, count - limit, options, results, result.nextPageToken);
+            return results;
+        });
     }
 }
 
 YouTube.Video = Video;
 YouTube.Playlist = Playlist;
 YouTube.Channel = Channel;
+YouTube.util = util;
 
 module.exports = YouTube;
