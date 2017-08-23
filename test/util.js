@@ -1,5 +1,5 @@
 const assert = require('assert');
-const YouTube = require('../index');
+const YouTube = require('../src/index');
 
 exports.checkUnknownVideo = (video) => assert(video instanceof YouTube.Video, 'result is not an instance of Video');
 exports.checkUnknownPlaylist = (playlist) => assert(playlist instanceof YouTube.Playlist, 'result is not an instance of Playlist');

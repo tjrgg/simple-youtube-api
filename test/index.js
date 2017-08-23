@@ -2,7 +2,7 @@
 require('dotenv').config({ path: './test/.env' });
 const assert = require('assert');
 const util = require('./util');
-const YouTube = require('../index');
+const YouTube = require('../src/index');
 
 const yt = new YouTube(process.env.YOUTUBE_API_KEY);
 
@@ -37,10 +37,6 @@ describe('Video', function() {
         it('works with default parameters', function() {
             return yt.searchVideos('monstercat').then(util.checkVideos);
         });
-
-        it('works with extra options', function() {
-            return yt.searchVideos('monstercat', 10, {}).then(r => util.checkVideos(r, 10));
-        });
     });
 
     describe('fetch', function() {
@@ -58,11 +54,6 @@ describe('Playlist', function() {
     describe('search', function() {
         it('works with default parameters', function() {
             return yt.searchPlaylists('monstercat').then(util.checkPlaylists);
-        });
-
-        it('works with extra options', function() {
-            this.timeout(7000);
-            return yt.searchPlaylists('monstercat', 10, {}).then(r => util.checkPlaylists(r, 10));
         });
     });
 
@@ -104,10 +95,6 @@ describe('Channel', function() {
         it('works with default parameters', function() {
             return yt.searchChannels('monstercat').then(util.checkChannels);
         });
-
-        it('works with extra options', function() {
-            return yt.searchChannels('monstercat', 10, {});
-        });
     });
 
     describe('fetch', function() {
@@ -125,10 +112,6 @@ describe('general', function() {
     describe('search', function() {
         it('works with default parameters', function() {
             return yt.search('monstercat').then(results => results.forEach(util.checkUnknown));
-        });
-
-        it('works with extra options', function() {
-            return yt.search('monstercat', 10, {}).then(results => results.forEach(util.checkUnknown));
         });
     });
 });

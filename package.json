@@ -2,14 +2,13 @@
   "name": "simple-youtube-api",
   "version": "3.0.0",
   "description": "A module to simplify the YouTube API.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",
     "test": "mocha"
   },
   "dependencies": {
-    "request": "^2.75.0",
-    "request-promise-native": "^1.0.0",
+    "axios": "^0.16.2",
     "iso8601-duration": "^1.0.0"
   },
   "devDependencies": {
