@@ -25,6 +25,13 @@ class Channel {
     }
 
     _patch(data) {
+        if (!data) return;
+
+        /**
+         * Raw data from the YouTube API
+         */
+        this.raw = data;
+
         /**
          * Whether this is a full channel object.
          */
@@ -38,13 +45,13 @@ class Channel {
         /**
          * This channel's ID
          * @type {string}
-         * @name id
+         * @name Channel#id
          */
 
         /**
          * This channel's title
          * @type {string}
-         * @name title
+         * @name Channel#title
          */
 
         switch (data.kind) {
@@ -75,9 +82,8 @@ class Channel {
         }
     }
 
-    fetch() {
-        return this.youtube.request(Constants.ENDPOINTS.Channels, { id: this.id, part: Constants.PARTS.Channels })
-            .then(resource => resource.items.length ? this._patch(resource.items[0]) : null);
+    fetch(options) {
+        return this.youtube.request.getChannel(this.id, options).then(this._patch.bind(this));
     }
 
     /**

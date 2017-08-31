@@ -12,7 +12,7 @@ exports.KINDS = {
     Playlist: 'youtube#playlist',
     SearchResult: 'youtube#searchResult',
     Channel: 'youtube#channel'
-}
+};
 
 exports.ENDPOINTS = {
     PlaylistItems: 'playlistItems',

@@ -1,5 +1,4 @@
-const axios = require('axios');
-const { parse } = require('url');
+const Request = require('./Request');
 
 const Video = require('./structures/Video');
 const Playlist = require('./structures/Playlist');
@@ -23,6 +22,8 @@ class YouTube {
          */
         this.key = key;
         Object.defineProperty(this, 'key', { enumerable: false });
+
+        this.request = new Request(this);
     }
 
     /**
@@ -31,11 +32,6 @@ class YouTube {
      * @param {Object} qs The query string options
      * @returns {Promise<Object>}
      */
-    request(endpoint, qs = {}) {
-        return axios.get(`https://www.googleapis.com/youtube/v3/${endpoint}`, {
-            params: Object.assign({ key: this.key }, qs),
-        }).then(result => result.data);
-    }
 
     /**
      * Get a video by URL or ID
@@ -68,8 +64,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getVideoByID(id, options = {}) {
-        return this.request(Constants.ENDPOINTS.Videos, Object.assign(options, { id, part: Constants.PARTS.Videos }))
-            .then(result => result.items.length ? new Video(this, result.items[0]) : null);
+        return this.request.getVideo(id, options).then(result => result ? new Video(this, result) : null);
     }
 
     /**
@@ -103,8 +98,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getPlaylistByID(id, options = {}) {
-        return this.request(Constants.ENDPOINTS.Playlists, Object.assign(options, { id, part: Constants.PARTS.Playlists }))
-            .then(result => result.items.length ? new Playlist(this, result.items[0]) : null);
+        return this.request.getPlaylist(id, options).then(result => result ? new Playlist(this, result) : null);
     }
 
     /**
@@ -138,8 +132,7 @@ class YouTube {
      *  .catch(console.error);
      */
     getChannelByID(id, options = {}) {
-        return this.request(Constants.ENDPOINTS.Channels, Object.assign(options, { id, part: Constants.PARTS.Channels }))
-            .then(result => result.items.length ? new Channel(this, result.items[0]) : null);
+        return this.request.getChannel(id, options).then(result => result ? new Channel(this, result) : null);
     }
 
     /**
@@ -157,7 +150,7 @@ class YouTube {
      */
     search(query, limit = 5, options = {}) {
         options = Object.assign(options, { part: Constants.PARTS.Search, q: query, maxResults: limit });
-        return this.fetchPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { q: query, part: Constants.PARTS.Search }))
+        return this.request.getPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { q: query, part: Constants.PARTS.Search }))
             .then(result => result.map(item => {
                 if (item.id.kind === Constants.KINDS.Video) return new Video(this, item);
                 if (item.id.kind === Constants.KINDS.Playlist) return new Playlist(this, item);
@@ -215,26 +208,6 @@ class YouTube {
      */
     searchChannels(query, limit = 5, options = {}) {
         return this.search(query, limit, Object.assign(options, { type: 'channel' }));
-    }
-
-    /**
-     * Fetch a paginated resource.
-     * @param {string} endpoint The endpoint to query.
-     * @param {number} [count=Infinity] How many results to retrieve.
-     * @param {Object} [options={}] Additional options to send.
-     * @param {Array} [fetched=[]] Previously fetched resources.
-     * @param {?string} [pageToken] The page token to retrieve.
-     * @protected
-     */
-    fetchPaginated(endpoint, count = Infinity, options = {}, fetched = [], pageToken = null) {
-        if(count < 1) return Promise.reject('Cannot fetch less than 1.');
-
-        const limit = count > 50 ? 50 : count;
-        return this.request(endpoint, Object.assign(options, { pageToken, maxResults: limit })).then(result => {
-            const results = fetched.concat(result.items);
-            if(result.nextPageToken && limit !== count) return this.fetchPaginated(endpoint, count - limit, options, results, result.nextPageToken);
-            return results;
-        });
     }
 }
 

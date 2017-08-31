@@ -8,8 +8,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "axios": "^0.16.2",
-    "iso8601-duration": "^1.0.0"
+    "iso8601-duration": "^1.0.0",
+    "node-fetch": "^1.7.2"
   },
   "devDependencies": {
     "dotenv": "^4.0.0",

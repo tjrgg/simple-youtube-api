@@ -1,6 +1,6 @@
 const duration = require('iso8601-duration');
 const { parseURL } = require('../util');
-const { KINDS, PARTS } = require('../util/Constants');
+const Constants = require('../util/Constants');
 const Channel = require('./Channel');
 
 /** Represents a YouTube video */
@@ -28,6 +28,8 @@ class Video {
     }
 
     _patch(data) {
+        if (!data) return;
+
         /**
          * The raw data from the YouTube API.
          * @type {object}
@@ -39,7 +41,7 @@ class Video {
          * as part of another resource).
          * @type {boolean}
          */
-        this.full = data.kind === KINDS.Video;
+        this.full = data.kind === Constants.KINDS.Video;
 
         /**
          * The resource that this video was created from.
@@ -54,19 +56,19 @@ class Video {
          */
 
         switch (data.kind) {
-            case KINDS.PlaylistItem:
+            case Constants.KINDS.PlaylistItem:
                 if (data.snippet) {
-                    if (data.snippet.resourceId.kind === KINDS.Video) this.id = data.snippet.resourceId.videoId;
+                    if (data.snippet.resourceId.kind === Constants.KINDS.Video) this.id = data.snippet.resourceId.videoId;
                     else throw new Error('Attempted to make a video out of a non-video playlist item.');
                     break;
                 } else {
                     throw new Error('Attempted to make a video out of a playlist item with no video data.');
                 }
-            case KINDS.Video:
+            case Constants.KINDS.Video:
                 this.id = data.id;
                 break;
-            case KINDS.SearchResult:
-                if (data.id.kind === KINDS.Video) this.id = data.id.videoId;
+            case Constants.KINDS.SearchResult:
+                if (data.id.kind === Constants.KINDS.Video) this.id = data.id.videoId;
                 else throw new Error('Attempted to make a video out of a non-video search result.');
                 break;
             default:
@@ -149,9 +151,8 @@ class Video {
         return this.duration ? duration.toSeconds(this.duration) : -1;
     }
 
-    fetch() {
-        return this.youtube.request('videos', { id: this.id, part: PARTS.Videos })
-            .then(resource => resource.items.length ? this._patch(resource.items[0]) : null);
+    fetch(options) {
+        return this.youtube.request.getVideo(this.id, options).then(this._patch.bind(this));
     }
 
     /**

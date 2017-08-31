@@ -27,6 +27,8 @@ class Playlist {
     }
 
     _patch(data) {
+        if (!data) return;
+
         this.raw = data;
 
         /**
@@ -92,6 +94,10 @@ class Playlist {
         return `https://www.youtube.com/playlist?list=${this.id}`;
     }
 
+    fetch(options) {
+        return this.youtube.request.getPlaylist(this.id, options).then(this._patch.bind(this));
+    }
+
     /**
      * Gets videos in the playlist
      * @param {Number} [limit] Maximum number of videos to obtain.  Fetches all if not provided.
@@ -99,10 +105,10 @@ class Playlist {
      * @returns {Promise<Video[]>}
      */
     getVideos(limit, options) {
-        return this.youtube.fetchPaginated(
+        return this.youtube.request.getPaginated(
             Constants.ENDPOINTS.PlaylistItems,
             limit,
-            Object.assign({ playlistId: this.id, part: Constants.PARTS.Videos }, options)
+            Object.assign({ playlistId: this.id, part: Constants.PARTS.PlaylistItems }, options)
         ).then(items => this.videos = items.map(i => new Video(this.youtube, i)));
     }
 
