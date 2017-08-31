@@ -23,6 +23,12 @@ class Playlist {
          */
         this.type = 'playlist';
 
+        /**
+         * Videos in this playlist.  Available after calling {@link Playlist#getVideos}.
+         * @type {Array<Video>}
+         */
+        this.videos = [];
+
         this._patch(data);
     }
 
@@ -78,12 +84,6 @@ class Playlist {
          * @type {Channel}
          */
         this.channel = new Channel(this.youtube, data);
-
-        /**
-         * Videos in this playlist.  Available after calling {@link Playlist#getVideos}.
-         * @type {Array<Video>}
-         */
-        this.videos = [];
     }
 
     /**
