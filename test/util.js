@@ -9,6 +9,12 @@ exports.checkUnknown = (thing) => {
     assert(thing instanceof YouTube.Video || thing instanceof YouTube.Playlist || thing instanceof YouTube.Channel, 'result is not a YouTube structure');
 };
 
+exports.isNull = (result) => assert.deepStrictEqual(result, null, 'result is not null');
+exports.throws = [
+    result => assert.fail(`resolved with ${result}`),
+    error => assert(error instanceof Error, 'does not reject with error'),
+];
+
 exports.checkVideo = (video, id) => {
     exports.checkUnknownVideo(video);
     assert.equal(video.id, id);

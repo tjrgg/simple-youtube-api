@@ -17,7 +17,6 @@ class Video {
         this.youtube = youtube;
         Object.defineProperty(this, 'youtube', { enumerable: false });
 
-
         /**
          * The type to filter search results
          * @type {string}
@@ -125,6 +124,15 @@ class Video {
         }
 
         return this;
+    }
+
+    /**
+     * The maxiumum available resolution thumbnail URL.
+     * @type {string}
+     */
+    get maxRes() {
+        const t = this.thumbnails;
+        return t.maxres || t.standard || t.high || t.medium || t.default;
     }
 
     /**

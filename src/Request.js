@@ -1,10 +1,6 @@
 const fetch = require('node-fetch');
 const Constants = require('./util/Constants');
 
-function findSingle(result) {
-    return result.items.length ? result.items[0] : null;
-}
-
 class Request {
     constructor(youtube) {
         this.youtube = youtube;
@@ -19,7 +15,8 @@ class Request {
         qs = Object.assign({ key: this.youtube.key }, qs);
         const params = Object.keys(qs).filter(k => qs[k]).map(k => `${k}=${qs[k]}`);
         return fetch(`https://www.googleapis.com/youtube/v3/${endpoint}${params.length ? `?${params.join('&')}` : ''}`)
-            .then(result => result.json()).then(result => {
+            .then(result => result.json())
+            .then(result => {
                 if (result.error) return Promise.reject(result.error);
                 return result;
             });
@@ -32,7 +29,9 @@ class Request {
      */
     getResource(type, qs = {}) {
         qs = Object.assign({ part: Constants.PARTS[type] }, qs);
-        return this.make(Constants.ENDPOINTS[type], qs).then(findSingle);
+        return this.make(Constants.ENDPOINTS[type], qs).then(result =>
+            result.items.length ? result.items[0] : Promise.reject(new Error('resource not found'))
+        );
     }
 
     /**
