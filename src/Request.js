@@ -9,7 +9,7 @@ class Request {
     /**
      * Make a request to the YouTube API
      * @param {string} endpoint The endpoint to query
-     * @param {object} qs Query strings
+     * @param {object} [qs] Query strings
      */
     make(endpoint, qs = {}) {
         qs = Object.assign({ key: this.youtube.key }, qs);
@@ -25,7 +25,7 @@ class Request {
     /**
      * Get a resource from the YouTube API
      * @param {string} type The type of resource to get
-     * @param {object} qs Any other query options
+     * @param {object} [qs={}] Any other query options
      */
     getResource(type, qs = {}) {
         qs = Object.assign({ part: Constants.PARTS[type] }, qs);
@@ -38,7 +38,7 @@ class Request {
      * Get a resource from the YouTube API, by ID
      * @param {string} type The type of resource to get
      * @param {string} id The ID of the resource to get
-     * @param {object} qs Any other query options
+     * @param {object} [qs={}] Any other query options
      */
     getResourceByID(type, id, qs = {}) {
         return this.getResource(type, Object.assign(qs, { id }));
@@ -47,7 +47,7 @@ class Request {
     /**
      * Get a video from the YouTube API
      * @param {string} id The video to get
-     * @param {object} options Any request options
+     * @param {object} [options] Any request options
      */
     getVideo(id, options) {
         return this.getResourceByID('Videos', id, options);
