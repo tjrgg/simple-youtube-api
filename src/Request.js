@@ -32,7 +32,7 @@ class Request {
     getResource(type, qs = {}) {
         qs = Object.assign({ part: Constants.PARTS[type] }, qs);
         return this.make(Constants.ENDPOINTS[type], qs).then(result =>
-            result.items.length ? result.items[0] : Promise.reject(new Error('resource not found'))
+            result.items.length ? result.items[0] : Promise.reject(new Error(`resource ${result.kind} not found`))
         );
     }
 

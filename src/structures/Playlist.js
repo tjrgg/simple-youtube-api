@@ -79,6 +79,14 @@ class Playlist {
             this.publishedAt = new Date(data.snippet.publishedAt);
         }
 
+        if (data.status) {
+            /**
+             * The privacy status of this video.
+             * @type {string}
+             */
+            this.privacy = data.status.privacyStatus;
+        }
+
         /**
          * The channel this playlist is in
          * @type {Channel}
