@@ -50,7 +50,7 @@ class Channel {
 
         /**
          * This channel's title
-         * @type {string}
+         * @type {?string}
          * @name Channel#title
          */
 
@@ -82,6 +82,11 @@ class Channel {
         }
     }
 
+    /**
+     * Fetch the full representation of this channel.
+     * @param {object} [options] Any extra query params
+     * @returns {Channel}
+     */
     fetch(options) {
         return this.youtube.request.getChannel(this.id, options).then(this._patch.bind(this));
     }

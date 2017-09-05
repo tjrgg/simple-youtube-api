@@ -40,7 +40,7 @@ class Playlist {
         /**
          * This playlist's ID
          * @type {string}
-         * @name id
+         * @name Playlist#id
          */
 
         switch (data.kind) {
@@ -94,6 +94,11 @@ class Playlist {
         return `https://www.youtube.com/playlist?list=${this.id}`;
     }
 
+    /**
+     * Fetch the full representation of this playlist.
+     * @param {object} [options] Any extra query params
+     * @returns {Playlist}
+     */
     fetch(options) {
         return this.youtube.request.getPlaylist(this.id, options).then(this._patch.bind(this));
     }

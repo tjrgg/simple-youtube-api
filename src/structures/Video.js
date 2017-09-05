@@ -51,7 +51,7 @@ class Video {
         /**
          * This video's ID
          * @type {string}
-         * @name id
+         * @name Video#id
          */
 
         switch (data.kind) {
@@ -159,6 +159,11 @@ class Video {
         return this.duration ? duration.toSeconds(this.duration) : -1;
     }
 
+    /**
+     * Fetch the full representation of this video.
+     * @param {object} [options] Any extra query params
+     * @returns {Video}
+     */
     fetch(options) {
         return this.youtube.request.getVideo(this.id, options).then(this._patch.bind(this));
     }
