@@ -127,8 +127,8 @@ class Video {
     }
 
     /**
-     * The maxiumum available resolution thumbnail URL.
-     * @type {string}
+     * The maxiumum available resolution thumbnail.
+     * @type {object}
      */
     get maxRes() {
         const t = this.thumbnails;
