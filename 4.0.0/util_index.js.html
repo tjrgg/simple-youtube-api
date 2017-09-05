@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>util/index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Channel.html">Channel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Channel.html#.extractID">extractID</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Playlist.html">Playlist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#.extractID">extractID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#getVideos">getVideos</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Video.html">Video</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Video.html#.extractID">extractID</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="YouTube.html">YouTube</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannel">getChannel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannelByID">getChannelByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylist">getPlaylist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylistByID">getPlaylistByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideo">getVideo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideoByID">getVideoByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#search">search</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchChannels">searchChannels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchPlaylists">searchPlaylists</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchVideos">searchVideos</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#id">id</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseURL">parseURL</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">util/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { parse } = require('url');
+
+/**
+ * Parse a string as a potential YouTube resource URL.
+ * @param {string} url
+ * @returns {?{type: string, id: string}}
+ */
+exports.parseURL = (url) => {
+    const parsed = parse(url, true);
+    switch (parsed.hostname) {
+        case 'www.youtube.com':
+        case 'youtube.com':
+        case 'm.youtube.com': {
+            const idRegex = /^[a-zA-Z0-9-_]+$/;
+            if (parsed.pathname === '/watch') {
+                if (!idRegex.test(parsed.query.v)) return null;
+                return {
+                    type: 'video',
+                    id: parsed.query.v
+                };
+            } else if (parsed.pathname === '/playlist') {
+                if(!idRegex.test(parsed.query.list)) return null;
+                return {
+                    type: 'playlist',
+                    id: parsed.query.list
+                };
+            } else if (parsed.pathname.startsWith('/channel/')) {
+                const id = parsed.pathname.replace('/channel/', '');
+                if (!idRegex.test(id)) return null;
+                return {
+                    type: 'channel',
+                    id
+                };
+            }
+
+            return null;
+        }
+        case 'youtu.be':
+            return /\/^[a-zA-Z0-9-_]+$/.test(parsed.pathname) ? { type: 'video', id: parsed.pathname.slice(1) } : null;
+        default:
+            return null;
+    }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Sep 05 2017 12:14:17 GMT-0700 (Pacific Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

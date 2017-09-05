@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Channel.html">Channel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Channel.html#.extractID">extractID</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Playlist.html">Playlist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#.extractID">extractID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#getVideos">getVideos</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Video.html">Video</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Video.html#.extractID">extractID</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="YouTube.html">YouTube</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannel">getChannel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannelByID">getChannelByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylist">getPlaylist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylistByID">getPlaylistByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideo">getVideo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideoByID">getVideoByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#search">search</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchChannels">searchChannels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchPlaylists">searchPlaylists</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchVideos">searchVideos</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#id">id</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseURL">parseURL</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Request = require('./Request');
+
+const Video = require('./structures/Video');
+const Playlist = require('./structures/Playlist');
+const Channel = require('./structures/Channel');
+
+const util = require('./util');
+const Constants = require('./util/Constants');
+
+/**
+ * The YouTube API module
+ */
+class YouTube {
+    /**
+     * @param {string} key The YouTube Data API v3 key to use
+     */
+    constructor(key) {
+        if (typeof key !== 'string') throw new Error('The YouTube API key you provided was not a string.');
+        /**
+         * The YouTube Data API v3 key
+         * @type {?string}
+         */
+        this.key = key;
+        Object.defineProperty(this, 'key', { enumerable: false });
+
+        this.request = new Request(this);
+    }
+
+    /**
+     * Make a request to the YouTube API
+     * @param {string} endpoint The endpoint of the API
+     * @param {Object} qs The query string options
+     * @returns {Promise&lt;Object>}
+     */
+
+    /**
+     * Get a video by URL or ID
+     * @param {string} url The video URL or ID
+     * @param {Object} [options = {}] Options to request with the video.
+     * @returns {Promise&lt;?Video>}
+     * @example
+     * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+     *  .then(results => {
+     *    console.log(`The video's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getVideo(url, options = {}) {
+        const id = Video.extractID(url);
+        if (!id) return Promise.reject(new Error(`No video ID found in URL: ${url}`));
+        return this.getVideoByID(id, options);
+    }
+
+    /**
+     * Get a video by ID
+     * @param {string} id The video ID
+     * @param {Object} [options = {}] Options to request with the video.
+     * @returns {Promise&lt;?Video>}
+     * @example
+     * API.getVideoByID('3odIdmuFfEY')
+     *  .then(results => {
+     *    console.log(`The video's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getVideoByID(id, options = {}) {
+        return this.request.getVideo(id, options).then(result => result ? new Video(this, result) : null);
+    }
+
+    /**
+     * Get a playlist by URL or ID
+     * @param {string} url The playlist URL or ID
+     * @param {Object} [options = {}] Options to request with the playlist.
+     * @returns {Promise&lt;?Playlist>}
+     * @example
+     * API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
+     *  .then(results => {
+     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPlaylist(url, options = {}) {
+        const id = Playlist.extractID(url);
+        if (!id) return Promise.reject(new Error(`No playlist ID found in URL: ${url}`));
+        return this.getPlaylistByID(id, options);
+    }
+
+    /**
+     * Get a playlist by ID
+     * @param {string} id The playlist ID
+     * @param {Object} [options = {}] Options to request with the playlist.
+     * @returns {Promise&lt;?Playlist>}
+     * @example
+     * API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
+     *  .then(results => {
+     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPlaylistByID(id, options = {}) {
+        return this.request.getPlaylist(id, options).then(result => result ? new Playlist(this, result) : null);
+    }
+
+    /**
+     * Get a channel by URL or ID
+     * @param {string} url The channel URL or ID
+     * @param {Object} [options = {}] Options to request with the channel.
+     * @returns {Promise&lt;?Channel>}
+     * @example
+     * API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
+     *  .then(results => {
+     *    console.log(`The channel's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getChannel(url, options = {}) {
+        const id = Channel.extractID(url);
+        if (!id) return Promise.reject(new Error(`No channel ID found in URL: ${url}`));
+        return this.getChannelByID(id, options);
+    }
+
+    /**
+     * Get a channel by ID
+     * @param {string} id The channel ID
+     * @param {Object} [options = {}] Options to request with the channel.
+     * @returns {Promise&lt;?Channel>}
+     * @example
+     * API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
+     *  .then(results => {
+     *    console.log(`The channel's title is ${results[0].title}`);
+     *  })
+     *  .catch(console.error);
+     */
+    getChannelByID(id, options = {}) {
+        return this.request.getChannel(id, options).then(result => result ? new Channel(this, result) : null);
+    }
+
+    /**
+     * Search YouTube for videos, playlists, and channels
+     * @param {string} query The string to search for
+     * @param {number} [limit = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Array&lt;Video|Playlist|Channel|null>>}
+     * @example
+     * API.search('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} results`);
+     *  })
+     *  .catch(console.error);
+     */
+    search(query, limit = 5, options = {}) {
+        options = Object.assign(options, { part: Constants.PARTS.Search, q: query, maxResults: limit });
+        return this.request.getPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { q: query, part: Constants.PARTS.Search }))
+            .then(result => result.map(item => {
+                if (item.id.kind === Constants.KINDS.Video) return new Video(this, item);
+                if (item.id.kind === Constants.KINDS.Playlist) return new Playlist(this, item);
+                if (item.id.kind === Constants.KINDS.Channel) return new Channel(this, item);
+                return null;
+            }));
+    }
+
+    /**
+     * Search YouTube for videos
+     * @param {string} query The string to search for
+     * @param {number} [limit = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Video[]>}
+     * @example
+     * API.searchVideos('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} videos`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchVideos(query, limit = 5, options = {}) {
+        return this.search(query, limit, Object.assign(options, { type: 'video' }));
+    }
+
+    /**
+     * Search YouTube for playlists
+     * @param {string} query The string to search for
+     * @param {number} [limit = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Playlist[]>}
+     * @example
+     * API.searchPlaylists('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} playlists`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchPlaylists(query, limit = 5, options = {}) {
+        return this.search(query, limit, Object.assign(options, { type: 'playlist' }));
+    }
+
+    /**
+     * Search YouTube for channels
+     * @param {string} query The string to search for
+     * @param {number} [limit = 5] Maximum results to obtain
+     * @param {Object} [options] Additional options to pass to the API request
+     * @returns {Promise&lt;Channel[]>}
+     * @example
+     * API.searchChannels('Centuries')
+     *  .then(results => {
+     *    console.log(`I got ${results.length} channels`);
+     *  })
+     *  .catch(console.error);
+     */
+    searchChannels(query, limit = 5, options = {}) {
+        return this.search(query, limit, Object.assign(options, { type: 'channel' }));
+    }
+}
+
+YouTube.Video = Video;
+YouTube.Playlist = Playlist;
+YouTube.Channel = Channel;
+YouTube.util = util;
+
+module.exports = YouTube;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Sep 05 2017 12:14:17 GMT-0700 (Pacific Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
