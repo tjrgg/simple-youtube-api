@@ -1,5 +1,5 @@
 const { parseURL } = require('../util');
-const Constants = require('../Constants');
+const Constants = require('../util/Constants');
 const Video = require('./Video');
 const Channel = require('./Channel');
 
@@ -24,41 +24,66 @@ class Playlist {
         this.type = 'playlist';
 
         /**
+         * Videos in this playlist.  Available after calling {@link Playlist#getVideos}.
+         * @type {Array<Video>}
+         */
+        this.videos = [];
+
+        this._patch(data);
+    }
+
+    _patch(data) {
+        if (!data) return;
+
+        this.raw = data;
+
+        /**
          * This playlist's ID
          * @type {string}
+         * @name id
          */
-        this.id = data.snippet.playlistId || data.id.playlistId || data.id;
 
-        /**
-         * This playlist's title
-         * @type {string}
-         */
-        this.title = data.snippet.title;
+        switch (data.kind) {
+            case Constants.KINDS.SearchResult:
+                if (data.id.kind === Constants.KINDS.Playlist) this.id = data.id.playlistId;
+                else throw new Error('Attempted to make a playlist out of a non-playlist search result.');
+                break;
+            case Constants.KINDS.Playlist:
+                this.id = data.id;
+                break;
+            case Constants.KINDS.PlaylistItem:
+                if (data.snippet) this.id = data.snippet.playlistId;
+                else throw new Error('Attempted to make a playlist out of a resource with no playlist data.');
+                break;
+            default:
+                throw new Error(`Unknown playlist kind: ${data.kind}.`);
+        }
 
-        /**
-         * This playlist's description
-         * @type {string}
-         */
-        this.description = data.snippet.description;
+        if (data.snippet) {
+            /**
+             * This playlist's title
+             * @type {string}
+             */
+            this.title = data.snippet.title;
 
-        /**
-         * The date/time this playlist was published
-         * @type {Date}
-         */
-        this.publishedAt = new Date(data.snippet.publishedAt);
+            /**
+             * This playlist's description
+             * @type {string}
+             */
+            this.description = data.snippet.description;
+
+            /**
+             * The date/time this playlist was published
+             * @type {Date}
+             */
+            this.publishedAt = new Date(data.snippet.publishedAt);
+        }
 
         /**
          * The channel this playlist is in
          * @type {Channel}
          */
-        this.channel = new Channel(youtube, data);
-
-        /**
-         * Videos in this playlist.  Available after calling `getVideos`.
-         * @see Playlist#getVideos
-         * @type {Array<Video>}
-         */
-        this.videos = [];
+        this.channel = new Channel(this.youtube, data);
     }
 
     /**
@@ -69,6 +94,10 @@ class Playlist {
         return `https://www.youtube.com/playlist?list=${this.id}`;
     }
 
+    fetch(options) {
+        return this.youtube.request.getPlaylist(this.id, options).then(this._patch.bind(this));
+    }
+
     /**
      * Gets videos in the playlist
      * @param {Number} [limit] Maximum number of videos to obtain.  Fetches all if not provided.
@@ -76,9 +105,11 @@ class Playlist {
      * @returns {Promise<Video[]>}
      */
     getVideos(limit, options) {
-        return this.youtube.fetchPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(
-            { 'playlistId': this.id, part: Constants.PARTS.Videos }, options
-        )).then(items => this.videos = items.map(i => new Video(this.youtube, i)));
+        return this.youtube.request.getPaginated(
+            Constants.ENDPOINTS.PlaylistItems,
+            limit,
+            Object.assign({ playlistId: this.id, part: Constants.PARTS.PlaylistItems }, options)
+        ).then(items => this.videos = items.map(i => new Video(this.youtube, i)));
     }
 
     /**

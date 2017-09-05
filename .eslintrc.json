@@ -8,8 +8,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-console": "off",
-        "no-unused-vars": "off",
+        "no-console": "error",
+        "no-unused-vars": "warn",
         "indent": [
             "error",
             4,

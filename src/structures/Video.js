@@ -1,5 +1,6 @@
 const duration = require('iso8601-duration');
 const { parseURL } = require('../util');
+const Constants = require('../util/Constants');
 const Channel = require('./Channel');
 
 /** Represents a YouTube video */
@@ -22,45 +23,90 @@ class Video {
          */
         this.type = 'video';
 
+        this._patch(data);
+    }
+
+    _patch(data) {
+        if (!data) return;
+
+        /**
+         * The raw data from the YouTube API.
+         * @type {object}
+         */
+        this.raw = data;
+
+        /**
+         * Whether this is a full (returned from the videos API end point) or partial video (returned
+         * as part of another resource).
+         * @type {boolean}
+         */
+        this.full = data.kind === Constants.KINDS.Video;
+
+        /**
+         * The resource that this video was created from.
+         * @type {string}
+         */
+        this.kind = data.kind;
+
         /**
          * This video's ID
          * @type {string}
+         * @name id
          */
-        this.id = data.snippet.videoId || data.id.videoId || data.id;
 
-        /**
-         * This video's title
-         * @type {string}
-         */
-        this.title = data.snippet.title;
+        switch (data.kind) {
+            case Constants.KINDS.PlaylistItem:
+                if (data.snippet) {
+                    if (data.snippet.resourceId.kind === Constants.KINDS.Video) this.id = data.snippet.resourceId.videoId;
+                    else throw new Error('Attempted to make a video out of a non-video playlist item.');
+                    break;
+                } else {
+                    throw new Error('Attempted to make a video out of a playlist item with no video data.');
+                }
+            case Constants.KINDS.Video:
+                this.id = data.id;
+                break;
+            case Constants.KINDS.SearchResult:
+                if (data.id.kind === Constants.KINDS.Video) this.id = data.id.videoId;
+                else throw new Error('Attempted to make a video out of a non-video search result.');
+                break;
+            default:
+                throw new Error(`Unknown video kind: ${data.kind}.`);
+        }
 
-        /**
-         * This video's description
-         * @type {string}
-         */
-        this.description = data.snippet.description;
+        if (data.snippet) {
+            /**
+             * This video's title
+             * @type {string}
+             */
+            this.title = data.snippet.title;
 
-        /**
-         * The date/time this video was published
-         * @type {Date}
-         */
-        this.publishedAt = new Date(data.snippet.publishedAt);
+            /**
+             * This video's description
+             * @type {string}
+             */
+            this.description = data.snippet.description;
 
-        /**
-         * The channel this video is in
-         * @type {Channel}
-         */
-        this.channel = new Channel(youtube, data);
+            /**
+             * The thumbnails of this video.
+             * @type {Object.<'default', 'medium', 'high', 'standard', 'maxres'>}
+             */
+            this.thumbnails = data.snippet.thumbnails;
 
-        /**
-         * The thumbnails of this video.
-         * @type {Object.<'default', 'medium', 'high', 'standard', 'maxres'>}
-         */
-        this.thumbnails = data.snippet.thumbnails;
+            /**
+             * The date/time this video was published
+             * @type {Date}
+             */
+            this.publishedAt = new Date(data.snippet.publishedAt);
+
+            /**
+             * The channel this video is in.
+             * @type {Channel}
+             */
+            this.channel = new Channel(this.youtube, data);
+        }
 
         if(data.contentDetails) {
-            this.id = data.contentDetails.videoId || this.id;
-
             /**
              * An object containing time period information. All properties are integers, and do not include the lower
              * precision ones.
@@ -76,6 +122,17 @@ class Video {
              */
             this.duration = data.contentDetails.duration ? duration.parse(data.contentDetails.duration) : null;
         }
+
+        return this;
+    }
+
+    /**
+     * The maxiumum available resolution thumbnail URL.
+     * @type {string}
+     */
+    get maxRes() {
+        const t = this.thumbnails;
+        return t.maxres || t.standard || t.high || t.medium || t.default;
     }
 
     /**
@@ -100,6 +157,10 @@ class Video {
      */
     get durationSeconds() {
         return this.duration ? duration.toSeconds(this.duration) : -1;
+    }
+
+    fetch(options) {
+        return this.youtube.request.getVideo(this.id, options).then(this._patch.bind(this));
     }
 
     /**

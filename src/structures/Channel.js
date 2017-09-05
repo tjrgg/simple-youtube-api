@@ -1,4 +1,5 @@
 const { parseURL } = require('../util');
+const Constants = require('../util/Constants');
 
 /** Represents a YouTube channel */
 class Channel {
@@ -20,17 +21,69 @@ class Channel {
          */
         this.type = 'channel';
 
+        this._patch(data);
+    }
+
+    _patch(data) {
+        if (!data) return;
+
+        /**
+         * Raw data from the YouTube API
+         */
+        this.raw = data;
+
+        /**
+         * Whether this is a full channel object.
+         */
+        this.full = data.kind === Constants.KINDS.Channel;
+
+        /**
+         * The YouTube resource from which this channel was created.
+         */
+        this.kind = data.kind;
+
         /**
          * This channel's ID
          * @type {string}
+         * @name Channel#id
          */
-        this.id = data.snippet.channelId || data.id.channelId || data.id;
 
         /**
          * This channel's title
          * @type {string}
+         * @name Channel#title
          */
-        this.title = data.snippet.channelTitle || data.snippet.title;
+
+        switch (data.kind) {
+            case Constants.KINDS.Playlist:
+            case Constants.KINDS.PlaylistItem:
+            case Constants.KINDS.Video:
+                if (data.snippet) {
+                    this.id = data.snippet.channelId;
+                    this.title = data.snippet.channelTitle;
+                    return;
+                } else {
+                    throw new Error('Attempted to make a channel out of a resource with no channel data.');
+                }
+            case Constants.KINDS.SearchResult:
+                if (data.id.kind === Constants.KINDS.Channel) {
+                    this.id = data.id.channelId;
+                    break;
+                } else if (data.snippet) {
+                    this.id = data.snippet.channelId;
+                    this.title = data.snippet.channelTitle;
+                    return;
+                } else throw new Error('Attempted to make a channel out of a search result with no channel data.');
+            case Constants.KINDS.Channel:
+                this.id = data.id;
+                break;
+            default:
+                throw new Error(`Unknown channel kind: ${data.kind}.`);
+        }
+    }
+
+    fetch(options) {
+        return this.youtube.request.getChannel(this.id, options).then(this._patch.bind(this));
     }
 
     /**

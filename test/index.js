@@ -2,7 +2,7 @@
 require('dotenv').config({ path: './test/.env' });
 const assert = require('assert');
 const util = require('./util');
-const YouTube = require('../index');
+const YouTube = require('../src/index');
 
 const yt = new YouTube(process.env.YOUTUBE_API_KEY);
 
@@ -38,9 +38,9 @@ describe('Video', function() {
             return yt.searchVideos('monstercat').then(util.checkVideos);
         });
 
-        it('works with extra options', function() {
-            return yt.searchVideos('monstercat', 10, {}).then(r => util.checkVideos(r, 10));
-        });
+        // it('fails when searching obscure strings', function() {
+        //     return yt.searchVideos('asudyiuhsaiduyhoi7dushklauyhdlkuhsaludhisudhsiudghuygdsuayg').then(util.isNull);
+        // });
     });
 
     describe('fetch', function() {
@@ -51,6 +51,18 @@ describe('Video', function() {
         it('gets by ID', function() {
             return yt.getVideoByID('zBBOfCRhEz4').then(r => util.checkVideo(r, 'zBBOfCRhEz4'));
         });
+
+        it('rejects when invalid URL format', function() {
+            return yt.getVideo('not a URL').then(...util.throws);
+        });
+
+        it('rejects when invalid URL', function() {
+            return yt.getVideo('https://www.youtube.com/watch?v=jskadhuiusdaksudkha').then(...util.throws);
+        });
+
+        it('rejects when invalid ID', function() {
+            return yt.getVideoByID('not an ID').then(...util.throws);
+        });
     });
 });
 
@@ -58,11 +70,6 @@ describe('Playlist', function() {
     describe('search', function() {
         it('works with default parameters', function() {
             return yt.searchPlaylists('monstercat').then(util.checkPlaylists);
-        });
-
-        it('works with extra options', function() {
-            this.timeout(7000);
-            return yt.searchPlaylists('monstercat', 10, {}).then(r => util.checkPlaylists(r, 10));
         });
     });
 
@@ -73,6 +80,18 @@ describe('Playlist', function() {
 
         it('gets by ID', function() {
             return yt.getPlaylistByID('PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N').then(r => util.checkPlaylist(r, 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'));
+        });
+
+        it('rejects when invalid URL format', function() {
+            return yt.getPlaylist('not a URL').then(...util.throws);
+        });
+
+        it('rejects when invalid URL', function() {
+            return yt.getPlaylist('https://www.youtube.com/playlist?list=iasodjasiodjujasidhaisudhiasdaksjdiunkasd').then(...util.throws);
+        });
+
+        it('rejects when invalid ID', function() {
+            return yt.getPlaylistByID('not an ID').then(...util.throws);
         });
     });
 
@@ -96,6 +115,16 @@ describe('Playlist', function() {
         it('caches videos', function() {
             util.checkVideos(playlist.videos, length);
         });
+
+        it('fetches each full video', function() {
+            return Promise.all(playlist.videos.map(v => {
+                if (v.full) return assert.fail('full video already loaded');
+                return v.fetch().then(r => {
+                    util.checkUnknownVideo(r);
+                    assert(v.full, 'video isn\'t full after fetching');
+                });
+            }));
+        });
     });
 });
 
@@ -103,10 +132,6 @@ describe('Channel', function() {
     describe('search', function() {
         it('works with default parameters', function() {
             return yt.searchChannels('monstercat').then(util.checkChannels);
-        });
-
-        it('works with extra options', function() {
-            return yt.searchChannels('monstercat', 10, {});
         });
     });
 
@@ -118,6 +143,18 @@ describe('Channel', function() {
         it('gets by ID', function() {
             return yt.getChannelByID('UCJ6td3C9QlPO9O_J5dF4ZzA').then(r => util.checkChannel(r, 'UCJ6td3C9QlPO9O_J5dF4ZzA'));
         });
+
+        it('rejects when invalid URL format', function() {
+            return yt.getChannel('not a URL').then(...util.throws);
+        });
+
+        it('rejects when invalid URL', function() {
+            return yt.getChannel('https://www.youtube.com/channel/asuidahsduhkuhisoaduhioj').then(...util.throws);
+        });
+
+        it('rejects when invalid ID', function() {
+            return yt.getChannelByID('not an ID').then(...util.throws);
+        });
     });
 });
 
@@ -125,10 +162,6 @@ describe('general', function() {
     describe('search', function() {
         it('works with default parameters', function() {
             return yt.search('monstercat').then(results => results.forEach(util.checkUnknown));
-        });
-
-        it('works with extra options', function() {
-            return yt.search('monstercat', 10, {}).then(results => results.forEach(util.checkUnknown));
         });
     });
 });

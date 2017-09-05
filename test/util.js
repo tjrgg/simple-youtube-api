@@ -1,5 +1,5 @@
 const assert = require('assert');
-const YouTube = require('../index');
+const YouTube = require('../src/index');
 
 exports.checkUnknownVideo = (video) => assert(video instanceof YouTube.Video, 'result is not an instance of Video');
 exports.checkUnknownPlaylist = (playlist) => assert(playlist instanceof YouTube.Playlist, 'result is not an instance of Playlist');
@@ -8,6 +8,12 @@ exports.checkUnknownChannel = (channel) => assert(channel instanceof YouTube.Cha
 exports.checkUnknown = (thing) => {
     assert(thing instanceof YouTube.Video || thing instanceof YouTube.Playlist || thing instanceof YouTube.Channel, 'result is not a YouTube structure');
 };
+
+exports.isNull = (result) => assert.deepStrictEqual(result, null, 'result is not null');
+exports.throws = [
+    result => assert.fail(`resolved with ${result}`),
+    error => assert(error instanceof Error, 'does not reject with error'),
+];
 
 exports.checkVideo = (video, id) => {
     exports.checkUnknownVideo(video);
