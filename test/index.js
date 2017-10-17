@@ -10,24 +10,36 @@ describe('util', function() {
     it('can parse a video URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/watch?v=zBBOfCRhEz4');
         assert.deepEqual(parsed, {
-            type: 'video',
-            id: 'zBBOfCRhEz4'
+            video: 'zBBOfCRhEz4',
+            playlist: null,
+            channel: null,
+        });
+    });
+
+    it('can parse a video and playlist URL', function() {
+        const parsed = YouTube.util.parseURL('https://www.youtube.com/watch?v=MLB8tSA2GFA&list=PLe8jmEHFkvsbeJL2QNucGv00eO8PKbSUn');
+        assert.deepEqual(parsed, {
+            video: 'MLB8tSA2GFA',
+            playlist: 'PLe8jmEHFkvsbeJL2QNucGv00eO8PKbSUn',
+            channel: null,
         });
     });
 
     it('can parse a playlist URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/playlist?list=PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N');
         assert.deepEqual(parsed, {
-            type: 'playlist',
-            id: 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N'
+            playlist: 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N',
+            video: null,
+            channel: null,
         });
     });
 
     it('can parse a channel URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/channel/UCJ6td3C9QlPO9O_J5dF4ZzA');
         assert.deepEqual(parsed, {
-            type: 'channel',
-            id: 'UCJ6td3C9QlPO9O_J5dF4ZzA'
+            channel:'UCJ6td3C9QlPO9O_J5dF4ZzA',
+            video: null,
+            playlist: null,
         });
     });
 });
@@ -117,6 +129,7 @@ describe('Playlist', function() {
         });
 
         it('fetches each full video', function() {
+            this.timeout(5000);
             return Promise.all(playlist.videos.map(v => {
                 if (v.full) return assert.fail('full video already loaded');
                 return v.fetch().then(r => {
