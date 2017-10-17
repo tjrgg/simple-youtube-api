@@ -131,9 +131,7 @@ class Playlist {
      * @returns {?string}
      */
     static extractID(url) {
-        const parsed = parseURL(url);
-        if (!parsed || parsed.type !== 'playlist') return null;
-        return parsed.id;
+        return parseURL(url).playlist;
     }
 }
 

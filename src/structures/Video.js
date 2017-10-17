@@ -174,9 +174,7 @@ class Video {
      * @returns {?string}
      */
     static extractID(url) {
-        const parsed = parseURL(url);
-        if (!parsed || parsed.type !== 'video') return null;
-        return parsed.id;
+        return parseURL(url).video;
     }
 }
 

@@ -105,9 +105,7 @@ class Channel {
      * @returns {?string}
      */
     static extractID(url) {
-        const parsed = parseURL(url);
-        if (!parsed || parsed.type !== 'channel') return null;
-        return parsed.id;
+        return parseURL(url).channel;
     }
 }
 
