@@ -11,8 +11,6 @@ describe('util', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/watch?v=zBBOfCRhEz4');
         assert.deepEqual(parsed, {
             video: 'zBBOfCRhEz4',
-            playlist: null,
-            channel: null,
         });
     });
 
@@ -21,7 +19,6 @@ describe('util', function() {
         assert.deepEqual(parsed, {
             video: 'MLB8tSA2GFA',
             playlist: 'PLe8jmEHFkvsbeJL2QNucGv00eO8PKbSUn',
-            channel: null,
         });
     });
 
@@ -29,8 +26,6 @@ describe('util', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/playlist?list=PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N');
         assert.deepEqual(parsed, {
             playlist: 'PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N',
-            video: null,
-            channel: null,
         });
     });
 
@@ -38,8 +33,6 @@ describe('util', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/channel/UCJ6td3C9QlPO9O_J5dF4ZzA');
         assert.deepEqual(parsed, {
             channel:'UCJ6td3C9QlPO9O_J5dF4ZzA',
-            video: null,
-            playlist: null,
         });
     });
 });

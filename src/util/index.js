@@ -14,10 +14,9 @@ exports.parseURL = (url) => {
             const idRegex = /^[a-zA-Z0-9-_]+$/;
             if (parsed.pathname === '/watch') {
                 if (!idRegex.test(parsed.query.v)) return {};
-                return {
-                    video: parsed.query.v,
-                    playlist: parsed.query.list || null,
-                };
+                const response = { video: parsed.query.v };
+                if (parsed.query.list) response.playlist = parsed.query.list;
+                return response;
             } else if (parsed.pathname === '/playlist') {
                 if(!idRegex.test(parsed.query.list)) return {};
                 return { playlist: parsed.query.list };
