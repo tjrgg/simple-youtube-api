@@ -15,7 +15,7 @@ class Request {
     make(endpoint, qs = {}) {
         qs = Object.assign({ key: this.youtube.key }, qs);
         const params = Object.keys(qs).filter(k => qs[k]).map(k => `${k}=${qs[k]}`);
-        return fetch(`https://www.googleapis.com/youtube/v3/${endpoint}${params.length ? `?${params.join('&')}` : ''}`)
+        return fetch(encodeURI(`https://www.googleapis.com/youtube/v3/${endpoint}${params.length ? `?${params.join('&')}` : ''}`))
             .then(result => result.json())
             .then(result => {
                 if (result.error) return Promise.reject(result.error);

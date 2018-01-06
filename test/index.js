@@ -43,6 +43,10 @@ describe('Video', function() {
             return yt.searchVideos('monstercat').then(util.checkVideos);
         });
 
+        it('doesn\'t fail with URL-sensitive characters', function() {
+            return yt.searchVideos('%');
+        });
+
         // it('fails when searching obscure strings', function() {
         //     return yt.searchVideos('asudyiuhsaiduyhoi7dushklauyhdlkuhsaludhisudhsiudghuygdsuayg').then(util.isNull);
         // });
