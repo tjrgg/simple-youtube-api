@@ -223,8 +223,7 @@ class YouTube {
         options = Object.assign(options, { part: Constants.PARTS.PlaylistItems, playlistId: playlistId, maxResults: limit });
         return this.request.getPaginated(Constants.ENDPOINTS.PlaylistItems, limit, Object.assign(options, { playlistId: playlistId, part: Constants.PARTS.PlaylistItems }))
             .then(result => result.map(item => {
-                if (item.id.kind === Constants.KINDS.Video) return new Video(this, item);
-                return null;
+                return new Video(this, item);
             }));
     }
 }
