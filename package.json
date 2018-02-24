@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/milankragujevic/simple-youtube-api.git"
+    "url": "https://github.com/HyperCoder2975/simple-youtube-api.git"
   },
   "author": "Hyper-Coder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/milankragujevic/simple-youtube-api/issues"
+    "url": "https://github.com/HyperCoder2975/simple-youtube-api/issues"
   },
-  "homepage": "https://github.com/milankragujevic/simple-youtube-api"
+  "homepage": "https://github.com/HyperCoder2975/simple-youtube-api"
 }
