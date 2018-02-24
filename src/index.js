@@ -209,6 +209,15 @@ class YouTube {
     searchChannels(query, limit = 5, options = {}) {
         return this.search(query, limit, Object.assign(options, { type: 'channel' }));
     }
+    
+    getVideosByChannel(channelId, limit = 5, options = {}) {
+        options = Object.assign(options, { part: Constants.PARTS.Search, channelId: channelId, maxResults: limit });
+        return this.request.getPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { channelId: channelId, part: Constants.PARTS.Search }))
+            .then(result => result.map(item => {
+                if (item.id.kind === Constants.KINDS.Video) return new Video(this, item);
+                return null;
+            }));
+    }
 }
 
 YouTube.Video = Video;
