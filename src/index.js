@@ -211,8 +211,8 @@ class YouTube {
     }
     
     getVideosByChannel(channelId, limit = 5, options = {}) {
-        options = Object.assign(options, { part: Constants.PARTS.Search, channelId: channelId, maxResults: limit, kind: 'video' });
-        return this.request.getPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { channelId: channelId, part: Constants.PARTS.Search, kind: 'video' }))
+        options = Object.assign(options, { part: Constants.PARTS.Search, channelId: channelId, maxResults: limit, type: 'video' });
+        return this.request.getPaginated(Constants.ENDPOINTS.Search, limit, Object.assign(options, { channelId: channelId, part: Constants.PARTS.Search, type: 'video' }))
             .then(result => result.map(item => {
                 if (item.id.kind === Constants.KINDS.Video) return new Video(this, item);
                 return null;
