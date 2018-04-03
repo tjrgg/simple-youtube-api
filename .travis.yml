@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - "8"
+before_script: chmod 0777 ./node_modules/.bin/mocha
 jobs:
   include:
     - stage: test
