@@ -37,14 +37,14 @@ cp -rf ./docs/simple-youtube-api/*/** "./out/$TRAVIS_BRANCH/"
 
 # Now let's go have some fun with the cloned repo
 cd out
+git add .
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
-if git diff --quiet; then
+if git diff --staged --quiet; then
     echo "No changes to the output on this push; exiting."
     exit 0
 fi
 
-git add .
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
