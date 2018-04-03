@@ -5,12 +5,12 @@ before_script: chmod 0777 ./node_modules/.bin/mocha
 jobs:
   include:
     - stage: test
-      script: ./travis/test.sh
+      script: bash ./travis/test.sh
     - stage: deploy
-      script: ./travis/deploy.sh
+      script: bash ./travis/deploy.sh
 env:
   global:
   - ENCRYPTION_LABEL: ""
   - COMMIT_AUTHOR_EMAIL: ""
 dist: trusty
-sudo: required
+sudo: false
