@@ -4,7 +4,6 @@ set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
-DOCS_LOCATION="./out/$TRAVIS_BRANCH"
 
 # Pull requests shouldn't try to deploy, just build to verify
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -32,8 +31,9 @@ if [ ! -d ./docs ]; then
     exit 0
 fi
 
-mkdir -p $DOCS_LOCATION
-mv -f ./docs/simple-youtube-api $DOCS_LOCATION
+mkdir -p "./out/$TRAVIS_BRANCH"
+mv -f ./docs/simple-youtube-api "./out/$TRAVIS_BRANCH"
+ls ./out
 
 # Now let's go have some fun with the cloned repo
 cd out
