@@ -16,6 +16,9 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
+# Build docs
+npm run docs
+
 # Clone the existing gh-pages for this repo into out/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
 git clone $REPO out
@@ -23,10 +26,8 @@ cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && git reset --hard
 cd ..
 
-# Build and move docs
-npm run docs
-
-if [ ! -d ./docs ]; then
+# Move docs into new directory
+if [ ! -d ./docs/simple-youtube-api ]; then
     echo "Exiting: docs did not build into ./docs. Check docs build script."
     exit 0
 fi
@@ -36,7 +37,6 @@ mv -f ./docs/simple-youtube-api "./out/$TRAVIS_BRANCH"
 
 # Now let's go have some fun with the cloned repo
 cd out
-git add -A .
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 if git diff --quiet; then
@@ -44,6 +44,7 @@ if git diff --quiet; then
     exit 0
 fi
 
+git add .
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
