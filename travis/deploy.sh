@@ -20,7 +20,7 @@ SHA=`git rev-parse --verify HEAD`
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
 git clone $REPO out
 cd out
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && git reset --hard
 cd ..
 
 # Build and move docs
@@ -33,7 +33,8 @@ fi
 
 mkdir -p "./out/$TRAVIS_BRANCH"
 mv -f ./docs/simple-youtube-api "./out/$TRAVIS_BRANCH"
-ls ./out
+echo "Summary of changes:"
+git diff --summary
 
 # Now let's go have some fun with the cloned repo
 cd out
