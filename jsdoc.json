@@ -8,5 +8,10 @@
       "recurse": true,
       "template": "node_modules/minami",
       "verbose": true
+    },
+    "templates": {
+        "default": {
+            "includeDate": false
+        }
     }
 }
