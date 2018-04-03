@@ -36,7 +36,7 @@ if [ ! -d ./docs ]; then
 fi
 
 mkdir -p $DOCS_LOCATION
-mv ./docs $DOCS_LOCATION
+mv -f ./docs/simple-youtube-api $DOCS_LOCATION
 
 # Now let's go have some fun with the cloned repo
 cd out
