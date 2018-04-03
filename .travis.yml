@@ -1,13 +1,15 @@
 language: node_js
-node_js:
-  - "8"
-before_script: chmod 0777 ./node_modules/.bin/mocha
 jobs:
   include:
     - stage: test
       script: bash ./travis/test.sh
+      node_js:
+        - "6"
+        - "8"
     - stage: deploy
       script: bash ./travis/deploy.sh
+      node_js:
+        - "8"
       env:
         - ENCRYPTION_LABEL: "ebddea73026b"
         - COMMIT_AUTHOR_EMAIL: "hypercoder@typicalbot.com"
