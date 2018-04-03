@@ -60,6 +60,7 @@ ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
 openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in ../travis/deploy_key.enc -out ../travis/deploy_key -d
 chmod 600 ../travis/deploy_key
 eval `ssh-agent -s`
+ssh-add -D
 ssh-add ../travis/deploy_key
 
 # Now that we're all set up, we can push.
