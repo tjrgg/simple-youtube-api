@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>structures/Video.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Channel.html">Channel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Channel.html#.extractID">extractID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Channel.html#fetch">fetch</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Playlist.html">Playlist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#.extractID">extractID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#fetch">fetch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Playlist.html#getVideos">getVideos</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Video.html">Video</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Video.html#.extractID">extractID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Video.html#fetch">fetch</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="YouTube.html">YouTube</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannel">getChannel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getChannelByID">getChannelByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylist">getPlaylist</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getPlaylistByID">getPlaylistByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideo">getVideo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#getVideoByID">getVideoByID</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#search">search</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchChannels">searchChannels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchPlaylists">searchPlaylists</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="YouTube.html#searchVideos">searchVideos</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseURL">parseURL</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">structures/Video.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const duration = require('iso8601-duration');
+const { parseURL } = require('../util');
+const Constants = require('../util/Constants');
+const Channel = require('./Channel');
+
+/** Represents a YouTube video */
+class Video {
+    /**
+     * @param {YouTube} youtube The YouTube instance creating this
+     * @param {Object} data The data of the video
+     */
+    constructor(youtube, data) {
+        /**
+         * The YouTube instance that created this
+         * @type {YouTube}
+         */
+        this.youtube = youtube;
+        Object.defineProperty(this, 'youtube', { enumerable: false });
+
+        /**
+         * The type to filter search results
+         * @type {string}
+         */
+        this.type = 'video';
+
+        this._patch(data);
+    }
+
+    _patch(data) {
+        if (!data) return;
+
+        /**
+         * The raw data from the YouTube API.
+         * @type {object}
+         */
+        this.raw = data;
+
+        /**
+         * Whether this is a full (returned from the videos API end point) or partial video (returned
+         * as part of another resource).
+         * @type {boolean}
+         */
+        this.full = data.kind === Constants.KINDS.Video;
+
+        /**
+         * The resource that this video was created from.
+         * @type {string}
+         */
+        this.kind = data.kind;
+
+        /**
+         * This video's ID
+         * @type {string}
+         * @name Video#id
+         */
+
+        switch (data.kind) {
+            case Constants.KINDS.PlaylistItem:
+                if (data.snippet) {
+                    if (data.snippet.resourceId.kind === Constants.KINDS.Video) this.id = data.snippet.resourceId.videoId;
+                    else throw new Error('Attempted to make a video out of a non-video playlist item.');
+                    break;
+                } else {
+                    throw new Error('Attempted to make a video out of a playlist item with no video data.');
+                }
+            case Constants.KINDS.Video:
+                this.id = data.id;
+                break;
+            case Constants.KINDS.SearchResult:
+                if (data.id.kind === Constants.KINDS.Video) this.id = data.id.videoId;
+                else throw new Error('Attempted to make a video out of a non-video search result.');
+                break;
+            default:
+                throw new Error(`Unknown video kind: ${data.kind}.`);
+        }
+
+        if (data.snippet) {
+            /**
+             * This video's title
+             * @type {string}
+             */
+            this.title = data.snippet.title;
+
+            /**
+             * This video's description
+             * @type {string}
+             */
+            this.description = data.snippet.description;
+
+            /**
+             * The thumbnails of this video.
+             * @type {Object.&lt;'default', 'medium', 'high', 'standard', 'maxres'>}
+             */
+            this.thumbnails = data.snippet.thumbnails;
+
+            /**
+             * The date/time this video was published
+             * @type {Date}
+             */
+            this.publishedAt = new Date(data.snippet.publishedAt);
+
+            /**
+             * The channel this video is in.
+             * @type {Channel}
+             */
+            this.channel = new Channel(this.youtube, data);
+        }
+
+        if(data.contentDetails) {
+            /**
+             * An object containing time period information. All properties are integers, and do not include the lower
+             * precision ones.
+             * @typedef {Object} DurationObject
+             * @property {number} [hours] How many hours the video is long
+             * @property {number} [minutes] How many minutes the video is long
+             * @property {number} [seconds] How many seconds the video is long
+             */
+
+            /**
+             * The duration of the video
+             * @type {?DurationObject}
+             */
+            this.duration = data.contentDetails.duration ? duration.parse(data.contentDetails.duration) : null;
+        }
+
+        return this;
+    }
+
+    /**
+     * The maxiumum available resolution thumbnail.
+     * @type {object}
+     */
+    get maxRes() {
+        const t = this.thumbnails;
+        return t.maxres || t.standard || t.high || t.medium || t.default;
+    }
+
+    /**
+     * The URL to this video
+     * @type {string}
+     */
+    get url() {
+        return `https://www.youtube.com/watch?v=${this.id}`;
+    }
+
+    /**
+     * The short URL to this video
+     * @type {string}
+     */
+    get shortURL() {
+        return `https://youtu.be/${this.id}`;
+    }
+
+    /**
+     * The duration of the video in seconds
+     * @type {number}
+     */
+    get durationSeconds() {
+        return this.duration ? duration.toSeconds(this.duration) : -1;
+    }
+
+    /**
+     * Fetch the full representation of this video.
+     * @param {object} [options] Any extra query params
+     * @returns {Video}
+     */
+    fetch(options) {
+        return this.youtube.request.getVideo(this.id, options).then(this._patch.bind(this));
+    }
+
+    /**
+     * Get a video ID from a string (URL or ID)
+     * @param {string} url The string to get the ID from
+     * @returns {?string}
+     */
+    static extractID(url) {
+        return parseURL(url).video;
+    }
+}
+
+module.exports = Video;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 03 2018 21:08:42 GMT+0000 (UTC) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
