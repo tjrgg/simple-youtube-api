@@ -6,8 +6,8 @@ SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 DOCS_LOCATION="./out/$TRAVIS_BRANCH"
 
-# Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+# Pull requests shouldn't try to deploy, just build to verify
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "Skipping deploy; just testing."
     exit 0
 fi
