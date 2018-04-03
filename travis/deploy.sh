@@ -33,6 +33,7 @@ if [ ! -d ./docs/simple-youtube-api ]; then
 fi
 
 mkdir -p "./out/$TRAVIS_BRANCH"
+rm -rf "./out/$TRAVIS_BRANCH/**"
 cp -rf ./docs/simple-youtube-api/*/** "./out/$TRAVIS_BRANCH/"
 
 # Now let's go have some fun with the cloned repo
