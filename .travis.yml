@@ -10,7 +10,7 @@ jobs:
       script: bash ./travis/deploy.sh
 env:
   global:
-  - ENCRYPTION_LABEL: ""
-  - COMMIT_AUTHOR_EMAIL: ""
+  - ENCRYPTION_LABEL: "804f066f95da"
+  - COMMIT_AUTHOR_EMAIL: "hypercoder@typicalbot.com"
 dist: trusty
 sudo: false
