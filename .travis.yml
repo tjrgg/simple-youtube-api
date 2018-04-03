@@ -12,4 +12,5 @@ env:
   global:
   - ENCRYPTION_LABEL: ""
   - COMMIT_AUTHOR_EMAIL: ""
-sudo: false
+dist: trusty
+sudo: required
