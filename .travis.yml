@@ -1,4 +1,14 @@
 language: node_js
 node_js:
   - "8"
+jobs:
+  include:
+    - stage: test
+      script: ./travis/test.sh
+    - stage: deploy
+      script: ./travis/deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: ""
+  - COMMIT_AUTHOR_EMAIL: ""
 sudo: false
