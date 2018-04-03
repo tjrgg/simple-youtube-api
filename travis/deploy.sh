@@ -34,21 +34,18 @@ fi
 mkdir -p "./out/$TRAVIS_BRANCH"
 mv -f ./docs/simple-youtube-api "./out/$TRAVIS_BRANCH"
 
-# Show new docs
-git add -A .
-echo "Summary of changes:"
-git diff --summary
-
 # Now let's go have some fun with the cloned repo
 cd out
-git config user.name "Travis CI"
-git config user.email "$COMMIT_AUTHOR_EMAIL"
+git add -A .
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 if git diff --quiet; then
     echo "No changes to the output on this push; exiting."
     exit 0
 fi
+
+git config user.name "Travis CI"
+git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
