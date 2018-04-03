@@ -24,9 +24,6 @@ cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
-# Clean out existing contents
-rm -rf out/**/* || exit 0
-
 # Build and move docs
 npm run docs
 
@@ -60,7 +57,7 @@ ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
 ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
 ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
 openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in ../travis/deploy_key.enc -out ../travis/deploy_key -d
-chmod 600 ../deploy_key
+chmod 600 ../travis/deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
