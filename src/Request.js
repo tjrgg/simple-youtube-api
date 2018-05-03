@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('cross-fetch');
 const Constants = require('./util/Constants');
 
 class Request {

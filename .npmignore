@@ -1,0 +1,10 @@
+/docs
+/node_modules
+/test
+/travis
+
+.env
+.eslintrc.json
+jsdoc.json
+.travis.yml
+webpack.config.js
