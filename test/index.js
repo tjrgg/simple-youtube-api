@@ -14,6 +14,13 @@ describe('util', function() {
         });
     });
 
+    it('can parse a short video URL', function() {
+        const parsed = YouTube.util.parseURL('https://youtu.be/zBBOfCRhEz4');
+        assert.deepEqual(parsed, {
+            video: 'zBBOfCRhEz4',
+        });
+    });
+
     it('can parse a video and playlist URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/watch?v=MLB8tSA2GFA&list=PLe8jmEHFkvsbeJL2QNucGv00eO8PKbSUn');
         assert.deepEqual(parsed, {
@@ -32,8 +39,18 @@ describe('util', function() {
     it('can parse a channel URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/channel/UCJ6td3C9QlPO9O_J5dF4ZzA');
         assert.deepEqual(parsed, {
-            channel:'UCJ6td3C9QlPO9O_J5dF4ZzA',
+            channel: 'UCJ6td3C9QlPO9O_J5dF4ZzA',
         });
+    });
+
+    it('doesn\'t parse non-YouTube URLs', function() {
+        const parsed = YouTube.util.parseURL('https://google.com');
+        assert.deepEqual(parsed, {});
+    });
+
+    it('doesn\'t parse invalid YouTube URLs', function() {
+        const parsed = YouTube.util.parseURL('https://www.youtube.com/notausefulurl');
+        assert.deepEqual(parsed, {});
     });
 });
 
