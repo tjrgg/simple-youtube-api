@@ -92,6 +92,8 @@ class Playlist {
          * @type {Channel}
          */
         this.channel = new Channel(this.youtube, data);
+
+        return this;
     }
 
     /**

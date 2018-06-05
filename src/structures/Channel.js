@@ -80,6 +80,8 @@ class Channel {
             default:
                 throw new Error(`Unknown channel kind: ${data.kind}.`);
         }
+
+        return this;
     }
 
     /**
