@@ -38,6 +38,12 @@ class Playlist {
         this.raw = data;
 
         /**
+         * The channel this playlist is in
+         * @type {Channel}
+         */
+        this.channel = new Channel(this.youtube, data);
+
+        /**
          * This playlist's ID
          * @type {string}
          * @name Playlist#id
@@ -54,7 +60,7 @@ class Playlist {
             case Constants.KINDS.PlaylistItem:
                 if (data.snippet) this.id = data.snippet.playlistId;
                 else throw new Error('Attempted to make a playlist out of a resource with no playlist data.');
-                break;
+                return this; // don't pull extra info from playlist item info
             default:
                 throw new Error(`Unknown playlist kind: ${data.kind}.`);
         }
@@ -126,12 +132,6 @@ class Playlist {
              */
             this.embedHTML = data.player.embedHtml;
         }
-
-        /**
-         * The channel this playlist is in
-         * @type {Channel}
-         */
-        this.channel = new Channel(this.youtube, data);
 
         return this;
     }
