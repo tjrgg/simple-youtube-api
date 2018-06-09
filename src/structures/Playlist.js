@@ -62,29 +62,69 @@ class Playlist {
         if (data.snippet) {
             /**
              * This playlist's title
-             * @type {string}
+             * @type {?string}
              */
             this.title = data.snippet.title;
 
             /**
              * This playlist's description
-             * @type {string}
+             * @type {?string}
              */
             this.description = data.snippet.description;
 
             /**
              * The date/time this playlist was published
-             * @type {Date}
+             * @type {?Date}
              */
             this.publishedAt = new Date(data.snippet.publishedAt);
+
+            /**
+             * Thumbnails for this playlist
+             * @type {?Object.<string, Thumbnail>}
+             */
+            this.thumbnails = data.snippet.thumbnails;
+
+            /**
+             * Channel title of this playlist
+             * @type {?string}
+             */
+            this.channelTitle = data.snippet.channelTitle;
+
+            /**
+             * The language in this playlist's title and description
+             * @type {?string}
+             */
+            this.defaultLanguage = data.snippet.defaultLanguage;
+
+            /**
+             * Information about the playlist as specified in the `hl` parameter
+             * @type {?{title: string, description: string}}
+             */
+            this.localized = data.snippet.localized;
         }
 
         if (data.status) {
             /**
-             * The privacy status of this video.
+             * The privacy status of this video
              * @type {string}
              */
             this.privacy = data.status.privacyStatus;
+        }
+
+        if (data.contentDetails) {
+            /**
+             * The total number of videos in this playlist
+             * @type {number}
+             */
+            this.length = data.contentDetails.itemCount;
+        }
+
+        if (data.player) {
+            /**
+             * A string with an iframe tag for embedding this playlist
+             * @type {string}
+             */
+            this.embedHTML = data.player.embedHtml;
         }
 
         /**
