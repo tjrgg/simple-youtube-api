@@ -28,6 +28,9 @@
     "url": "https://github.com/HyperCoder2975/simple-youtube-api.git"
   },
   "author": "Hyper-Coder",
+  "maintainers": [
+    "Will Nelson <will@pleb.xyz>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/HyperCoder2975/simple-youtube-api/issues"
