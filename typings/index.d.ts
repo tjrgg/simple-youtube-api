@@ -25,29 +25,9 @@ declare module 'simple-youtube-api' {
   class util extends YouTube {
     public parseURL(url: string): { video?: string; channel?: string; playlist?: string };
 
-    public PARTS: object = {
-      Search = 'snippet',
-      Videos = 'snippet,contentDetails',
-      Playlists = 'snippet',
-      PlaylistItems = 'snippet,status',
-      Channels = 'snippet'
-    }
-
-    public KINDS: object = {
-      Video = 'youtube#video',
-      PlaylistItem = 'youtube#playlistItem',
-      Playlist = 'youtube#playlist',
-      SearchResult = 'youtube#searchResult',
-      Channel = 'youtube#channel'
-    }
-
-    public ENDPOINTS: object = {
-      PlaylistItems = 'playlistItems',
-      Channels = 'channels',
-      Videos = 'videos',
-      Playlists = 'playlists',
-      Search = 'search'
-    }
+    public PARTS: object;
+    public KINDS: object;
+    public ENDPOINTS: object;
   }
 
   class Request {
@@ -88,7 +68,7 @@ declare module 'simple-youtube-api' {
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Channel;
     public fetch(options: object): Channel;
-    public readonly url(): string;
+    public url(): string;
     static extractID(url: string): string | null;
   }
 
@@ -112,7 +92,7 @@ declare module 'simple-youtube-api' {
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Playlist;
-    public readonly url(): string;
+    public url(): string;
     public fetch(options: object): Playlist;
     public getVideos(limit: number, options: object): Promise<Video[]>;
     static extractID(url: string): string | null;
@@ -134,23 +114,23 @@ declare module 'simple-youtube-api' {
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Video;
-    public readonly maxRes(): object;
-    public readonly url(): string;
-    public readonly shortURL(): string;
-    public readonly durationSeconds(): number;
+    public maxRes(): object;
+    public url(): string;
+    public shortURL(): string;
+    public durationSeconds(): number;
     public fetch(options: object): Video;
     static extractID(url: string): string | null;
   }
 
   interface DurationObject {
-    public hours: number;
-    public minutes: number;
-    public seconds: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
   }
 
   interface Thumbnail {
-    public url: string;
-    public width: number;
-    public height: number;
+    url: string;
+    width: number;
+    height: number;
   }
 }
