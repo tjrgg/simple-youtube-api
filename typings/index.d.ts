@@ -10,13 +10,13 @@ declare module 'simple-youtube-api' {
     public request: Request;
 
     constructor(key: string);
-    public getVideo(url: string, options?: object): Promise<Video | Error>;
-    public getPlaylist(url: string, options?: object): Promise<Playlist | Error>;
-    public getChannel(url: string, options?: object): Promise<Channel | Error>;
-    public getVideoByID(id: string, options?: object): Promise<Video | Error>;
-    public getPlaylistByID(id: string, options?: object): Promise<Playlist | Error>;
-    public getChannelByID(id: string, options?: object): Promise<Channel | Error>;
-    public search(query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel | null>>;
+    public getVideo(url: string, options?: object): Promise<Video> | null;
+    public getPlaylist(url: string, options?: object): Promise<Playlist> | null;
+    public getChannel(url: string, options?: object): Promise<Channel> | null;
+    public getVideoByID(id: string, options?: object): Promise<Video> | null;
+    public getPlaylistByID(id: string, options?: object): Promise<Playlist> | null;
+    public getChannelByID(id: string, options?: object): Promise<Channel> | null;
+    public search(query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel>> | null;
     public searchVideos(query: string, limit: number, options?: object): Promise<Video[]>;
     public searchPlaylists(query: string, limit: number, options?: object): Promise<Playlist[]>;
     public searchChannels(query: string, limit: number, options?: object): Promise<Channel[]>;
