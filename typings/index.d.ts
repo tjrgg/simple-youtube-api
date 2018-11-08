@@ -88,7 +88,7 @@ declare module 'simple-youtube-api' {
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Channel;
     public fetch(options: object): Channel;
-    public url(): string;
+    public readonly url(): string;
     static extractID(url: string): string | null;
   }
 
@@ -112,7 +112,7 @@ declare module 'simple-youtube-api' {
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Playlist;
-    public url(): string;
+    public readonly url(): string;
     public fetch(options: object): Playlist;
     public getVideos(limit: number, options: object): Promise<Video[]>;
     static extractID(url: string): string | null;
@@ -134,10 +134,10 @@ declare module 'simple-youtube-api' {
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Video;
-    public maxRes(): object;
-    public url(): string;
-    public shortURL(): string;
-    public durationSeconds(): number;
+    public readonly maxRes(): object;
+    public readonly url(): string;
+    public readonly shortURL(): string;
+    public readonly durationSeconds(): number;
     public fetch(options: object): Video;
     static extractID(url: string): string | null;
   }
