@@ -6,8 +6,8 @@
 
 declare module 'simple-youtube-api' {
   class YouTube {
-    key: string;
-    request: Request;
+    public key: string;
+    public request: Request;
 
     constructor(key: string);
     public getVideo(url: string, options?: object): Promise<Video | Error>;
@@ -20,11 +20,39 @@ declare module 'simple-youtube-api' {
     public searchVideos(query: string, limit: number, options?: object): Promise<Video[]>;
     public searchPlaylists(query: string, limit: number, options?: object): Promise<Playlist[]>;
     public searchChannels(query: string, limit: number, options?: object): Promise<Channel[]>;
+  }
+
+  class util extends YouTube {
     public parseURL(url: string): { video?: string; channel?: string; playlist?: string };
+
+    public PARTS: object = {
+      Search = 'snippet',
+      Videos = 'snippet,contentDetails',
+      Playlists = 'snippet',
+      PlaylistItems = 'snippet,status',
+      Channels = 'snippet'
+    }
+
+    public KINDS: object = {
+      Video = 'youtube#video',
+      PlaylistItem = 'youtube#playlistItem',
+      Playlist = 'youtube#playlist',
+      SearchResult = 'youtube#searchResult',
+      Channel = 'youtube#channel'
+    }
+
+    public ENDPOINTS: object = {
+      PlaylistItems = 'playlistItems',
+      Channels = 'channels',
+      Videos = 'videos',
+      Playlists = 'playlists',
+      Search = 'search'
+    }
   }
 
   class Request {
-    youtube: YouTube;
+    public youtube: YouTube;
+
     constructor(youtube: YouTube);
     public make(endpoint: string, qs: object): Promise<object>;
     public getResource(type: string, qs: object): Promise<object>;
@@ -36,26 +64,26 @@ declare module 'simple-youtube-api' {
   }
 
   class Channel {
-    youtube: YouTube;
-    type: string;
-    raw: object;
-    full: boolean;
-    kind: string;
-    id: string;
-    title?: string;
-    description?: string;
-    customURL?: string;
-    publishedAt?: Date;
-    thumbnails?: Map<string, Thumbnail>;
-    defaultLanguage?: string;
-    localized?: { title: string; description: string };
-    country?: string;
-    relatedPlaylists?: { likes: string; favorites: string; uploads: string };
-    viewCount?: number;
-    commentCount?: number;
-    subscriberCount?: number;
-    hiddenSubscriberCount?: boolean;
-    videoCount?: number;
+    public youtube: YouTube;
+    public type: string;
+    public raw: object;
+    public full: boolean;
+    public kind: string;
+    public id: string;
+    public title?: string;
+    public description?: string;
+    public customURL?: string;
+    public publishedAt?: Date;
+    public thumbnails?: Map<string, Thumbnail>;
+    public defaultLanguage?: string;
+    public localized?: { title: string; description: string };
+    public country?: string;
+    public relatedPlaylists?: { likes: string; favorites: string; uploads: string };
+    public viewCount?: number;
+    public commentCount?: number;
+    public subscriberCount?: number;
+    public hiddenSubscriberCount?: boolean;
+    public videoCount?: number;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Channel;
@@ -65,22 +93,22 @@ declare module 'simple-youtube-api' {
   }
 
   class Playlist {
-    youtube: YouTube;
-    type: string;
-    videos: Array<Video>;
-    raw: object;
-    channel: Channel;
-    id: string;
-    title?: string;
-    description?: string;
-    publishedAt?: Date;
-    thumbnails?: Map<string, Thumbnail>;
-    channelTitle?: string;
-    defaultLanguage?: string;
-    localized?: { title: string; description: string };
-    privacy: string;
-    length: number;
-    embedHTML: string;
+    public youtube: YouTube;
+    public type: string;
+    public videos: Array<Video>;
+    public raw: object;
+    public channel: Channel;
+    public id: string;
+    public title?: string;
+    public description?: string;
+    public publishedAt?: Date;
+    public thumbnails?: Map<string, Thumbnail>;
+    public channelTitle?: string;
+    public defaultLanguage?: string;
+    public localized?: { title: string; description: string };
+    public privacy: string;
+    public length: number;
+    public embedHTML: string;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Playlist;
@@ -91,18 +119,18 @@ declare module 'simple-youtube-api' {
   }
 
   class Video {
-    youtube: YouTube;
-    type: string;
-    raw: object;
-    full: boolean;
-    kind: string;
-    id: string;
-    title: string;
-    description: string;
-    thumbnails: Map<['default', 'medium', 'high', 'standard', 'maxres'], string>;
-    publishedAt: Date;
-    channel: Channel;
-    duration: DurationObject;
+    public youtube: YouTube;
+    public type: string;
+    public raw: object;
+    public full: boolean;
+    public kind: string;
+    public id: string;
+    public title: string;
+    public description: string;
+    public thumbnails: Map<['default', 'medium', 'high', 'standard', 'maxres'], string>;
+    public publishedAt: Date;
+    public channel: Channel;
+    public duration: DurationObject;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Video;
@@ -115,38 +143,14 @@ declare module 'simple-youtube-api' {
   }
 
   interface DurationObject {
-    hours: number;
-    minutes: number;
-    seconds: number;
+    public hours: number;
+    public minutes: number;
+    public seconds: number;
   }
 
   interface Thumbnail {
-    url: string;
-    width: number;
-    height: number;
-  }
-
-  enum PARTS {
-    Search = 'snippet',
-    Videos = 'snippet,contentDetails',
-    Playlists = 'snippet',
-    PlaylistItems = 'snippet,status',
-    Channels = 'snippet'
-  }
-
-  enum KINDS {
-    Video = 'youtube#video',
-    PlaylistItem = 'youtube#playlistItem',
-    Playlist = 'youtube#playlist',
-    SearchResult = 'youtube#searchResult',
-    Channel = 'youtube#channel'
-  }
-
-  enum ENDPOINTS {
-    PlaylistItems = 'playlistItems',
-    Channels = 'channels',
-    Videos = 'videos',
-    Playlists = 'playlists',
-    Search = 'search'
+    public url: string;
+    public width: number;
+    public height: number;
   }
 }
