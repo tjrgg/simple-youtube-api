@@ -5,7 +5,7 @@
 // Writer of this file: https://github.com/OscarXcore
 
 declare module 'simple-youtube-api' {
-  class YouTube {
+  export class YouTube {
     public key: string;
     public request: Request;
 
@@ -20,14 +20,14 @@ declare module 'simple-youtube-api' {
     public searchVideos(query: string, limit: number, options?: object): Promise<Video[]>;
     public searchPlaylists(query: string, limit: number, options?: object): Promise<Playlist[]>;
     public searchChannels(query: string, limit: number, options?: object): Promise<Channel[]>;
-  }
 
-  class util extends YouTube {
-    public parseURL(url: string): { video?: string; channel?: string; playlist?: string };
-
-    public PARTS: object;
-    public KINDS: object;
-    public ENDPOINTS: object;
+    static Request: Request;
+    static Channel: Channel;
+    static Playlist: Playlist;
+    static Video: Video;
+    static util: {
+      parseURL(url: string): { video?: string; channel?: string; playlist?: string };
+    }
   }
 
   class Request {
@@ -89,10 +89,10 @@ declare module 'simple-youtube-api' {
     public privacy: string;
     public length: number;
     public embedHTML: string;
+    public readonly url: string;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Playlist;
-    public url(): string;
     public fetch(options: object): Playlist;
     public getVideos(limit: number, options: object): Promise<Video[]>;
     static extractID(url: string): string | null;
@@ -107,7 +107,7 @@ declare module 'simple-youtube-api' {
     public id: string;
     public title: string;
     public description: string;
-    public thumbnails: Map<['default', 'medium', 'high', 'standard', 'maxres'], string>;
+    public thumbnails: Map<'default' | 'medium' | 'high' | 'standard' | 'maxres', string>;
     public publishedAt: Date;
     public channel: Channel;
     public duration: DurationObject;
