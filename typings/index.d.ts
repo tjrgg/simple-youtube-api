@@ -5,7 +5,7 @@
 // Writer of this file: https://github.com/OscarXcore
 
 declare module 'simple-youtube-api' {
-  export class YouTube {
+  class YouTube {
     public key: string;
     public request: Request;
 
@@ -64,11 +64,11 @@ declare module 'simple-youtube-api' {
     public subscriberCount?: number;
     public hiddenSubscriberCount?: boolean;
     public videoCount?: number;
+    public readonly url: string;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Channel;
     public fetch(options: object): Channel;
-    public url(): string;
     static extractID(url: string): string | null;
   }
 
@@ -111,13 +111,13 @@ declare module 'simple-youtube-api' {
     public publishedAt: Date;
     public channel: Channel;
     public duration: DurationObject;
+    public readonly url: string;
+    public readonly maxRes: object;
+    public readonly shortURL: string;
+    public readonly durationSeconds: number;
 
     constructor(youtube: YouTube, data: object);
     private _patch(data: object): Video;
-    public maxRes(): object;
-    public url(): string;
-    public shortURL(): string;
-    public durationSeconds(): number;
     public fetch(options: object): Video;
     static extractID(url: string): string | null;
   }
@@ -133,4 +133,6 @@ declare module 'simple-youtube-api' {
     width: number;
     height: number;
   }
+
+  export = YouTube;
 }
