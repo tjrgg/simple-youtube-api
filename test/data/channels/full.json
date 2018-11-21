@@ -1,0 +1,47 @@
+{
+  "kind": "youtube#channel",
+  "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/3ukLbo0S1_etUXEYUIF-fglVkdk\"",
+  "id": "UCJ6td3C9QlPO9O_J5dF4ZzA",
+  "snippet": {
+    "title": "Monstercat: Uncaged",
+    "description": "Unbound, Unlimited, Uncaged! Monstercat breaks the barriers of expectations with a movement that will make 2018 the biggest year in our history.\n\nMonstercat is a new-age Record Label. It is the convergence of an independent label, tech startup and media company. We empower creative people, musicians, artists, developers, entrepreneurs, and influencers young and old. We looked at the problems within the music industry, asked “why not” and have created the “how to”.\n\nIf you would like to use Monstercat's music in your own videos or Twitch streams: https://license.monstercat.com",
+    "customUrl": "MonstercatMedia",
+    "publishedAt": "2011-07-02T01:09:28.000Z",
+    "thumbnails": {
+      "default": {
+        "url": "https://yt3.ggpht.com/a-/AN66SAwNLgNJ-snBJLmu4tS2CFO79XXXag79jcOzEw=s88-mo-c-c0xffffffff-rj-k-no",
+        "width": 88,
+        "height": 88
+      },
+      "medium": {
+        "url": "https://yt3.ggpht.com/a-/AN66SAwNLgNJ-snBJLmu4tS2CFO79XXXag79jcOzEw=s240-mo-c-c0xffffffff-rj-k-no",
+        "width": 240,
+        "height": 240
+      },
+      "high": {
+        "url": "https://yt3.ggpht.com/a-/AN66SAwNLgNJ-snBJLmu4tS2CFO79XXXag79jcOzEw=s800-mo-c-c0xffffffff-rj-k-no",
+        "width": 800,
+        "height": 800
+      }
+    },
+    "localized": {
+      "title": "Monstercat: Uncaged",
+      "description": "Unbound, Unlimited, Uncaged! Monstercat breaks the barriers of expectations with a movement that will make 2018 the biggest year in our history.\n\nMonstercat is a new-age Record Label. It is the convergence of an independent label, tech startup and media company. We empower creative people, musicians, artists, developers, entrepreneurs, and influencers young and old. We looked at the problems within the music industry, asked “why not” and have created the “how to”.\n\nIf you would like to use Monstercat's music in your own videos or Twitch streams: https://license.monstercat.com"
+    }
+  },
+  "contentDetails": {
+    "relatedPlaylists": {
+      "favorites": "FLJ6td3C9QlPO9O_J5dF4ZzA",
+      "uploads": "UUJ6td3C9QlPO9O_J5dF4ZzA",
+      "watchHistory": "HL",
+      "watchLater": "WL"
+    }
+  },
+  "statistics": {
+    "viewCount": "2188353834",
+    "commentCount": "0",
+    "subscriberCount": "7084152",
+    "hiddenSubscriberCount": false,
+    "videoCount": "1367"
+  }
+}

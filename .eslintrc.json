@@ -3,7 +3,10 @@
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "jest"
+    ],
+    "extends": ["eslint:recommended", "plugin:jest/recommended"],
     "parserOptions": {
         "sourceType": "module"
     },
@@ -27,5 +30,16 @@
             "warn",
             "always"
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["test/**/*.js"],
+            "parserOptions": {
+                "ecmaVersion": 2017
+            },
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }

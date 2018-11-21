@@ -1,0 +1,52 @@
+{
+  "kind": "youtube#playlistListResponse",
+  "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/ryTGGgfUQ5xXKaGTvajOHkgZ5Yk\"",
+  "nextPageToken": "CAUQAA",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  },
+  "items": [
+    {
+      "kind": "youtube#playlist",
+      "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/JNcMGOS1y7INX4WFv1JFERxyWTk\"",
+      "id": "PLe8jmEHFkvsbRwwi0ode5c9iMQ2dyJU3N",
+      "snippet": {
+        "publishedAt": "2014-09-10T05:35:59.000Z",
+        "channelId": "UCJ6td3C9QlPO9O_J5dF4ZzA",
+        "title": "Future Bass",
+        "description": "The best of Monstercat Future Bass.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/1nWH9ZT3cEg/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/1nWH9ZT3cEg/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/1nWH9ZT3cEg/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/1nWH9ZT3cEg/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          }
+        },
+        "channelTitle": "Monstercat: Uncaged",
+        "localized": {
+          "title": "Future Bass",
+          "description": "The best of Monstercat Future Bass."
+        }
+      },
+      "contentDetails": {
+        "itemCount": 73
+      }
+    }
+  ]
+}

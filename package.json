@@ -7,7 +7,7 @@
   "unpkg": "dist/sya.min.js",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",
-    "test": "mocha",
+    "test": "jest",
     "build": "webpack"
   },
   "dependencies": {
@@ -16,10 +16,12 @@
   },
   "devDependencies": {
     "dotenv": "^4.0.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-jest": "^22.0.0",
+    "jest": "^23.6.0",
     "jsdoc": "^3.4.0",
     "lodash.defaultsdeep": "^4.6.0",
     "minami": "^1.1.0",
-    "mocha": "^3.5.3",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
   },

@@ -1,0 +1,73 @@
+{
+  "kind": "youtube#video",
+  "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/UGvhDpMaS3e_zZaDmFA6M6OtVZc\"",
+  "id": "zBBOfCRhEz4",
+  "snippet": {
+    "publishedAt": "2017-05-05T18:28:17.000Z",
+    "channelId": "UCJ6td3C9QlPO9O_J5dF4ZzA",
+    "title": "Mr FijiWiji & Exist Strategy - Andromeda (feat. Matt Van) [Monstercat Release]",
+    "description": "🎧  Support on all platforms: https://Monstercat.lnk.to/Andromeda\n\n👻 Snapchat: https://www.snapchat.com/add/monstercat\n\n😺  Follow Monstercat\nSnapchat: https://www.snapchat.com/add/monstercat\nYouTube: http://www.youtube.com/Monstercat\nSpotify: http://monster.cat/1hGrCWk\nFacebook: http://facebook.com/Monstercat\nTwitter: http://twitter.com/Monstercat\nInstagram: http://instagram.com/monstercat\nSoundCloud: http://soundcloud.com/Monstercat\nGoogle+: https://plus.google.com/+Monstercat\nMonstercat FM: http://live.monstercat.com\n\n💥 Follow Mr FijiWiji\nFacebook: https://www.facebook.com/mrfijiwiji\nTwitter: https://twitter.com/mrfijiwiji\nSoundcloud: https://soundcloud.com/mrfijiwiji\nYouTube: https://www.youtube.com/user/MrFijiWiji\n\n💥 Follow Exist Strategy\nFacebook: https://www.facebook.com/ExistStrategy\nSouncloud: https://soundcloud.com/existstrategy\nYouTube: https://www.youtube.com/ExistStrategy\n\n💥 Follow Matt Van\nYoutube https://www.youtube.com/c/mattvanmusic\nFacebook: https://www.facebook.com/mattvanmusic\nSoundcloud: https://soundcloud.com/mattvanmusic\nInstagram: https://www.instagram.com/mattvanmusic\n\n🎵  Genre: Chillout\n\n👕 Want some new Merchandise?\nhttp://monster.cat/MonstercatShop",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/zBBOfCRhEz4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/zBBOfCRhEz4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/zBBOfCRhEz4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/zBBOfCRhEz4/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      }
+    },
+    "channelTitle": "Monstercat: Uncaged",
+    "tags": [
+      "Monstercat",
+      "Mr FijiWiji",
+      "EDM",
+      "Electronic",
+      "Dance",
+      "Music",
+      "Bass",
+      "Chillout",
+      "Chill",
+      "Melodic",
+      "Matt Van",
+      "Exist Strategy",
+      "Andromeda",
+      "mr fijiwiji andromeda",
+      "andromeda mr fijiwiji"
+    ],
+    "categoryId": "10",
+    "liveBroadcastContent": "none",
+    "localized": {
+      "title": "Mr FijiWiji & Exist Strategy - Andromeda (feat. Matt Van) [Monstercat Release]",
+      "description": "🎧  Support on all platforms: https://Monstercat.lnk.to/Andromeda\n\n👻 Snapchat: https://www.snapchat.com/add/monstercat\n\n😺  Follow Monstercat\nSnapchat: https://www.snapchat.com/add/monstercat\nYouTube: http://www.youtube.com/Monstercat\nSpotify: http://monster.cat/1hGrCWk\nFacebook: http://facebook.com/Monstercat\nTwitter: http://twitter.com/Monstercat\nInstagram: http://instagram.com/monstercat\nSoundCloud: http://soundcloud.com/Monstercat\nGoogle+: https://plus.google.com/+Monstercat\nMonstercat FM: http://live.monstercat.com\n\n💥 Follow Mr FijiWiji\nFacebook: https://www.facebook.com/mrfijiwiji\nTwitter: https://twitter.com/mrfijiwiji\nSoundcloud: https://soundcloud.com/mrfijiwiji\nYouTube: https://www.youtube.com/user/MrFijiWiji\n\n💥 Follow Exist Strategy\nFacebook: https://www.facebook.com/ExistStrategy\nSouncloud: https://soundcloud.com/existstrategy\nYouTube: https://www.youtube.com/ExistStrategy\n\n💥 Follow Matt Van\nYoutube https://www.youtube.com/c/mattvanmusic\nFacebook: https://www.facebook.com/mattvanmusic\nSoundcloud: https://soundcloud.com/mattvanmusic\nInstagram: https://www.instagram.com/mattvanmusic\n\n🎵  Genre: Chillout\n\n👕 Want some new Merchandise?\nhttp://monster.cat/MonstercatShop"
+    },
+    "defaultAudioLanguage": "en-GB"
+  },
+  "contentDetails": {
+    "duration": "PT3M45S",
+    "dimension": "2d",
+    "definition": "hd",
+    "caption": "false",
+    "licensedContent": true,
+    "projection": "rectangular"
+  },
+  "statistics": {
+    "viewCount": "668665",
+    "likeCount": "12898",
+    "dislikeCount": "292",
+    "favoriteCount": "0",
+    "commentCount": "772"
+  }
+}
