@@ -10,24 +10,22 @@ declare module 'simple-youtube-api' {
     public request: Request;
 
     constructor(key: string);
-    public getVideo(url: string, options?: object): Promise<Video> | null;
-    public getPlaylist(url: string, options?: object): Promise<Playlist> | null;
-    public getChannel(url: string, options?: object): Promise<Channel> | null;
-    public getVideoByID(id: string, options?: object): Promise<Video> | null;
-    public getPlaylistByID(id: string, options?: object): Promise<Playlist> | null;
-    public getChannelByID(id: string, options?: object): Promise<Channel> | null;
-    public search(query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel>> | null;
+    public getVideo(url: string, options?: object): Promise<Video | null>;
+    public getPlaylist(url: string, options?: object): Promise<Playlist | null>;
+    public getChannel(url: string, options?: object): Promise<Channel | null>;
+    public getVideoByID(id: string, options?: object): Promise<Video | null>;
+    public getPlaylistByID(id: string, options?: object): Promise<Playlist | null>;
+    public getChannelByID(id: string, options?: object): Promise<Channel | null>;
+    public search(query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel | null>>;
     public searchVideos(query: string, limit: number, options?: object): Promise<Video[]>;
     public searchPlaylists(query: string, limit: number, options?: object): Promise<Playlist[]>;
     public searchChannels(query: string, limit: number, options?: object): Promise<Channel[]>;
 
-    static Request: Request;
-    static Channel: Channel;
-    static Playlist: Playlist;
-    static Video: Video;
-    static util: {
-      parseURL(url: string): { video?: string; channel?: string; playlist?: string };
-    }
+    static Request: typeof Request;
+    static Channel: typeof Channel;
+    static Playlist: typeof Playlist;
+    static Video: typeof Video;
+    static util: { parseURL(url: string): { video?: string; channel?: string; playlist?: string } };
   }
 
   class Request {
@@ -54,7 +52,7 @@ declare module 'simple-youtube-api' {
     public description?: string;
     public customURL?: string;
     public publishedAt?: Date;
-    public thumbnails?: Map<string, Thumbnail>;
+    public thumbnails?: Thumbnail
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
     public country?: string;
@@ -67,8 +65,8 @@ declare module 'simple-youtube-api' {
     public readonly url: string;
 
     constructor(youtube: YouTube, data: object);
-    private _patch(data: object): Channel;
-    public fetch(options: object): Channel;
+    private _patch(data: object): this;
+    public fetch(options: object): Promise<this>;
     static extractID(url: string): string | null;
   }
 
@@ -82,7 +80,7 @@ declare module 'simple-youtube-api' {
     public title?: string;
     public description?: string;
     public publishedAt?: Date;
-    public thumbnails?: Map<string, Thumbnail>;
+    public thumbnails?: object;
     public channelTitle?: string;
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
@@ -92,8 +90,8 @@ declare module 'simple-youtube-api' {
     public readonly url: string;
 
     constructor(youtube: YouTube, data: object);
-    private _patch(data: object): Playlist;
-    public fetch(options: object): Playlist;
+    private _patch(data: object): this;
+    public fetch(options: object): Promise<this>;
     public getVideos(limit: number, options: object): Promise<Video[]>;
     static extractID(url: string): string | null;
   }
@@ -107,7 +105,7 @@ declare module 'simple-youtube-api' {
     public id: string;
     public title: string;
     public description: string;
-    public thumbnails: Map<'default' | 'medium' | 'high' | 'standard' | 'maxres', string>;
+    public thumbnails: object;
     public publishedAt: Date;
     public channel: Channel;
     public duration: DurationObject;
@@ -117,8 +115,8 @@ declare module 'simple-youtube-api' {
     public readonly durationSeconds: number;
 
     constructor(youtube: YouTube, data: object);
-    private _patch(data: object): Video;
-    public fetch(options: object): Video;
+    private _patch(data: object): this;
+    public fetch(options: object): Promise<this>;
     static extractID(url: string): string | null;
   }
 
