@@ -80,7 +80,7 @@ declare module 'simple-youtube-api' {
     public title?: string;
     public description?: string;
     public publishedAt?: Date;
-    public thumbnails?: object;
+    public thumbnails?: Thumbnail;
     public channelTitle?: string;
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
