@@ -105,7 +105,7 @@ declare module 'simple-youtube-api' {
     public id: string;
     public title: string;
     public description: string;
-    public thumbnails: object;
+    public thumbnails: { default: string, medium: string, high: string, standard: string, maxres: string };
     public publishedAt: Date;
     public channel: Channel;
     public duration: DurationObject;
