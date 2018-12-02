@@ -16,7 +16,7 @@ declare module 'simple-youtube-api' {
     public getVideoByID(id: string, options?: object): Promise<Video | null>;
     public getPlaylistByID(id: string, options?: object): Promise<Playlist | null>;
     public getChannelByID(id: string, options?: object): Promise<Channel | null>;
-    public search(query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel | null>>;
+    public search( query: string, limit: number, options?: object): Promise<Array<Video | Playlist | Channel | null>>;
     public searchVideos(query: string, limit: number, options?: object): Promise<Video[]>;
     public searchPlaylists(query: string, limit: number, options?: object): Promise<Playlist[]>;
     public searchChannels(query: string, limit: number, options?: object): Promise<Channel[]>;
@@ -25,7 +25,9 @@ declare module 'simple-youtube-api' {
     static Channel: typeof Channel;
     static Playlist: typeof Playlist;
     static Video: typeof Video;
-    static util: { parseURL(url: string): { video?: string; channel?: string; playlist?: string } };
+    static util: {
+      parseURL(url: string): { video?: string; channel?: string; playlist?: string };
+    };
   }
 
   class Request {
@@ -52,11 +54,11 @@ declare module 'simple-youtube-api' {
     public description?: string;
     public customURL?: string;
     public publishedAt?: Date;
-    public thumbnails?: Thumbnail
+    public thumbnails?: { [key: string]: Thumbnail; };
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
     public country?: string;
-    public relatedPlaylists?: { likes: string; favorites: string; uploads: string };
+    public relatedPlaylists?: { likes: string; favorites: string; uploads: string; };
     public viewCount?: number;
     public commentCount?: number;
     public subscriberCount?: number;
@@ -80,7 +82,7 @@ declare module 'simple-youtube-api' {
     public title?: string;
     public description?: string;
     public publishedAt?: Date;
-    public thumbnails?: Thumbnail;
+    public thumbnails?: { [key: string]: Thumbnail; };
     public channelTitle?: string;
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
@@ -105,10 +107,10 @@ declare module 'simple-youtube-api' {
     public id: string;
     public title: string;
     public description: string;
-    public thumbnails: { default: string, medium: string, high: string, standard: string, maxres: string };
+    public thumbnails: { [key: string]: Thumbnail; };
     public publishedAt: Date;
     public channel: Channel;
-    public duration: DurationObject;
+    public duration: Duration;
     public readonly url: string;
     public readonly maxRes: object;
     public readonly shortURL: string;
@@ -120,7 +122,7 @@ declare module 'simple-youtube-api' {
     static extractID(url: string): string | null;
   }
 
-  interface DurationObject {
+  interface Duration {
     hours: number;
     minutes: number;
     seconds: number;
