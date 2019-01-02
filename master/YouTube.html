@@ -330,7 +330,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line124">line 124</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -498,8 +498,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
- .then(results => {
-   console.log(`The channel's title is ${results[0].title}`);
+ .then(channel => {
+   if (channel) console.log(`The channel's title is ${channel.title}`);
+   else console.log('channel not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -555,7 +556,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line142">line 142</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -723,8 +724,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
- .then(results => {
-   console.log(`The channel's title is ${results[0].title}`);
+ .then(channel => {
+   if (channel) console.log(`The channel's title is ${channel.title}`);
+   else console.log('channel not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -780,7 +782,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line90">line 90</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -948,8 +950,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
- .then(results => {
-   console.log(`The playlist's title is ${results[0].title}`);
+ .then(playlist => {
+   if (playlist) console.log(`The playlist's title is ${playlist.title}`);
+   else console.log('playlist not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -1005,7 +1008,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line108">line 108</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -1173,8 +1176,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
- .then(results => {
-   console.log(`The playlist's title is ${results[0].title}`);
+ .then(playlist => {
+   if (playlist) console.log(`The playlist's title is ${playlist.title}`);
+   else console.log('playlist not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -1230,7 +1234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line56">line 56</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -1398,8 +1402,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
- .then(results => {
-   console.log(`The video's title is ${results[0].title}`);
+ .then(video => {
+   if (video) console.log(`The video's title is ${video.title}`);
+   else console.log('video not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -1455,7 +1460,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line74">line 74</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -1623,8 +1628,9 @@
 <h5>Example</h5>
 
     <pre class="prettyprint"><code>API.getVideoByID('3odIdmuFfEY')
- .then(results => {
-   console.log(`The video's title is ${results[0].title}`);
+ .then(video => {
+   if (video) console.log(`The video's title is ${video.title}`);
+   else console.log('video not found :(');
  })
  .catch(console.error);</code></pre>
 
@@ -1680,7 +1686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line159">line 159</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -1945,7 +1951,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line216">line 216</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -2210,7 +2216,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line199">line 199</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -2475,7 +2481,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line182">line 182</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
