@@ -48,8 +48,9 @@ class YouTube {
      * @returns {Promise<?Video>}
      * @example
      * API.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-     *  .then(results => {
-     *    console.log(`The video's title is ${results[0].title}`);
+     *  .then(video => {
+     *    if (video) console.log(`The video's title is ${video.title}`);
+     *    else console.log('video not found :(');
      *  })
      *  .catch(console.error);
      */
@@ -66,8 +67,9 @@ class YouTube {
      * @returns {Promise<?Video>}
      * @example
      * API.getVideoByID('3odIdmuFfEY')
-     *  .then(results => {
-     *    console.log(`The video's title is ${results[0].title}`);
+     *  .then(video => {
+     *    if (video) console.log(`The video's title is ${video.title}`);
+     *    else console.log('video not found :(');
      *  })
      *  .catch(console.error);
      */
@@ -82,8 +84,9 @@ class YouTube {
      * @returns {Promise<?Playlist>}
      * @example
      * API.getPlaylist('https://www.youtube.com/playlist?list=PLuY9odN8x9puRuCxiddyRzJ3F5jR-Gun9')
-     *  .then(results => {
-     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  .then(playlist => {
+     *    if (playlist) console.log(`The playlist's title is ${playlist.title}`);
+     *    else console.log('playlist not found :(');
      *  })
      *  .catch(console.error);
      */
@@ -100,8 +103,9 @@ class YouTube {
      * @returns {Promise<?Playlist>}
      * @example
      * API.getPlaylistByID('PL2BN1Zd8U_MsyMeK8r9Vdv1lnQGtoJaSa')
-     *  .then(results => {
-     *    console.log(`The playlist's title is ${results[0].title}`);
+     *  .then(playlist => {
+     *    if (playlist) console.log(`The playlist's title is ${playlist.title}`);
+     *    else console.log('playlist not found :(');
      *  })
      *  .catch(console.error);
      */
@@ -116,8 +120,9 @@ class YouTube {
      * @returns {Promise<?Channel>}
      * @example
      * API.getChannel('https://www.youtube.com/channel/UC477Kvszl9JivqOxN1dFgPQ')
-     *  .then(results => {
-     *    console.log(`The channel's title is ${results[0].title}`);
+     *  .then(channel => {
+     *    if (channel) console.log(`The channel's title is ${channel.title}`);
+     *    else console.log('channel not found :(');
      *  })
      *  .catch(console.error);
      */
@@ -134,8 +139,9 @@ class YouTube {
      * @returns {Promise<?Channel>}
      * @example
      * API.getChannelByID('UC477Kvszl9JivqOxN1dFgPQ')
-     *  .then(results => {
-     *    console.log(`The channel's title is ${results[0].title}`);
+     *  .then(channel => {
+     *    if (channel) console.log(`The channel's title is ${channel.title}`);
+     *    else console.log('channel not found :(');
      *  })
      *  .catch(console.error);
      */
