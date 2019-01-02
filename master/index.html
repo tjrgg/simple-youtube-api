@@ -55,7 +55,10 @@ It deals with viewing/searching videos, playlists, and channels.</p>
 <h2>Installation</h2><pre class="prettyprint source"><code>$ npm install simple-youtube-api</code></pre><h2>Usage</h2><ul>
 <li><a href="https://HyperCoder2975.github.io/simple-youtube-api/master/">Documentation</a></li>
 <li><a href="https://github.com/HyperCoder2975/simple-youtube-api/tree/master/examples">Examples</a></li>
-</ul></article>
+</ul>
+<h3>Important note: the <code>part</code> query parameter</h3><p>If you fetch a YouTube resource and it's missing information you expect to be present, it's very likely that you haven't sent the correct <code>part</code> query parameter to YouTube. This library has some default parts in order to give some basic information about each resource, but you should always verify your <code>part</code> queries if you require more/different information. Parts are available in detail on the Google Developers API documentation pages for each YouTube resource: for example, <a href="https://developers.google.com/youtube/v3/docs/videos/list#part">these are the available <code>part</code>s when fetching videos</a>. Parts should be comma-separated.</p>
+<p>Parts can be sent in the request options when fetching resources. For example:</p>
+<pre class="prettyprint source lang-js"><code>const video = await youtube.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { part: 'statistics,status' })</code></pre><p>Please see <a href="https://github.com/HyperCoder2975/simple-youtube-api/issues/38">#28</a> for more information or to comment on this issue.</p></article>
     </section>
 
 
