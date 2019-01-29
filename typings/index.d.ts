@@ -54,7 +54,7 @@ declare module 'simple-youtube-api' {
     public description?: string;
     public customURL?: string;
     public publishedAt?: Date;
-    public thumbnails?: { [key: string]: Thumbnail; };
+    public thumbnails?: { [key: string ]: string };
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
     public country?: string;
@@ -82,7 +82,7 @@ declare module 'simple-youtube-api' {
     public title?: string;
     public description?: string;
     public publishedAt?: Date;
-    public thumbnails?: { [key: string]: Thumbnail; };
+    public thumbnails?: { [key: string ]: string };
     public channelTitle?: string;
     public defaultLanguage?: string;
     public localized?: { title: string; description: string };
@@ -107,7 +107,7 @@ declare module 'simple-youtube-api' {
     public id: string;
     public title: string;
     public description: string;
-    public thumbnails: { [key: string]: Thumbnail; };
+    public thumbnails: { [key: string ]: string };
     public publishedAt: Date;
     public channel: Channel;
     public duration: Duration;
@@ -126,12 +126,6 @@ declare module 'simple-youtube-api' {
     hours: number;
     minutes: number;
     seconds: number;
-  }
-
-  type Thumbnail = {
-    url: string;
-    width: number;
-    height: number;
   }
 
   export = YouTube;
