@@ -122,13 +122,13 @@ declare module 'simple-youtube-api' {
     static extractID(url: string): string | null;
   }
 
-  interface Duration {
+  type Duration = {
     hours: number;
     minutes: number;
     seconds: number;
   }
 
-  interface Thumbnail {
+  type Thumbnail = {
     url: string;
     width: number;
     height: number;
