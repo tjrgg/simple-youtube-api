@@ -2,7 +2,7 @@
 // Taylor Stapleton on November 6th 2018
 // For the project simple-youtube-api
 // Project: https://github.com/HyperCoder2975/simple-youtube-api
-// Writer of this file: https://github.com/OscarXcore
+// Writer of this file: https://github.com/Stapleton
 
 declare module 'simple-youtube-api' {
   class YouTube {
