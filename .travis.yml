@@ -11,7 +11,7 @@ jobs:
       node_js:
         - "8"
       env:
-        - ENCRYPTION_LABEL: "ebddea73026b"
-        - COMMIT_AUTHOR_EMAIL: "hypercoder@typicalbot.com"
+        - ENCRYPTION_LABEL: "9d936859ef00"
+        - COMMIT_AUTHOR_EMAIL: "rocket0191@gmail.com"
 dist: trusty
 sudo: false
