@@ -1,17 +1,23 @@
 # Simple YouTube API
 
-[![Module support server](https://discordapp.com/api/guilds/430216837276368897/embed.png)](https://discord.gg/A97Qftr)
-[![Build Status](https://travis-ci.org/HyperCoder2975/simple-youtube-api.svg?branch=master)](https://travis-ci.org/HyperCoder2975/simple-youtube-api)
+[![Discord](https://discordapp.com/api/guilds/430216837276368897/embed.png)](https://discord.gg/A97Qftr)
+[![Build Status](https://travis-ci.org/simple-youtube/simple-youtube-api.svg?branch=master)](https://travis-ci.org/simple-youtube/simple-youtube-api)
 
 This library is designed to greatly simplify interacting with the basic functions of the YouTube API.
 It deals with viewing/searching videos, playlists, and channels.
 
 ## Installation
+
     $ npm install simple-youtube-api
 
 ## Usage
-- [Documentation](https://HyperCoder2975.github.io/simple-youtube-api/master/)
-- [Examples](https://github.com/HyperCoder2975/simple-youtube-api/tree/master/examples)
+
+- [Documentation](https://simple-youtube.github.io/simple-youtube-api/master/)
+- [Examples](https://github.com/simple-youtube/simple-youtube-api/tree/master/examples)
+
+## License
+
+Simple YouTube API is licensed under the [MIT License](LICENSE).
 
 ### Important note: the `part` query parameter
 
@@ -23,4 +29,4 @@ Parts can be sent in the request options when fetching resources. For example:
 const video = await youtube.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { part: 'statistics,status' })
 ```
 
-Please see [#28](https://github.com/HyperCoder2975/simple-youtube-api/issues/38) for more information or to comment on this issue.
+Please see [#28](https://github.com/simple-youtube/simple-youtube-api/issues/38) for more information or to comment on this issue.
