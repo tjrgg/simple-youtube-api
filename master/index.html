@@ -48,17 +48,18 @@
 
 
     <section class="readme">
-        <article><h1>Simple YouTube API</h1><p><a href="https://discord.gg/A97Qftr"><img src="https://discordapp.com/api/guilds/430216837276368897/embed.png" alt="Module support server"></a>
-<a href="https://travis-ci.org/HyperCoder2975/simple-youtube-api"><img src="https://travis-ci.org/HyperCoder2975/simple-youtube-api.svg?branch=master" alt="Build Status"></a></p>
+        <article><h1>Simple YouTube API</h1><p><a href="https://discord.gg/A97Qftr"><img src="https://discordapp.com/api/guilds/430216837276368897/embed.png" alt="Discord"></a>
+<a href="https://travis-ci.org/simple-youtube/simple-youtube-api"><img src="https://travis-ci.org/simple-youtube/simple-youtube-api.svg?branch=master" alt="Build Status"></a></p>
 <p>This library is designed to greatly simplify interacting with the basic functions of the YouTube API.
 It deals with viewing/searching videos, playlists, and channels.</p>
 <h2>Installation</h2><pre class="prettyprint source"><code>$ npm install simple-youtube-api</code></pre><h2>Usage</h2><ul>
-<li><a href="https://HyperCoder2975.github.io/simple-youtube-api/master/">Documentation</a></li>
-<li><a href="https://github.com/HyperCoder2975/simple-youtube-api/tree/master/examples">Examples</a></li>
+<li><a href="https://simple-youtube.github.io/simple-youtube-api/master/">Documentation</a></li>
+<li><a href="https://github.com/simple-youtube/simple-youtube-api/tree/master/examples">Examples</a></li>
 </ul>
+<h2>License</h2><p>Simple YouTube API is licensed under the <a href="LICENSE">MIT License</a>.</p>
 <h3>Important note: the <code>part</code> query parameter</h3><p>If you fetch a YouTube resource and it's missing information you expect to be present, it's very likely that you haven't sent the correct <code>part</code> query parameter to YouTube. This library has some default parts in order to give some basic information about each resource, but you should always verify your <code>part</code> queries if you require more/different information. Parts are available in detail on the Google Developers API documentation pages for each YouTube resource: for example, <a href="https://developers.google.com/youtube/v3/docs/videos/list#part">these are the available <code>part</code>s when fetching videos</a>. Parts should be comma-separated.</p>
 <p>Parts can be sent in the request options when fetching resources. For example:</p>
-<pre class="prettyprint source lang-js"><code>const video = await youtube.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { part: 'statistics,status' })</code></pre><p>Please see <a href="https://github.com/HyperCoder2975/simple-youtube-api/issues/38">#28</a> for more information or to comment on this issue.</p></article>
+<pre class="prettyprint source lang-js"><code>const video = await youtube.getVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { part: 'statistics,status' })</code></pre><p>Please see <a href="https://github.com/simple-youtube/simple-youtube-api/issues/38">#28</a> for more information or to comment on this issue.</p></article>
     </section>
 
 
