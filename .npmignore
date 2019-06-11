@@ -3,8 +3,9 @@
 /test
 /travis
 
+.editorconfig
 .env
 .eslintrc.json
-jsdoc.json
 .travis.yml
+jsdoc.json
 webpack.config.js
