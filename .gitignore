@@ -1,7 +1,7 @@
-/node_modules
-npm-debug.log
-/docs
-/out
-/dist
 .env
-travis/deploy_key
+npm-debug.log
+/dist
+/docs
+/node_modules
+/out
+/travis/deploy_key
