@@ -21,6 +21,13 @@ describe('util', function() {
         });
     });
 
+    it('can parse a music video URL', function() {
+        const parsed = YouTube.util.parseURL('https://music.youtube.com/watch?v=zBBOfCRhEz4');
+        assert.deepEqual(parsed, {
+            video: 'zBBOfCRhEz4',
+        });
+    });
+
     it('can parse a video and playlist URL', function() {
         const parsed = YouTube.util.parseURL('https://www.youtube.com/watch?v=MLB8tSA2GFA&list=PLe8jmEHFkvsbeJL2QNucGv00eO8PKbSUn');
         assert.deepEqual(parsed, {

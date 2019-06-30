@@ -10,7 +10,8 @@ exports.parseURL = (url) => {
     switch (parsed.hostname) {
         case 'www.youtube.com':
         case 'youtube.com':
-        case 'm.youtube.com': {
+        case 'm.youtube.com':
+        case 'music.youtube.com': {
             const idRegex = /^[a-zA-Z0-9-_]+$/;
             if (parsed.pathname === '/watch') {
                 if (!idRegex.test(parsed.query.v)) return {};
@@ -22,6 +23,10 @@ exports.parseURL = (url) => {
                 return { playlist: parsed.query.list };
             } else if (parsed.pathname.startsWith('/channel/')) {
                 const id = parsed.pathname.replace('/channel/', '');
+                if (!idRegex.test(id)) return {};
+                return { channel: id };
+            } else if (parsed.pathname.startsWith('/browse/')) {
+                const id = parsed.pathname.replace('/browse/', '');
                 if (!idRegex.test(id)) return {};
                 return { channel: id };
             }
