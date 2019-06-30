@@ -6,6 +6,7 @@
 .editorconfig
 .env
 .eslintrc.json
+.gitattributes
 .travis.yml
 jsdoc.json
 webpack.config.js
