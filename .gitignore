@@ -1,7 +1,9 @@
-.env
-npm-debug.log
-/dist
-/docs
-/node_modules
-/out
-/travis/deploy_key
+*.env
+*.log
+
+/.idea/*
+/.vscode/*
+/dist/*
+/docs/*
+/node_modules/*
+/out/*
