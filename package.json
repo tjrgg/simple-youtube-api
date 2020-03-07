@@ -1,39 +1,66 @@
 {
-  "name": "simple-youtube-api",
-  "version": "5.2.1",
-  "description": "A module to simplify the YouTube API.",
-  "author": "Bryan Pikaard <hypercoder@typicalbot.com>",
-  "maintainers": [
-    "Tyler Richards <rocket0191@gmail.com>"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/simple-youtube/simple-youtube-api.git"
-  },
-  "bugs": {
-    "url": "https://github.com/simple-youtube/simple-youtube-api/issues"
-  },
-  "homepage": "https://github.com/simple-youtube/simple-youtube-api",
-  "sideEffects": false,
-  "main": "src/index.js",
-  "unpkg": "dist/sya.min.js",
-  "scripts": {
-    "build": "webpack",
-    "docs": "jsdoc -c jsdoc.json",
-    "test": "mocha"
-  },
-  "dependencies": {
-    "iso8601-duration": "^1.2.0",
-    "node-fetch": "^2.6.0"
-  },
-  "devDependencies": {
-    "dotenv": "^4.0.0",
-    "jsdoc": "^3.6.2",
-    "lodash.defaultsdeep": "^4.6.0",
-    "minami": "^1.1.0",
-    "mocha": "^3.5.3",
-    "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.4"
-  }
+    "name": "simple-youtube-api",
+    "version": "6.0.0-dev",
+    "description": "A library that wraps the YouTube Data API",
+    "license": "Apache-2.0",
+    "author": {
+        "name": "Tyler Richards",
+        "email": "hello@tjrgg.xyz"
+    },
+    "funding": "https://github.com/tjrgg/simple-youtube-api?sponsor=1",
+    "repository": "tjrgg/simple-youtube-api",
+    "engines": {
+        "node": ">=12.0.0",
+        "npm": "use-yarn",
+        "yarn": ">=1.22.0"
+    },
+    "main": "src/index.js",
+    "scripts": {
+        "build": "tsc",
+        "lint": "xo",
+        "lint:fix": "xo --fix",
+        "postversion": "git push && git push --tags"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "commitlint": "^8.3.5",
+        "commitlint-config-enderverse": "Enderverse/commitlint-config-enderverse",
+        "eslint": "^6.3.0",
+        "eslint-config-enderverse": "Enderverse/eslint-config-enderverse",
+        "husky": "^4.2.3",
+        "lint-staged": "^10.0.7",
+        "xo": "^0.27.2"
+    },
+    "commitlint": {
+        "extends": [
+            "enderverse"
+        ]
+    },
+    "eslintConfig": {
+        "extends": [
+            "enderverse"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.ts": [
+            "xo --fix"
+        ]
+    },
+    "xo": {
+        "extends": [
+            "enderverse"
+        ],
+        "rules": {
+            "jsdoc/require-example": "off",
+            "jsdoc/require-file-overview": "off",
+            "jsdoc/require-jsdoc": "off"
+        },
+        "space": false
+    }
 }
