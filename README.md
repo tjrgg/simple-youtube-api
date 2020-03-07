@@ -32,7 +32,7 @@
 </p>
 
 <p align="center">
-	<a href="https://discordapp.com/invite/2JY79nd">
+	<a href="https://discordapp.com/invite/vxXrG8W">
 		<img alt="Discord" src="https://img.shields.io/discord/110118478119174144?style=social" />
 	</a>
 	<a href="https://twitter.com/tjrgg">
