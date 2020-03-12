@@ -8,15 +8,15 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"outDir": "dist",
+		"outDir": "./dist",
 		"pretty": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
 		"resolveJsonModule": true,
-		"rootDir": ".",
-		"sourceMap": true,
+		"rootDir": "./src",
+		"sourceMap": false,
 		"strict": true,
-		"target": "es2019"
+		"target": "es2018"
 	},
 	"include": [
 		"src/**/*.ts"
