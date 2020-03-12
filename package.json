@@ -21,10 +21,15 @@
         "lint:fix": "xo --fix",
         "postversion": "git push && git push --tags"
     },
-    "dependencies": {},
+    "dependencies": {
+        "iso8601-duration": "^1.2.0",
+        "node-fetch": "^2.6.0"
+    },
     "devDependencies": {
+        "@types/node-fetch": "^2.5.5",
         "commitlint": "^8.3.5",
         "commitlint-config-enderverse": "Enderverse/commitlint-config-enderverse",
+        "dotenv": "^8.2.0",
         "eslint": "^6.3.0",
         "eslint-config-enderverse": "Enderverse/eslint-config-enderverse",
         "husky": "^4.2.3",
