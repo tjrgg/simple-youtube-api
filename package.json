@@ -9,12 +9,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/simple-youtube/simple-youtube-api.git"
+    "url": "https://github.com/tjrgg/simple-youtube-api.git"
   },
   "bugs": {
-    "url": "https://github.com/simple-youtube/simple-youtube-api/issues"
+    "url": "https://github.com/tjrgg/simple-youtube-api/issues"
   },
-  "homepage": "https://github.com/simple-youtube/simple-youtube-api",
+  "homepage": "https://github.com/tjrgg/simple-youtube-api",
   "sideEffects": false,
   "main": "src/index.js",
   "unpkg": "dist/sya.min.js",
