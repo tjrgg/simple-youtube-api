@@ -1,4 +1,4 @@
-# Simple YouTube API [![Discord](https://discordapp.com/api/guilds/430216837276368897/embed.png)](https://discord.gg/A97Qftr) [![Build Status](https://travis-ci.org/simple-youtube/simple-youtube-api.svg?branch=master)](https://travis-ci.org/simple-youtube/simple-youtube-api)
+# Simple YouTube API [![Discord](https://discordapp.com/api/guilds/430216837276368897/embed.png)](https://discord.gg/A97Qftr) [![Build Status](https://travis-ci.org/tjrgg/simple-youtube-api.svg?branch=master)](https://travis-ci.org/tjrgg/simple-youtube-api)
 
 A simpler way to interact with the YouTube Data API.
 
@@ -10,8 +10,8 @@ $ npm install simple-youtube-api
 
 ## Usage
 
-- [Documentation](https://simple-youtube.github.io/simple-youtube-api/master/)
-- [Examples](https://github.com/simple-youtube/simple-youtube-api/tree/master/examples)
+- [Documentation](https://tjrgg.github.io/simple-youtube-api/master/)
+- [Examples](https://github.com/tjrgg/simple-youtube-api/tree/master/examples)
 
 ## Maintainers
 
