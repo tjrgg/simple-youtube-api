@@ -24,7 +24,7 @@ export class YouTube {
 		this.#key = key;
 		this.options = {
 			cache: options?.cache || true,
-			fetchAll: (options ? options.fetchAll : false) || false
+			fetchAll: options?.fetchAll || false
 		};
 	}
 
