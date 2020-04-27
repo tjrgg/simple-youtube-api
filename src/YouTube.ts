@@ -20,11 +20,11 @@ export class YouTube {
 
 	readonly #key: string;
 
-	public constructor(key: string, options: Options) {
+	public constructor(key: string, options?: Options) {
 		this.#key = key;
 		this.options = {
-			cache: options.cache || true,
-			fetchAll: options.fetchAll || false
+			cache: (options ? options.cache : true) || true,
+			fetchAll: (options ? options.fetchAll : false) || false
 		};
 	}
 
