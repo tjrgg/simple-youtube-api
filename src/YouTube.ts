@@ -23,7 +23,7 @@ export class YouTube {
 	public constructor(key: string, options?: Options) {
 		this.#key = key;
 		this.options = {
-			cache: (options ? options.cache : true) || true,
+			cache: options?.cache || true,
 			fetchAll: (options ? options.fetchAll : false) || false
 		};
 	}
