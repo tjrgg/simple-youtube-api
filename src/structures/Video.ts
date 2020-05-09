@@ -57,7 +57,7 @@ export class Video extends Resource {
 		return null;
 	}
 
-	public async fetch(options: any): Promise<Video> {
+	public async fetch(options: any = {}): Promise<Video> {
 		const video = await this.yt.getVideoById(this.id, options);
 		return this.patch(video);
 	}
