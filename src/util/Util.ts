@@ -40,7 +40,9 @@ export const parseURL = (url: string): ParsedURL => {
 		}
 
 		case 'youtu.be':
-			return { video: /^\/[a-zA-Z0-9-_]+$/.test(parsed.pathname) ? parsed.pathname.slice(1) : null };
+			const response: ParsedURL = { video: /^\/[a-zA-Z0-9-_]+$/.test(parsed.pathname) ? parsed.pathname.slice(1) : null };
+			if (parsed.searchParams.has('list')) response.playlist = parsed.searchParams.get('list');
+			return response;
 
 		default:
 			return {};
