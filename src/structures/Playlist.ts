@@ -67,7 +67,7 @@ export class Playlist extends Resource {
 		return this.patch(playlist);
 	}
 
-	private patch(data: any): Playlist {
+	protected patch(data: any): Playlist {
 		this.channel = new Channel(this.yt, data);
 		this.url = `https://www.youtube.com/playlist?list=${this.id}`;
 

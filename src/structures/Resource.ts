@@ -1,7 +1,12 @@
 import { YouTube } from '../YouTube';
+
 import { ResourceKind, ResourceType } from '../types/Resource';
 
-export class Resource {
+import { Channel } from './Channel';
+import { Playlist } from './Playlist';
+import { Video } from './Video';
+
+export abstract class Resource {
 
 	public yt: YouTube;
 
@@ -10,6 +15,8 @@ export class Resource {
 
 	public type: ResourceType;
 	public full: boolean;
+
+	abstract id: string;
 
 	constructor(yt: YouTube, data: any, type: ResourceType) {
 		this.yt = yt;
@@ -20,5 +27,9 @@ export class Resource {
 		this.type = type;
 		this.full = data.kind === ResourceKind[this.type];
 	}
+
+	abstract fetch(options: any): Promise<Video | Playlist | Channel>;
+
+	protected abstract patch(data: any): Video | Playlist | Channel;
 
 }

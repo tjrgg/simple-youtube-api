@@ -62,7 +62,7 @@ export class Video extends Resource {
 		return this.patch(video);
 	}
 
-	private async patch(data: any): Promise<Video> {
+	protected patch(data: any): Video {
 		this.channel = new Channel(this.yt, data);
 		this.url = `https://www.youtube.com/watch?v=${this.id}`;
 

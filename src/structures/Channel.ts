@@ -67,7 +67,7 @@ export class Channel extends Resource {
 		return this.patch(channel);
 	}
 
-	private patch(data: any): Channel {
+	protected patch(data: any): Channel {
 		switch (data.kind) {
 			case ResourceKind.playlist:
 			case ResourceKind.playlistItem:
