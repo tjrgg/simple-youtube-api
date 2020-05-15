@@ -1,4 +1,4 @@
-import YouTube from '../YouTube';
+import { YouTube } from '../YouTube';
 
 import { ResourceKind, ResourceType } from '../types/Resource';
 

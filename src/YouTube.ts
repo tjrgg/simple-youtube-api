@@ -16,7 +16,7 @@ export interface Options {
 /**
  * The main YouTube class.
  */
-export default class YouTube {
+export class YouTube {
 
 	public options: Options;
 
