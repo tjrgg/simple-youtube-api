@@ -28,7 +28,7 @@ export abstract class Resource {
 		this.full = data.kind === ResourceKind[this.type];
 	}
 
-	abstract fetch(options: any): Promise<Video | Playlist | Channel>;
+	abstract fetch(options?: any): Promise<Video | Playlist | Channel>;
 
 	protected abstract patch(data: any): Video | Playlist | Channel;
 
