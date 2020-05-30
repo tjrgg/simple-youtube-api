@@ -36,17 +36,20 @@ export class Channel extends Resource {
 			case ResourceKind.video:
 				if (data.snippet) {
 					this.id = data.snippet.channelId;
-				} else throw new Error('Attempted to make a channel out of a resource with no channel data.');
+				}
+				else throw new Error('Attempted to make a channel out of a resource with no channel data.');
 				break;
 
 			case ResourceKind.searchResult:
 				if (data.id.kind === ResourceKind.channel) {
 					this.id = data.id.channelId;
 					break;
-				} else if (data.snippet) {
+				}
+				else if (data.snippet) {
 					this.id = data.snippet.channelId;
 					break;
-				} else throw new Error('Attempted to make a channel out of a search result with no channel data.');
+				}
+				else throw new Error('Attempted to make a channel out of a search result with no channel data.');
 
 			default:
 				throw new Error(`Unknown channel kind: ${data.kind as string}.`);
@@ -75,7 +78,8 @@ export class Channel extends Resource {
 			case ResourceKind.searchResult:
 				if (data.snippet) {
 					this.title = data.snippet.channelTitle;
-				} else throw new Error('Attempted to make a channel out of a resource with no channel data.');
+				}
+				else throw new Error('Attempted to make a channel out of a resource with no channel data.');
 				break;
 
 			default:

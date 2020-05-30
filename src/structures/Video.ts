@@ -38,7 +38,8 @@ export class Video extends Resource {
 				if (data.snippet) {
 					if (data.snippet.resourceId.kind === ResourceKind.video) this.id = data.snippet.resourceId.videoId;
 					else throw new Error('Attempted to make a video out of a non-video playlist item.');
-				} else throw new Error('Attempted to make a video out of a playlist item with no video data.');
+				}
+				else throw new Error('Attempted to make a video out of a playlist item with no video data.');
 				break;
 
 			case ResourceKind.searchResult:

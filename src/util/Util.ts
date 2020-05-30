@@ -11,7 +11,7 @@ export const parseURL = (url: string): ParsedURL => {
 		case 'youtube.com':
 		case 'm.youtube.com':
 		case 'music.youtube.com': {
-			const idRegex = /^[a-zA-Z0-9-_]+$/;
+			const idRegex = /^[\w-]+$/;
 			if (parsed.pathname === '/watch') {
 				if (!idRegex.test(parsed.searchParams.get('v') as string)) return {};
 				const response: ParsedURL = { video: parsed.searchParams.get('v') };
@@ -40,7 +40,7 @@ export const parseURL = (url: string): ParsedURL => {
 		}
 
 		case 'youtu.be':
-			const response: ParsedURL = { video: /^\/[a-zA-Z0-9-_]+$/.test(parsed.pathname) ? parsed.pathname.slice(1) : null };
+			const response: ParsedURL = { video: /^\/[\w-]+$/.test(parsed.pathname) ? parsed.pathname.slice(1) : null };
 			if (parsed.searchParams.has('list')) response.playlist = parsed.searchParams.get('list');
 			return response;
 
