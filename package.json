@@ -17,56 +17,45 @@
 	"main": "src/index.js",
 	"scripts": {
 		"build": "tsc",
-		"lint": "xo",
-		"lint:fix": "xo --fix",
+		"lint": "eslint src --ext .ts",
+		"lint:fix": "yarn run lint --fix",
 		"postversion": "git push && git push --tags"
 	},
 	"dependencies": {
+		"@enderverse/commitlint-config": "enderverse/commitlint-config",
+		"@enderverse/eslint-config": "enderverse/eslint-config",
 		"iso8601-duration": "^1.2.0",
 		"node-fetch": "^2.6.0"
 	},
 	"devDependencies": {
 		"@types/node-fetch": "^2.5.7",
+		"@typescript-eslint/eslint-plugin": "^3.0.2",
+		"@typescript-eslint/parser": "^3.0.2",
 		"commitlint": "^8.3.5",
-		"commitlint-config-enderverse": "enderverse/commitlint-config-enderverse",
 		"dotenv": "^8.2.0",
-		"eslint": "^7.0.0",
-		"eslint-config-enderverse": "enderverse/eslint-config-enderverse",
+		"eslint": "^7.1.0",
 		"husky": "^4.2.5",
-		"typescript": "^3.8.3",
-		"xo": "^0.30.0"
+		"typescript": "^3.9.3"
 	},
 	"commitlint": {
 		"extends": [
-			"enderverse"
+			"@enderverse/commitlint-config"
 		]
 	},
 	"eslintConfig": {
 		"extends": [
-			"enderverse"
-		]
+			"@enderverse/eslint-config",
+			"@enderverse/eslint-config/typescript"
+		],
+		"parser": "@typescript-eslint/parser",
+		"rules": {
+			"default-param-last": "off",
+			"no-unused-vars": "off"
+		}
 	},
 	"husky": {
 		"hooks": {
 			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
 		}
-	},
-	"lint-staged": {
-		"src/**/*.ts": [
-			"xo --fix"
-		]
-	},
-	"xo": {
-		"extends": [
-			"enderverse"
-		],
-		"rules": {
-			"default-param-last": "off",
-			"jsdoc/require-example": "off",
-			"jsdoc/require-file-overview": "off",
-			"jsdoc/require-jsdoc": "off",
-			"@typescript-eslint/prefer-readonly-parameter-types": "off"
-		},
-		"space": false
 	}
 }
