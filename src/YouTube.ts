@@ -93,6 +93,14 @@ export class YouTube {
 		});
 	}
 
+	public async searchChannels(query: string, limit = 5, options: RequestOptions = {}): Promise<Array<Resource | undefined>> {
+		return this.search(query, limit, Object.assign(options, { type: 'channel' }));
+	}
+
+	public async searchPlaylists(query: string, limit = 5, options: RequestOptions = {}): Promise<Array<Resource | undefined>> {
+		return this.search(query, limit, Object.assign(options, { type: 'playlist' }));
+	}
+
 	public async searchVideos(query: string, limit = 5, options: RequestOptions = {}): Promise<Array<Resource | undefined>> {
 		return this.search(query, limit, Object.assign(options, { type: 'video' }));
 	}
