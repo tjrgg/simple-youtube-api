@@ -24,6 +24,8 @@ export class Video extends Resource {
 	public duration?: Duration | string | null;
 	public durationSeconds?: number | null;
 
+	public relatedVideos?: Array<Resource | undefined>;
+
 	constructor(yt: YouTube, data: any) {
 		super(yt, data, 'video');
 
@@ -60,6 +62,11 @@ export class Video extends Resource {
 	public async fetch(options: any = {}): Promise<Video> {
 		const video = await this.yt.getVideoById(this.id, options);
 		return this.patch(video);
+	}
+
+	public async fetchRelated(options: any = {}): Promise<Array<Resource | undefined>> {
+		this.relatedVideos = await this.yt.searchVideos('', Object.assign(options, { relatedToVideoId: this.id }));
+		return this.relatedVideos;
 	}
 
 	protected patch(data: any): Video {
