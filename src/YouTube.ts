@@ -18,12 +18,12 @@ export interface Options {
  */
 export class YouTube {
 
+	private readonly key: string;
+
 	public options: Options;
 
-	readonly #key: string;
-
 	public constructor(key: string, options?: Options) {
-		this.#key = key;
+		this.key = key;
 		this.options = {
 			cache: options?.cache || true,
 			fetchAll: options?.fetchAll || false
@@ -31,12 +31,9 @@ export class YouTube {
 	}
 
 	public async getResource(type: ResourceType, qs = {}): Promise<Resource> {
-		// eslint-disable-next-line security/detect-object-injection
 		qs = { part: ResourcePart[type], ...qs };
 
-		// eslint-disable-next-line security/detect-object-injection
 		const result = await this.request(ResourceEndpoint[type], qs);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		if (result.items.length > 0) return result.items[0];
 		throw new Error(`Resource ${result.kind || type} not found`);
 	}
@@ -89,6 +86,7 @@ export class YouTube {
 			if (item.id.kind === ResourceKind.video) return new Video(this, item);
 			if (item.id.kind === ResourceKind.playlist) return new Playlist(this, item);
 			if (item.id.kind === ResourceKind.channel) return new Channel(this, item);
+			// eslint-disable-next-line unicorn/no-useless-undefined
 			return undefined;
 		});
 	}
@@ -107,12 +105,10 @@ export class YouTube {
 
 
 	public async request(endpoint: ResourceEndpoint, qs: RequestQueryString = {}): Promise<RequestResult> {
-		qs = { key: this.#key, ...qs };
-		// // eslint-disable-next-line security/detect-object-injection
+		qs = { key: this.key, ...qs };
 		// @ts-ignore
 		const parameters = Object.keys(qs).filter((k: string) => qs[k]).map((k: string) => `${k}=${qs[k]}`);
 
-		// eslint-disable-next-line unicorn/prevent-abbreviations
 		const res = await fetch(encodeURI(`https://www.googleapis.com/youtube/v3/${endpoint}${parameters.length > 0 ? `?${parameters.join('&')}` : ''}`));
 		const result = await res.json();
 		if (result.error) {
@@ -132,7 +128,6 @@ export class YouTube {
 		if (count < 1) throw new Error('Cannot fetch less than 1.');
 
 		const limit = count > 50 ? 50 : count;
-		// eslint-disable-next-line unicorn/prevent-abbreviations
 		const res = await this.request(endpoint, { maxResults: limit, pageToken, ...options });
 		const results = fetched.concat(res.items);
 		if (res.nextPageToken && limit !== count) return this.paginatedRequest(endpoint, count - limit, options, results, res.nextPageToken);
