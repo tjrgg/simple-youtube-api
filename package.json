@@ -22,12 +22,12 @@
 		"postversion": "git push && git push --tags"
 	},
 	"dependencies": {
-		"@enderverse/commitlint-config": "enderverse/commitlint-config",
-		"@enderverse/eslint-config": "enderverse/eslint-config",
 		"iso8601-duration": "^1.2.0",
 		"node-fetch": "^2.6.0"
 	},
 	"devDependencies": {
+		"@enderverse/commitlint-config": "enderverse/commitlint-config",
+		"@enderverse/eslint-config": "enderverse/eslint-config",
 		"@types/node-fetch": "^2.5.7",
 		"@typescript-eslint/eslint-plugin": "^3.0.2",
 		"@typescript-eslint/parser": "^3.0.2",
