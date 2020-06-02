@@ -1,6 +1,6 @@
 {
 	"name": "simple-youtube-api",
-	"version": "6.0.0-dev",
+	"version": "6.0.0-beta.1",
 	"description": "A library that wraps the YouTube Data API",
 	"license": "Apache-2.0",
 	"author": {
