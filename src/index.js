@@ -243,7 +243,6 @@ class YouTube {
     searchChannels(query, limit = 5, options = {}) {
         return this.search(query, limit, Object.assign(options, { type: 'channel' }));
     }
-
 }
 
 YouTube.Video = Video;
