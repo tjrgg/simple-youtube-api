@@ -78,6 +78,23 @@ class YouTube {
     }
 
     /**
+     * Get top videos
+     * @param {number} [limit = 5] Maximum results to obtain
+     * @param {Object} [options = {}] Options to request the top chart with.
+     * @returns {Promise<Array<Video>>}
+     * @example
+     * API.getPopularVideos()
+     *  .then(videos => {
+     *    if (videos.length === 0) console.log('No popular videos found.');
+     *    else console.log(`${videos.length} Videos found`);
+     *  })
+     *  .catch(console.error);
+     */
+    getPopularVideos(limit = 5, options = {}) {
+        return this.request.getPaginated(Constants.ENDPOINTS.Videos, limit, {chart: 'mostPopular', part: Constants.PARTS.Videos}).then(results => results.map(result => new Video(this, result)));
+    }
+
+    /**
      * Get a playlist by URL or ID
      * @param {string} url The playlist URL or ID
      * @param {Object} [options = {}] Options to request with the playlist.
@@ -222,6 +239,7 @@ class YouTube {
     searchChannels(query, limit = 5, options = {}) {
         return this.search(query, limit, Object.assign(options, { type: 'channel' }));
     }
+
 }
 
 YouTube.Video = Video;
