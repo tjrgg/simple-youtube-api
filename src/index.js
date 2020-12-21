@@ -91,7 +91,11 @@ class YouTube {
      *  .catch(console.error);
      */
     getPopularVideos(limit = 5, options = {}) {
-        return this.request.getPaginated(Constants.ENDPOINTS.Videos, limit, {chart: 'mostPopular', part: Constants.PARTS.Videos}).then(results => results.map(result => new Video(this, result)));
+        return this.request.getPaginated(Constants.ENDPOINTS.Videos, limit, Object.assign({}, options, {
+            chart: 'mostPopular',
+            part: Constants.PARTS.Videos
+        }))
+            .then(results => results.map(result => new Video(this, result)));
     }
 
     /**
