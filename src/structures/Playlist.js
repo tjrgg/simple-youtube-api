@@ -175,6 +175,14 @@ class Playlist {
     static extractID(url) {
         return parseURL(url).playlist;
     }
+
+    /**
+     * 
+     * @returns {this.title} The title of the playlist
+     */
+    toString() {
+        return this.title
+    }
 }
 
 module.exports = Playlist;

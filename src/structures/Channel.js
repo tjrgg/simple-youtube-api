@@ -207,6 +207,14 @@ class Channel {
     static extractID(url) {
         return parseURL(url).channel;
     }
+
+    /**
+     * 
+     * @returns {this.title} The title of the channel
+     */
+    toString() {
+        return this.title
+    }
 }
 
 module.exports = Channel;

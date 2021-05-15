@@ -176,6 +176,14 @@ class Video {
     static extractID(url) {
         return parseURL(url).video;
     }
+
+    /**
+     * 
+     * @returns {this.title} The title of the video
+     */
+    toString() {
+        return this.title
+    }
 }
 
 module.exports = Video;
