@@ -1,5 +1,5 @@
 const YouTube = require('simple-youtube-api');
-const youtube = new YouTube('  Y  o  u  r     A  p  i     K  e  y  ');
+const youtube = new YouTube('yor api youtube key');
 
 youtube.getVideo('https://www.youtube.com/watch?v=3odIdmuFfEY')
     .then(video => {
