@@ -32,7 +32,7 @@
     "jsdoc": "^3.6.2",
     "lodash.defaultsdeep": "^4.6.0",
     "minami": "^1.1.0",
-    "mocha": "^3.5.3",
+    "mocha": "^10.2.0",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4"
   }
