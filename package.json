@@ -33,7 +33,7 @@
     "lodash.defaultsdeep": "^4.6.0",
     "minami": "^1.1.0",
     "mocha": "^3.5.3",
-    "webpack": "^4.33.0",
+    "webpack": "^5.105.4",
     "webpack-cli": "^3.3.4"
   }
 }
